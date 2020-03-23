@@ -1,4 +1,9 @@
 package be.technobel.ucmppg.BL.Service;
 
-public class ProjetFactoryService {
+import be.technobel.ucmppg.BL.InterfaceService.BussinesProjetInterfaceFactoryService;
+
+
+
+public class ProjetFactoryService implements BussinesProjetInterfaceFactoryService {
+
 }

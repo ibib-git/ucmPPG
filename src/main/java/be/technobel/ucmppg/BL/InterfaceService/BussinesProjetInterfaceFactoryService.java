@@ -1,12 +1,13 @@
 package be.technobel.ucmppg.BL.InterfaceService;
 
-import be.technobel.ucmppg.BL.Models.BussinesProjet;
-
-public interface BussinesProjetInterfaceService {
+public interface BussinesProjetInterfaceFactoryService {
 
     // Permet de récupérer la liste de membre d'un Projet
-    // Fonctionner :
-    void recupererListeDeMembre(BussinesProjet bussinesProjet);
+    // Fonction : rechercher les membres dans la liste de participation
+    // void recupererListeDeMembre(BussinesProjet bussinesProjet);
+
+    // void utilisateurCreateurDuProjet(BussinesUtilisateur bussinesUtilisateur);
+
 
 
 }
