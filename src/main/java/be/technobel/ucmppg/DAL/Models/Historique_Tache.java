@@ -3,6 +3,7 @@ package be.technobel.ucmppg.DAL.Models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Historique_de_tache")
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Historique_Tache {
+public class Historique_Tache implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

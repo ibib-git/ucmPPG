@@ -8,7 +8,7 @@
         <version>2.2.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>be.Technobel</groupId>
+    <groupId>be.technobel</groupId>
     <artifactId>ucmppg</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ucmppg</name>
@@ -34,9 +34,9 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.ibm.db2</groupId>
-            <artifactId>jcc</artifactId>
-            <scope>runtime</scope>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.18</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

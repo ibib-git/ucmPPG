@@ -3,6 +3,7 @@ package be.technobel.ucmppg.DAL.Models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Projet {
+public class Projet implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
