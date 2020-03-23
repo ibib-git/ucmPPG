@@ -41,7 +41,10 @@ public class Utilisateur {
     @Column(name="Localisaton_Photo")
     private String urlPhoto_Utilisateur;
 
-    @ManyToMany
-    private Set<Projet> projets_participer;
+    @Column(name="Information")
+    private String information_supplementaire;
+
+    @OneToMany
+    private Set<Participation> projets_participer;
 
 }

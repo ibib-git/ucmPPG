@@ -28,7 +28,7 @@ public class Projet {
     @Column(name = "UtilisateurCreateur", nullable = false)
     private String Utilisateur_createur;
 
-    @ManyToMany
-    private Set<Utilisateur> membres_Du_Projet;
+    @OneToMany
+    private Set<Participation> membres_Du_Projet;
 
 }
