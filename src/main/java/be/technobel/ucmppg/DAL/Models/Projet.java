@@ -25,8 +25,8 @@ public class Projet {
     @Column(name = "Description_du_Projet")
     private String description_de_Projet;
 
-    @Column(name = "UtilisateurCreateur", nullable = false)
-    private String Utilisateur_createur;
+    @OneToOne
+    private Utilisateur Utilisateur_createur;
 
     @OneToMany
     private Set<Participation> membres_Du_Projet;
