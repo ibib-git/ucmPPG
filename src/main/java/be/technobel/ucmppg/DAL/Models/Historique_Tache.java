@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-//@Table(name = "Historique_de_tache")
+@Table(name = "Historique_de_tache")
 @Getter
 @Setter
 @NoArgsConstructor
