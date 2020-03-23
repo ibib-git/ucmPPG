@@ -13,6 +13,8 @@ public class UserDTORegister {
     private String password;
     private String nom;
     private String prenom;
+    private String pseudo;
     private String telephone;
+    private String infoSuppl;
     private String urlPhoto;
 }
