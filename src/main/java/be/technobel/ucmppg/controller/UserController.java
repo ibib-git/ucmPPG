@@ -16,6 +16,7 @@ public class UserController {
     public ResponseEntity<String> registerUser (@RequestBody UserDTORegister userDTORegister)
     {
         //TODO Damien : DAL.save
+        System.out.println(userDTORegister.toString());
 
         return ResponseEntity.ok("200");
     }
