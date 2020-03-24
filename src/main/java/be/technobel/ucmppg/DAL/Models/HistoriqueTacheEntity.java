@@ -13,19 +13,19 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Historique_Tache implements Serializable {
+public class HistoriqueTacheEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_historique;
+    private Long id_historique;
 
     @OneToOne
-    private Tache tache_historique;
+    private TacheEntity tache_historique;
 
     @OneToOne
-    private Etape_workflow Etape_workflow_Tache_historique;
+    private EtapeWorkflowEntity etapeWorkflow_Tache_historique;
 
     @OneToOne
-    private Utilisateur utilisateur_Tache_historique;
+    private UtilisateurEntity utilisateur_Tache_historique;
 
 }

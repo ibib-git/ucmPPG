@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Utilisateur implements Serializable {
+public class UtilisateurEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +46,6 @@ public class Utilisateur implements Serializable {
     private String information_supplementaire;
 
     @OneToMany
-    private Set<Participation> projets_participer;
+    private Set<ParticipationEntity> projets_participer;
 
 }

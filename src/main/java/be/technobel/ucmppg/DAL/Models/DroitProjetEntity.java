@@ -13,13 +13,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Droit_Projet implements Serializable {
+public class DroitProjetEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_Droit;
+    private Long id_Droit;
 
     @Column(name = "nom",nullable = false, unique = true)
-    private String nom_de_droit;
+    private String nom_Droit;
 
 }

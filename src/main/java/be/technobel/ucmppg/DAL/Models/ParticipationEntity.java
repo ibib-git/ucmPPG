@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
 @Table(name = "Participation_Projet")
@@ -12,21 +11,24 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString
-public class Participation implements Serializable {
+public class ParticipationEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_Participation;
+    private Long idParticipation;
 
     @OneToOne
-    private Role_Projet roles_du_participant;
+    private RoleProjetEntity roleDuParticipant;
 
     @OneToOne
-    private Utilisateur utilisateur_participant;
+    private UtilisateurEntity utilisateurParticipant;
 
     @OneToOne
-    private Projet projet_participation;
+    private ProjetEntity projetParticipation;
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

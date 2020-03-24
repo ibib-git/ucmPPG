@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,15 +15,16 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Role_Projet implements Serializable {
+public class RoleProjetEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_Role;
+    private Long idRole;
 
     @Column(name = "nom_de_Role",nullable = false)
-    private String nom_de_Role;
+    private String nomDeRole;
 
-    @OneToMany
-    private Set<Droit_Projet> droitProjets;
+    @ManyToMany
+    @JoinTable(name="droit_role",joinColumns =@JoinColumn(name="role_id"),inverseJoinColumns = @JoinColumn(name="droit_id"))
+    private Set<DroitProjetEntity> droitProjets=new HashSet<>();
 }
