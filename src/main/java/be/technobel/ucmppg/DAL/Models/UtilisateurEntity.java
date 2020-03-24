@@ -3,6 +3,7 @@ package be.technobel.ucmppg.DAL.Models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -13,12 +14,12 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Utilisateur {
+public class UtilisateurEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_utilisateur")
-    private long id_Utilisateur;
+    private Long id_Utilisateur;
 
     @Column(name = "Mail_Utilisateur", unique = true , nullable = false)
     private String email_Utilisateur;
@@ -45,6 +46,6 @@ public class Utilisateur {
     private String information_supplementaire;
 
     @OneToMany
-    private Set<Participation> projets_participer;
+    private Set<ParticipationEntity> projets_participer;
 
 }

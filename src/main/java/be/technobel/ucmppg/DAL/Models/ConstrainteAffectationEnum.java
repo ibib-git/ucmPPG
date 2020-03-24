@@ -1,6 +1,6 @@
 package be.technobel.ucmppg.DAL.Models;
 
-public enum ConstrainteDAffectation {
+public enum ConstrainteAffectationEnum {
 
     MEME,
     DIFFERENT,

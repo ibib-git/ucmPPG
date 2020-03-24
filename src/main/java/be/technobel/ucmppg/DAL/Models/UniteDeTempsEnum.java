@@ -1,6 +1,6 @@
 package be.technobel.ucmppg.DAL.Models;
 
-public enum UniteDeTemps {
+public enum UniteDeTempsEnum {
 
     HEURE,
     STORYPOINT,

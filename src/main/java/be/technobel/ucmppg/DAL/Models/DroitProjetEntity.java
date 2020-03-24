@@ -3,6 +3,7 @@ package be.technobel.ucmppg.DAL.Models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="Droit_Autorisation")
@@ -12,13 +13,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Droit_Projet {
+public class DroitProjetEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_Droit;
+    private Long id_Droit;
 
     @Column(name = "nom",nullable = false, unique = true)
-    private String nom_de_droit;
+    private String nom_Droit;
 
 }
