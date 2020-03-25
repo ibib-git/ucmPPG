@@ -12,13 +12,12 @@ import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
 @EnableSwagger2
-//@EntityScan({"be.technobel.ucmppg.DAL.Models"})
+@EntityScan({"be.technobel.ucmppg.DAL.Models"})
 public class UcmppgApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UcmppgApplication.class, args);
     }
-/*
     @Autowired
     private UtilisateurRepository utilisateurRepository;
     @Autowired
@@ -35,7 +34,7 @@ public class UcmppgApplication {
     private ProjetRepository projetRepository;
 
     @EventListener(ApplicationReadyEvent.class)
-    private void generateData(){
+    public void generateData(){
 
         System.out.println("GENERATING DATAS");
 
@@ -222,5 +221,5 @@ public class UcmppgApplication {
         etapeWorkflowRepository.save(done);
 
         projetRepository.save(projet1);
-    }*/
+    }
 }

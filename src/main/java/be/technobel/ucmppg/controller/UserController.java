@@ -30,12 +30,8 @@ public class UserController {
     public ResponseEntity<UserDTODetails> registerUser (@RequestBody UserDTORegister userDTORegister)
     {
        UtilisateurEntity utilisateurEntity = new UtilisateurEntity(userDTORegister);
-        System.out.println(utilisateurEntity);
-        //UserDTODetails userDTODetails = new UserDTODetails(utilisateurRepository.save(new UtilisateurEntity(userDTORegister)));
-        UserDTODetails userDTODetails = new UserDTODetails();
-        System.out.println(userDTODetails);
-        utilisateurRepository.save(utilisateurEntity);
-        return ResponseEntity.ok(userDTODetails);
+
+        return ResponseEntity.ok(new UserDTODetails(utilisateurRepository.save(utilisateurEntity)));
     }
 
     @ApiOperation(value = "Appelé pour la connexion d'un utilisateur")
@@ -43,7 +39,6 @@ public class UserController {
     public ResponseEntity<UserDTODetails> loginUser (@RequestBody UserDTOLogin userDTOLogin)
     {
         UserDTODetails userDTODetails = new UserDTODetails(Objects.requireNonNull(utilisateurRepository.findByEmailAndMotDePasse(userDTOLogin.getEmail(), userDTOLogin.getPassword()).orElse(null)));
-        System.out.println(userDTODetails);
         return ResponseEntity.ok(userDTODetails);
     }
 
