@@ -28,5 +28,7 @@ public class Service_De_Creation_De_Projet implements Service_De_Creation_De_Pro
     @Override
     public List<Utilisateur_BL> liste_utilisateur_par_Email_liste(List<String> email_liste) {
         return null;
+        //TODO recup les utilisateurs depuis la db
+
     }
 }
