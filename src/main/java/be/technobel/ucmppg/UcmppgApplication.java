@@ -12,13 +12,13 @@ import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
 @EnableSwagger2
-@EntityScan({"be.technobel.ucmppg.DAL.Models"})
+//@EntityScan({"be.technobel.ucmppg.DAL.Models"})
 public class UcmppgApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UcmppgApplication.class, args);
     }
-
+/*
     @Autowired
     private UtilisateurRepository utilisateurRepository;
     @Autowired
@@ -41,9 +41,9 @@ public class UcmppgApplication {
 
         UtilisateurEntity utilisateur=new UtilisateurEntity();
         utilisateur.setPseudo_Utilisateur("baba");
-        utilisateur.setEmail_Utilisateur("bastien@ppg.com");
+        utilisateur.setEmail("bastien@ppg.com");
         utilisateur.setInformation_supplementaire("c'est un sacré filou");
-        utilisateur.setMotDePasse_Utilisateur("1234");
+        utilisateur.setMotDePasse("Test1234!");
         utilisateur.setNom_Utilisateur("Housiaux");
         utilisateur.setPrenom_Utilisateur("Bastien");
 
@@ -51,9 +51,9 @@ public class UcmppgApplication {
 
         UtilisateurEntity utilisateur2=new UtilisateurEntity();
         utilisateur2.setPseudo_Utilisateur("toto");
-        utilisateur2.setEmail_Utilisateur("thomas@ppg.com");
+        utilisateur2.setEmail("thomas@ppg.com");
         utilisateur2.setInformation_supplementaire("il aime pas les champignons");
-        utilisateur2.setMotDePasse_Utilisateur("1234");
+        utilisateur2.setMotDePasse("Test1234!");
         utilisateur2.setNom_Utilisateur("Wattecamps");
         utilisateur2.setPrenom_Utilisateur("Thomas");
 
@@ -61,9 +61,9 @@ public class UcmppgApplication {
 
         UtilisateurEntity utilisateur3=new UtilisateurEntity();
         utilisateur3.setPseudo_Utilisateur("dada");
-        utilisateur3.setEmail_Utilisateur("damien@ppg.com");
+        utilisateur3.setEmail("damien@ppg.com");
         utilisateur3.setInformation_supplementaire("il a 32 ans et deux enfants");
-        utilisateur3.setMotDePasse_Utilisateur("1234");
+        utilisateur3.setMotDePasse("Test1234!");
         utilisateur3.setNom_Utilisateur("Fricot");
         utilisateur3.setPrenom_Utilisateur("Damien");
         utilisateurRepository.save(utilisateur3);
@@ -222,5 +222,5 @@ public class UcmppgApplication {
         etapeWorkflowRepository.save(done);
 
         projetRepository.save(projet1);
-    }
+    }*/
 }

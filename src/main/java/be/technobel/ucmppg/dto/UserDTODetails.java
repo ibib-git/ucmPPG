@@ -23,8 +23,8 @@ public class UserDTODetails {
 
     public UserDTODetails(UtilisateurEntity utilisateurEntity) {
         this.id = utilisateurEntity.getId_Utilisateur();
-        this.email = utilisateurEntity.getEmail_Utilisateur();
-        this.password = utilisateurEntity.getMotDePasse_Utilisateur();
+        this.email = utilisateurEntity.getEmail();
+        this.password = utilisateurEntity.getMotDePasse();
         this.nom = utilisateurEntity.getNom_Utilisateur();
         this.prenom = utilisateurEntity.getPrenom_Utilisateur();
         this.pseudo = utilisateurEntity.getPseudo_Utilisateur();
