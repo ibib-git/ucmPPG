@@ -1,5 +1,6 @@
 package be.technobel.ucmppg.DAL.Models;
 
+import be.technobel.ucmppg.dto.UserDTORegister;
 import lombok.*;
 
 import javax.persistence.*;
@@ -48,4 +49,14 @@ public class UtilisateurEntity implements Serializable {
     @OneToMany
     private Set<ParticipationEntity> projets_participer;
 
+    public UtilisateurEntity(UserDTORegister user) {
+        this.email_Utilisateur = user.getEmail();
+        this.motDePasse_Utilisateur = user.getPassword();
+        this.pseudo_Utilisateur = user.getPseudo();
+        this.nom_Utilisateur = user.getNom();
+        this.prenom_Utilisateur = user.getPrenom();
+        this.telephone_Utilisateur = user.getTelephone();
+        this.information_supplementaire = user.getInfoSuppl();
+        this.urlPhoto_Utilisateur = user.getUrlPhoto();
+    }
 }

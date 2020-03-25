@@ -5,11 +5,13 @@ import be.technobel.ucmppg.DAL.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
+@EnableSwagger2
 @EntityScan({"be.technobel.ucmppg.DAL.Models"})
 public class UcmppgApplication {
 
