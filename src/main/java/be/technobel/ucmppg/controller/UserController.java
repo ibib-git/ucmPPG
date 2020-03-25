@@ -32,9 +32,9 @@ public class UserController {
        UtilisateurEntity utilisateurEntity = new UtilisateurEntity(userDTORegister);
         System.out.println(utilisateurEntity);
         //UserDTODetails userDTODetails = new UserDTODetails(utilisateurRepository.save(new UtilisateurEntity(userDTORegister)));
-        utilisateurRepository.save(utilisateurEntity);
         UserDTODetails userDTODetails = new UserDTODetails();
         System.out.println(userDTODetails);
+        utilisateurRepository.save(utilisateurEntity);
         return ResponseEntity.ok(userDTODetails);
     }
 

@@ -61,8 +61,8 @@ public class UtilisateurEntity implements Serializable {
         this.urlPhoto_Utilisateur = user.getUrlPhoto();
     }
 
-    public UtilisateurEntity(UserDTOLogin user) {
+   /* public UtilisateurEntity(UserDTOLogin user) {
         this.email = user.getEmail();
         this.motDePasse = user.getPassword();
-    }
+    }*/
 }
