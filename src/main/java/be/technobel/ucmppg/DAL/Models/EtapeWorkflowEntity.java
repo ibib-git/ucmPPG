@@ -1,5 +1,8 @@
 package be.technobel.ucmppg.DAL.Models;
 
+import be.technobel.ucmppg.API_Projet.DAO.EtapeWorkflowDAO;
+import be.technobel.ucmppg.API_Projet.DAO.RoleDAO;
+import be.technobel.ucmppg.API_Projet.DAO.TacheDAO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,4 +43,16 @@ public class EtapeWorkflowEntity implements Serializable {
     @OneToMany
     private Set<TacheEntity> taches=new HashSet<>();
 
+    public EtapeWorkflowEntity(EtapeWorkflowDAO etape) {
+        this.nom_EtapeWorkflow = etape.getNom_workflow();
+        this.description_EtapeWorkflow = etape.getDescription_workflow();
+        this.estPrenable_EtapeWorkflow = etape.isEstPrenable();
+        this.constrainteAffectation = etape.getContrainte();
+        for (TacheDAO t: etape.getTache_workflow()) {
+            this.taches.add(new TacheEntity(t));
+        }
+        for (RoleDAO r:etape.getRole_workflow()) {
+            this.rolesAutorisation.add(new RoleProjetEntity(r));
+        }
+    }
 }

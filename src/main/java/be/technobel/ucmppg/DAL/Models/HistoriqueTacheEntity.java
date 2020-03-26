@@ -1,5 +1,6 @@
 package be.technobel.ucmppg.DAL.Models;
 
+import be.technobel.ucmppg.API_Projet.DAO.HistoriqueDAO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,4 +29,9 @@ public class HistoriqueTacheEntity implements Serializable {
     @OneToOne
     private UtilisateurEntity utilisateur_Tache_historique;
 
+    public  HistoriqueTacheEntity(HistoriqueDAO historique_DAO){
+        this.etapeWorkflow_Tache_historique = new EtapeWorkflowEntity(historique_DAO.getEtape_worflow_Tache());
+        this.tache_historique = new TacheEntity(historique_DAO.getTache_historique());
+        this.utilisateur_Tache_historique = new UtilisateurEntity(historique_DAO.getUtilisateur_Tache());
+    }
 }

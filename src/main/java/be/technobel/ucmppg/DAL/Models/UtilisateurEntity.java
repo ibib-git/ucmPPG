@@ -1,5 +1,7 @@
 package be.technobel.ucmppg.DAL.Models;
 
+
+import be.technobel.ucmppg.API_Projet.DAO.UtilisateurDAO;
 import be.technobel.ucmppg.dto.UserDTOLogin;
 import be.technobel.ucmppg.dto.UserDTORegister;
 import lombok.*;
@@ -49,7 +51,18 @@ public class UtilisateurEntity implements Serializable {
 
     @OneToMany
     private Set<ParticipationEntity> projets_participer;
-
+  
+    public UtilisateurEntity(UtilisateurDAO user) {
+        this.email_Utilisateur = user.getEmail();
+        this.information_supplementaire = user.getInfoSuppl();
+        this.nom_Utilisateur = user.getNom();
+        this.prenom_Utilisateur = user.getPrenom();
+        this.motDePasse_Utilisateur = user.getPassword();
+        this.pseudo_Utilisateur = user.getPseudo();
+        this.urlPhoto_Utilisateur = user.getUrlPhoto();
+        this.telephone_Utilisateur = user.getTelephone();
+    }
+  
     public UtilisateurEntity(UserDTORegister user) {
         this.email = user.getEmail();
         this.motDePasse= user.getPassword();
