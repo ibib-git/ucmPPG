@@ -17,13 +17,12 @@ public class Service_Creation_Par_Defaut {
     private List<Participation_BL> participant_par_defaut;
 
     // Methode de creation d'un projet sans nom ni description avec 3 role et 4 colonnes
-    public Projet_BL creationParDefautDeProjet(Utilisateur_BL createur){
+    public Projet_BL creationParDefautDeProjet(){
 
         // creation du projet
         Projet_BL p = new Projet_BL();
 
-        //TODO Les droits Revoir
-        // Installation des droits
+        // Droit possible dans un projet
         for (DroitPossible droit : DroitPossible.values()) {
             Droit_Projet_BL newDroit = new Droit_Projet_BL(droit.getNom());
             droit_Liste_Complete.add(newDroit);
@@ -41,7 +40,6 @@ public class Service_Creation_Par_Defaut {
         // INITIALISATION DU PROJET avec :
         // 3 role et 4 colonne
         p.setColonne_Du_Projet(workflow_par_defaut);
-        p.setUtilisateur_createur_projet(createur);
         return p;
     }
 

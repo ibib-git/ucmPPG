@@ -1,5 +1,6 @@
 package be.technobel.ucmppg.API_Projet.Service.Gestion;
 
+
 public enum  Description_Par_Colonne_Par_Defaut {
 
     ZERO("Impossible à supprimer","Dernière colonne"),
