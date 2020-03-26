@@ -5,14 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Historique_Tache_BL {
+public class RoleBusiness {
 
-    private Utilisateur_BL utilisateur_Tache;
-    private Etape_Worflow_BL etape_worflow_Tache;
-    private Tache_BL tache_historique;
-
+    private String nom_Role_Projet;
+    private List<DroitBusiness> droits_Du_Role;
 }

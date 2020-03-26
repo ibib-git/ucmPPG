@@ -11,12 +11,11 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Projet_BL {
+public class ProjetBusiness {
 
     private String nom_projet;
     private String description_projet;
-    private Utilisateur_BL utilisateur_createur_projet;
-    private List<Participation_BL> utilisateurs_projet;
-    private List<Etape_Worflow_BL> colonne_Du_Projet;
-
+    private UtilisateurBusiness utilisateur_createur_projet;
+    private List<ParticipationBusiness> utilisateurs_projet;
+    private List<EtapeWorkflowBusiness> colonne_Du_Projet;
 }

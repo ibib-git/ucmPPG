@@ -12,13 +12,12 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Etape_Worflow_BL {
+public class EtapeWorkflowBusiness {
 
     private String nom_workflow;
     private String description_workflow;
     private boolean estPrenable;
-    private List<Role_Projet_BL> role_workflow;
+    private List<RoleBusiness> role_workflow;
     private ConstrainteAffectationEnum contrainte;
-    private List<Tache_BL> tache_workflow;
-
+    private List<TacheBusiness> tache_workflow;
 }

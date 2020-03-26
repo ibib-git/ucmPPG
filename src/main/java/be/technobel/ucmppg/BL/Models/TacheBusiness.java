@@ -12,15 +12,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Tache_BL {
+public class TacheBusiness {
 
     private String nom_Tache;
     private String description_workflow;
-    private List<Tache_BL> tache_enfants;
-    private List<Tache_BL> tache_Parents;
+    private List<TacheBusiness> tache_enfants;
+    private List<TacheBusiness> tache_Parents;
     private int estimation_Temps_Tache;
     private UniteDeTempsEnum uniteDeTempsEnum;
-    private List<Historique_Tache_BL> historique;
-    private Utilisateur_BL utilisateur_Tache;
-
+    private List<HistoriqueTacheBusiness> historique;
+    private UtilisateurBusiness utilisateur_Tache;
 }

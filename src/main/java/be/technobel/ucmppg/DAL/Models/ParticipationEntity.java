@@ -1,5 +1,6 @@
 package be.technobel.ucmppg.DAL.Models;
 
+import be.technobel.ucmppg.API_Projet.DAO.ParticipationDAO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,5 +31,11 @@ public class ParticipationEntity implements Serializable{
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    public ParticipationEntity(ParticipationDAO participation_DAO) {
+        this.projetParticipation = new ProjetEntity(participation_DAO.getProjet());
+        this.roleDuParticipant = new RoleProjetEntity(participation_DAO.getRole());
+        this.utilisateurParticipant = new UtilisateurEntity(participation_DAO.getUtilisateur());
     }
 }

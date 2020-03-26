@@ -10,10 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Participation_BL {
+public class ParticipationBusiness {
 
-    private Role_Projet_BL role_projet;
-    private Utilisateur_BL utilisateur;
-    private Projet_BL projet;
-
+    private RoleBusiness role_projet;
+    private UtilisateurBusiness utilisateur;
+    private ProjetBusiness projet;
 }

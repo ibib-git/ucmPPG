@@ -9,8 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Droit_Projet_BL {
+public class HistoriqueTacheBusiness {
 
-    private String nom_Droit_Projet;
-
+    private UtilisateurBusiness utilisateur_Tache;
+    private EtapeWorkflowBusiness etape_worflow_Tache;
+    private TacheBusiness tache_historique;
 }
