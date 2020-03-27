@@ -2,7 +2,6 @@ package be.technobel.ucmppg.controller;
 
 import be.technobel.ucmppg.DAL.Models.UtilisateurEntity;
 import be.technobel.ucmppg.DAL.repositories.UtilisateurRepository;
-import be.technobel.ucmppg.DAL.services.UtilisateurDalService;
 import be.technobel.ucmppg.dto.UserDTODetails;
 import be.technobel.ucmppg.dto.UserDTOLogin;
 import be.technobel.ucmppg.dto.UserDTORegister;
@@ -20,10 +19,10 @@ import java.util.Objects;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UtilisateurDalService utilisateurDalService;
+    private final UtilisateurRepository utilisateurRepository;
 
-    public UserController(UtilisateurDalService utilisateurDalService) {
-        this.utilisateurDalService = utilisateurDalService;
+    public UserController(UtilisateurRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
     }
 
     @ApiOperation(value = "Appelé pour l'enregistrement d'un nouvel utilisateur")
@@ -32,14 +31,14 @@ public class UserController {
     {
        UtilisateurEntity utilisateurEntity = new UtilisateurEntity(userDTORegister);
 
-        return ResponseEntity.ok(new UserDTODetails(utilisateurDalService.save(utilisateurEntity)));
+        return ResponseEntity.ok(new UserDTODetails(utilisateurRepository.save(utilisateurEntity)));
     }
 
     @ApiOperation(value = "Appelé pour la connexion d'un utilisateur")
     @PostMapping("/login")
     public ResponseEntity<UserDTODetails> loginUser (@RequestBody UserDTOLogin userDTOLogin)
     {
-        UserDTODetails userDTODetails = new UserDTODetails(Objects.requireNonNull(utilisateurDalService.findByEmailAndMotDePasse(userDTOLogin.getEmail(), userDTOLogin.getPassword()).orElse(null)));
+        UserDTODetails userDTODetails = new UserDTODetails(Objects.requireNonNull(utilisateurRepository.findByEmailAndMotDePasse(userDTOLogin.getEmail(), userDTOLogin.getPassword()).orElse(null)));
         return ResponseEntity.ok(userDTODetails);
     }
 
