@@ -1,8 +1,8 @@
 package be.technobel.ucmppg.dal.entities;
 
-import be.technobel.ucmppg.BL.dto.EtapeWorkflowDTO;
-import be.technobel.ucmppg.BL.dto.RoleDTO;
-import be.technobel.ucmppg.BL.dto.TacheDTO;
+import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
+import be.technobel.ucmppg.bl.dto.RoleDTO;
+import be.technobel.ucmppg.bl.dto.projet.taches.TacheDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,16 +43,16 @@ public class EtapeWorkflowEntity implements Serializable {
     @OneToMany
     private Set<TacheEntity> taches=new HashSet<>();
 
-    public EtapeWorkflowEntity(EtapeWorkflowDTO etape) {
-        this.nomEtapeWorkflow = etape.getNomWorkflow();
-        this.descriptionEtapeWorkflow = etape.getDescriptionWorkflow();
-        this.estPrenableEtapeWorkflow = etape.isEstPrenable();
-        this.constrainteAffectation = etape.getContrainte();
-        for (TacheDTO t: etape.getTacheWorkflow()) {
-            this.taches.add(new TacheEntity(t));
-        }
-        for (RoleDTO r:etape.getRoleWorkflow()) {
-            this.rolesAutorisation.add(new RoleProjetEntity(r));
-        }
-    }
+//    public EtapeWorkflowEntity(EtapeWorkflowDTO etape) {
+//        this.nomEtapeWorkflow = etape.getNomWorkflow();
+//        this.descriptionEtapeWorkflow = etape.getDescriptionWorkflow();
+//        this.estPrenableEtapeWorkflow = etape.isEstPrenable();
+//        this.constrainteAffectation = etape.getContrainte();
+//        for (TacheDTO t: etape.getTacheWorkflow()) {
+//            this.taches.add(new TacheEntity(t));
+//        }
+//        for (RoleDTO r:etape.getRolesAffectableWorkflow()) {
+//            this.rolesAutorisation.add(new RoleProjetEntity(r));
+//        }
+//    }
 }

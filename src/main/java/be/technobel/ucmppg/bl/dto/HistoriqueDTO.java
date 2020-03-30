@@ -1,5 +1,8 @@
-package be.technobel.ucmppg.BL.dto;
+package be.technobel.ucmppg.bl.dto;
 
+import be.technobel.ucmppg.bl.dto.projet.taches.TacheDTO;
+import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,9 @@
 package be.technobel.ucmppg.controllers;
 
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
+
 import be.technobel.ucmppg.BL.dto.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.BL.dto.UtilisateurConnexionDTO;
 import be.technobel.ucmppg.BL.dto.UtilisateurEnregistrementDTO;
@@ -27,6 +29,7 @@ public class UserController {
     @ApiOperation(value = "Appelé pour l'enregistrement d'un nouvel utilisateur")
     @PostMapping("/register")
     public ResponseEntity<UtilisateurDetailsDTO> registerUser (@RequestBody UtilisateurEnregistrementDTO utilisateurEnregistrementDTO)
+
     {
        UtilisateurEntity utilisateurEntity = new UtilisateurEntity(utilisateurEnregistrementDTO);
 

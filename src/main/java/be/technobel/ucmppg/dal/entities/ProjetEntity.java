@@ -1,8 +1,8 @@
 package be.technobel.ucmppg.dal.entities;
 
-import be.technobel.ucmppg.BL.dto.EtapeWorkflowDTO;
-import be.technobel.ucmppg.BL.dto.ParticipationDTO;
-import be.technobel.ucmppg.BL.dto.ProjetDTO;
+import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
+import be.technobel.ucmppg.bl.dto.ParticipationDTO;
+import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,20 +38,23 @@ public class ProjetEntity implements Serializable {
     @OneToMany
     private Set<EtapeWorkflowEntity> etapeWorkflows=new HashSet<>();
 
+    @OneToMany
+    private Set<RoleProjetEntity> rolesProjet=new HashSet<>();
+
     @Override
     public int hashCode() {
         return super.hashCode();
     }
 
-    public ProjetEntity(ProjetDTO projet_DAO) {
-        this.nomDeProjet = projet_DAO.getNomProjet();
-        this.descriptionDeProjet = projet_DAO.getDescriptionProjet();
-        this.utilisateurCreateur = new UtilisateurEntity(projet_DAO.getUtilisateurCreateurProjet());
-        for (ParticipationDTO p: projet_DAO.getUtilisateursProjet()) {
-            this.membresDuProjet.add(new ParticipationEntity(p));
-        }
-        for (EtapeWorkflowDTO e: projet_DAO.getColonneDuProjet()) {
-            this.etapeWorkflows.add(new EtapeWorkflowEntity(e));
-        }
-    }
+//    public ProjetEntity(ProjetDTO projet_DAO) {
+//        this.nomDeProjet = projet_DAO.getNomProjet();
+//        this.descriptionDeProjet = projet_DAO.getDescriptionProjet();
+////        this.utilisateurCreateur = new UtilisateurEntity(projet_DAO.getUtilisateurCreateurProjet());
+////        for (ParticipationDTO p: projet_DAO.getUtilisateursProjet()) {
+////            this.membresDuProjet.add(new ParticipationEntity(p));
+////        }
+//        for (EtapeWorkflowDTO e: projet_DAO.getColonnesDuProjet()) {
+//            this.etapeWorkflows.add(new EtapeWorkflowEntity(e));
+//        }
+//    }
 }

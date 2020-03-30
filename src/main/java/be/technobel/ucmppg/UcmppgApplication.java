@@ -68,8 +68,20 @@ public class UcmppgApplication {
         utilisateurRepository.save(utilisateur3);
 
         DroitProjetEntity gererTache=new DroitProjetEntity();
-        gererTache.setNomDroit("gérer des taches");
+        gererTache.setNomDroit("gérer les taches");
         droitProjetRepository.save(gererTache);
+
+        DroitProjetEntity gererRole=new DroitProjetEntity();
+        gererRole.setNomDroit("gérer les rôles");
+        droitProjetRepository.save(gererTache);
+
+        DroitProjetEntity creerTache=new DroitProjetEntity();
+        creerTache.setNomDroit("Créer des tâches");
+        droitProjetRepository.save(creerTache);
+
+        DroitProjetEntity creerRole=new DroitProjetEntity();
+        creerRole.setNomDroit("Créer des rôles");
+        droitProjetRepository.save(creerRole);
 
         DroitProjetEntity inviterCollaborateurs=new DroitProjetEntity();
         inviterCollaborateurs.setNomDroit("inviter des collaborateurs");

@@ -1,14 +1,13 @@
-package be.technobel.ucmppg.BL.dto;
+package be.technobel.ucmppg.bl.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@Getter
-@Setter
-public class UtilisateurDTO {
+@NoArgsConstructor
+public class UserDTORegister {
 
     private String email;
     private String password;
@@ -18,6 +17,4 @@ public class UtilisateurDTO {
     private String telephone;
     private String infoSuppl;
     private String urlPhoto;
-    private List<ParticipationDTO> participation;
-
 }
