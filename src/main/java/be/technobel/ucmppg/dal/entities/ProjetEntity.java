@@ -1,8 +1,8 @@
 package be.technobel.ucmppg.dal.entities;
 
-import be.technobel.ucmppg.BL.dto.EtapeWorkflowDTO;
-import be.technobel.ucmppg.BL.dto.ParticipationDTO;
-import be.technobel.ucmppg.BL.dto.ProjetDTO;
+import be.technobel.ucmppg.bl.dto.EtapeWorkflowDTO;
+import be.technobel.ucmppg.bl.dto.ParticipationDTO;
+import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,6 +37,9 @@ public class ProjetEntity implements Serializable {
 
     @OneToMany
     private Set<EtapeWorkflowEntity> etapeWorkflows=new HashSet<>();
+
+    @OneToMany
+    private Set<RoleProjetEntity> rolesProjet=new HashSet<>();
 
     @Override
     public int hashCode() {

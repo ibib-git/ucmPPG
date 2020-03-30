@@ -1,8 +1,8 @@
 package be.technobel.ucmppg.dal.entities;
 
 
-import be.technobel.ucmppg.BL.dto.UtilisateurDTO;
-import be.technobel.ucmppg.BL.dto.UserDTORegister;
+import be.technobel.ucmppg.bl.dto.UtilisateurDTO;
+import be.technobel.ucmppg.bl.dto.UserDTORegister;
 import lombok.*;
 
 import javax.persistence.*;

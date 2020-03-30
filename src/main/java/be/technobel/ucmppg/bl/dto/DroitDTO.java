@@ -1,4 +1,4 @@
-package be.technobel.ucmppg.BL.dto;
+package be.technobel.ucmppg.bl.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

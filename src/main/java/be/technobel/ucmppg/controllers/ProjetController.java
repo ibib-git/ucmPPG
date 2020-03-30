@@ -1,9 +1,9 @@
 package be.technobel.ucmppg.controllers;
 
-import be.technobel.ucmppg.BL.dto.ProjetDTO;
-import be.technobel.ucmppg.BL.dto.ProjetCreationDTO;
-import be.technobel.ucmppg.BL.Service.Creation.CreationParDefautService;
-import be.technobel.ucmppg.BL.Service.Creation.CreationDeProjetService;
+import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.bl.dto.projet.ProjetCreationDTO;
+import be.technobel.ucmppg.bl.service.creation.CreationParDefautService;
+import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.dal.entities.ProjetEntity;
 import be.technobel.ucmppg.dal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;

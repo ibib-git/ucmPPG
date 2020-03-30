@@ -1,6 +1,6 @@
 package be.technobel.ucmppg.dal.entities;
 
-import be.technobel.ucmppg.BL.dto.HistoriqueDTO;
+import be.technobel.ucmppg.bl.dto.HistoriqueDTO;
 import lombok.*;
 
 import javax.persistence.*;

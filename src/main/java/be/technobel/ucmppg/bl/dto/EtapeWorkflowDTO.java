@@ -1,4 +1,4 @@
-package be.technobel.ucmppg.BL.dto;
+package be.technobel.ucmppg.bl.dto;
 
 import be.technobel.ucmppg.dal.entities.ConstrainteAffectationEnum;
 import lombok.*;

@@ -12,7 +12,7 @@ import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
 @EnableSwagger2
-@EntityScan({"be.technobel.ucmppg.DAL.Models"})
+@EntityScan({"be.technobel.ucmppg.DAL.entities"})
 public class UcmppgApplication {
 
     public static void main(String[] args) {
@@ -67,9 +67,20 @@ public class UcmppgApplication {
         utilisateur3.setPrenomUtilisateur("Damien");
         utilisateurRepository.save(utilisateur3);
 
+                CREERROLE("Créer des roles");
         DroitProjetEntity gererTache=new DroitProjetEntity();
-        gererTache.setNomDroit("gérer des taches");
+        gererTache.setNomDroit("gérer les taches");
         droitProjetRepository.save(gererTache);
+
+        DroitProjetEntity gererRole=new DroitProjetEntity();
+        gererRole.setNomDroit("gérer les roles");
+        droitProjetRepository.save(gererTache);
+
+        DroitProjetEntity creerTache=new DroitProjetEntity();
+        creerTache.setNomDroit("Créer des tâches");
+        droitProjetRepository.save(creerTache);
+
+        DroitProjetEntity
 
         DroitProjetEntity inviterCollaborateurs=new DroitProjetEntity();
         inviterCollaborateurs.setNomDroit("inviter des collaborateurs");

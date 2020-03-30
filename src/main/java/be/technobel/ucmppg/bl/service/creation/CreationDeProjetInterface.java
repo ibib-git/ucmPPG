@@ -1,12 +1,9 @@
-package be.technobel.ucmppg.BL.Service.Creation;
+package be.technobel.ucmppg.bl.service.creation;
 
-import be.technobel.ucmppg.dal.entities.ParticipationEntity;
-
-import java.util.List;
+import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 
 public interface CreationDeProjetInterface {
 
-    // transforme une liste d'utilisateur en Participant
-    List<ParticipationEntity> creationDeListeParticipation(List<String> emails);
+    ProjetDTO execute(String nom,String description,long idCreateur);
 
 }

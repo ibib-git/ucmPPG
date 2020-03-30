@@ -2,9 +2,9 @@ package be.technobel.ucmppg.controllers;
 
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
-import be.technobel.ucmppg.BL.dto.UserDTODetails;
-import be.technobel.ucmppg.BL.dto.UserDTOLogin;
-import be.technobel.ucmppg.BL.dto.UserDTORegister;
+import be.technobel.ucmppg.bl.dto.UserDTODetails;
+import be.technobel.ucmppg.bl.dto.UserDTOLogin;
+import be.technobel.ucmppg.bl.dto.UserDTORegister;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;

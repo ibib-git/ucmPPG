@@ -1,11 +1,9 @@
-package be.technobel.ucmppg.BL.dto;
+package be.technobel.ucmppg.bl.dto.projet;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter

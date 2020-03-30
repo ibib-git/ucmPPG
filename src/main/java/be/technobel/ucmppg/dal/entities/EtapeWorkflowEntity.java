@@ -1,8 +1,8 @@
 package be.technobel.ucmppg.dal.entities;
 
-import be.technobel.ucmppg.BL.dto.EtapeWorkflowDTO;
-import be.technobel.ucmppg.BL.dto.RoleDTO;
-import be.technobel.ucmppg.BL.dto.TacheDTO;
+import be.technobel.ucmppg.bl.dto.EtapeWorkflowDTO;
+import be.technobel.ucmppg.bl.dto.RoleDTO;
+import be.technobel.ucmppg.bl.dto.TacheDTO;
 import lombok.*;
 
 import javax.persistence.*;

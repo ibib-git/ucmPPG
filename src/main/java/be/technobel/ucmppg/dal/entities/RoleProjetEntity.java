@@ -1,7 +1,7 @@
 package be.technobel.ucmppg.dal.entities;
 
-import be.technobel.ucmppg.BL.dto.DroitDTO;
-import be.technobel.ucmppg.BL.dto.RoleDTO;
+import be.technobel.ucmppg.bl.dto.DroitDTO;
+import be.technobel.ucmppg.bl.dto.RoleDTO;
 import lombok.*;
 
 import javax.persistence.*;

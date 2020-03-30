@@ -1,4 +1,4 @@
-package be.technobel.ucmppg.BL.Service.Gestion;
+package be.technobel.ucmppg.bl.service.gestion;
 
 public enum DroitPossibleEnum {
 

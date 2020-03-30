@@ -1,8 +1,9 @@
-package be.technobel.ucmppg.BL.Service.Creation;
+package be.technobel.ucmppg.bl.service.creation;
 
-import be.technobel.ucmppg.BL.Service.Gestion.colonneParDefautEnum;
-import be.technobel.ucmppg.BL.Service.Gestion.DroitPossibleEnum;
-import be.technobel.ucmppg.BL.dto.*;
+import be.technobel.ucmppg.bl.service.gestion.colonneParDefautEnum;
+import be.technobel.ucmppg.bl.service.gestion.DroitPossibleEnum;
+import be.technobel.ucmppg.bl.dto.*;
+import be.technobel.ucmppg.bl.dto.projet.ProjetCreationDTO;
 import be.technobel.ucmppg.dal.entities.ConstrainteAffectationEnum;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class CreationParDefautService {
 
         // INITIALISATION DU PROJET avec :
         // 3 role et 4 colonne
-        p.getProjetParDefaut().setColonneDuProjet(workflowParDefaut);
+//        p.getProjetParDefaut().setColonneDuProjet(workflowParDefaut);
         return p;
     }
 

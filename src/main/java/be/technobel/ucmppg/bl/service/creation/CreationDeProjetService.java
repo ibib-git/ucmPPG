@@ -1,24 +1,47 @@
-package be.technobel.ucmppg.BL.Service.Creation;
+package be.technobel.ucmppg.bl.service.creation;
 
-import be.technobel.ucmppg.dal.entities.ParticipationEntity;
+import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.dal.entities.ProjetEntity;
+import be.technobel.ucmppg.dal.entities.RoleProjetEntity;
+import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
+import be.technobel.ucmppg.dal.repositories.ParticipationRepository;
+import be.technobel.ucmppg.dal.repositories.ProjetRepository;
 import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CreationDeProjetService implements CreationDeProjetInterface {
 
     private CreationParDefautService creation;
 
+    @Autowired
     private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private ProjetRepository projetRepository;
+    @Autowired
+    private ParticipationRepository participationRepository;
 
-    // Creation de la liste de Participation pour le projet
     @Override
-    public List<ParticipationEntity> creationDeListeParticipation(List<String> email) {
+    public ProjetDTO execute(String nom, String description, long idCreateur) {
+        Optional<UtilisateurEntity> utilisateurOptionalEntity=utilisateurRepository.findById(idCreateur);
+        if(utilisateurOptionalEntity.isPresent()){
 
-        // methode pour recuperer les participant grace à un email => relier par le mail d'un utilisateur
+            UtilisateurEntity utilisateurEntity=utilisateurOptionalEntity.get();
+
+            ProjetEntity projetEntity=new ProjetEntity();
+            projetEntity.setNomDeProjet(nom);
+            projetEntity.setDescriptionDeProjet(description);
+            projetEntity.setUtilisateurCreateur(utilisateurEntity);
+
+            RoleProjetEntity roleProjetEntity=new RoleProjetEntity();
+            roleProjetEntity.setNomDeRole("admin");
+
+
+        }
+
         return null;
     }
-
 }
