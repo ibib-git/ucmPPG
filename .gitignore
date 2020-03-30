@@ -19,7 +19,6 @@ target/
 *.iml
 *.ipr
 pom.xml
-/src/main/resources/application.properties
 
 ### NetBeans ###
 /nbproject/private/
@@ -29,7 +28,4 @@ pom.xml
 /.nb-gradle/
 build/
 
-### VS Code ###
-.vscode/
 application.properties
-pom.xml
