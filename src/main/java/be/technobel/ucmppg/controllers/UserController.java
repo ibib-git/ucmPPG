@@ -3,8 +3,10 @@ package be.technobel.ucmppg.controllers;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
-import be.technobel.ucmppg.bl.dto.UserDTOLogin;
-import be.technobel.ucmppg.bl.dto.UserDTORegister;
+
+import be.technobel.ucmppg.BL.dto.UtilisateurDetailsDTO;
+import be.technobel.ucmppg.BL.dto.UtilisateurConnexionDTO;
+import be.technobel.ucmppg.BL.dto.UtilisateurEnregistrementDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
@@ -26,19 +28,20 @@ public class UserController {
 
     @ApiOperation(value = "Appelé pour l'enregistrement d'un nouvel utilisateur")
     @PostMapping("/register")
-    public ResponseEntity<UtilisateurDetailsDTO> registerUser (@RequestBody UserDTORegister userDTORegister)
+    public ResponseEntity<UtilisateurDetailsDTO> registerUser (@RequestBody UtilisateurEnregistrementDTO utilisateurEnregistrementDTO)
+
     {
-       UtilisateurEntity utilisateurEntity = new UtilisateurEntity(userDTORegister);
+       UtilisateurEntity utilisateurEntity = new UtilisateurEntity(utilisateurEnregistrementDTO);
 
         return ResponseEntity.ok(new UtilisateurDetailsDTO(utilisateurRepository.save(utilisateurEntity)));
     }
 
     @ApiOperation(value = "Appelé pour la connexion d'un utilisateur")
     @PostMapping("/login")
-    public ResponseEntity<UtilisateurDetailsDTO> loginUser (@RequestBody UserDTOLogin userDTOLogin)
+    public ResponseEntity<UtilisateurDetailsDTO> loginUser (@RequestBody UtilisateurConnexionDTO utilisateurConnexionDTO)
     {
-        UtilisateurDetailsDTO userDTODetails = new UtilisateurDetailsDTO(Objects.requireNonNull(utilisateurRepository.findByEmailAndMotDePasse(userDTOLogin.getEmail(), userDTOLogin.getPassword()).orElse(null)));
-        return ResponseEntity.ok(userDTODetails);
+        UtilisateurDetailsDTO utilisateurDetailsDTO = new UtilisateurDetailsDTO(Objects.requireNonNull(utilisateurRepository.findByEmailUtilisateurAndMotDePasseUtilisateur(utilisateurConnexionDTO.getEmail(), utilisateurConnexionDTO.getPassword()).orElse(null)));
+        return ResponseEntity.ok(utilisateurDetailsDTO);
     }
 
 
