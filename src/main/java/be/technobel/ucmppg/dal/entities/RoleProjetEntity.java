@@ -1,6 +1,5 @@
 package be.technobel.ucmppg.dal.entities;
 
-import be.technobel.ucmppg.bl.dto.DroitDTO;
 import be.technobel.ucmppg.bl.dto.RoleDTO;
 import lombok.*;
 
@@ -30,10 +29,10 @@ public class RoleProjetEntity implements Serializable {
     @JoinTable(name="droit_role",joinColumns =@JoinColumn(name="role_id"),inverseJoinColumns = @JoinColumn(name="droit_id"))
     private Set<DroitProjetEntity> droitProjets=new HashSet<>();
 
-    public RoleProjetEntity(RoleDTO role_DAO) {
-        this.nomDeRole = role_DAO.getNom();
-        for (DroitDTO d: role_DAO.getDroitsDtoRole()) {
-            droitProjets.add(new DroitProjetEntity(d));
-        }
-    }
+//    public RoleProjetEntity(RoleDTO role_DAO) {
+//        this.nomDeRole = role_DAO.getNom();
+//        for (DroitDTO d: role_DAO.getDroitsDtoRole()) {
+//            droitProjets.add(new DroitProjetEntity(d));
+//        }
+//    }
 }

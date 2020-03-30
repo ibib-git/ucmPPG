@@ -1,7 +1,7 @@
 package be.technobel.ucmppg.dal.entities;
 
 
-import be.technobel.ucmppg.bl.dto.UtilisateurDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
 import be.technobel.ucmppg.bl.dto.UserDTORegister;
 import lombok.*;
 
@@ -56,7 +56,6 @@ public class UtilisateurEntity implements Serializable {
         this.informationSupplementaire = user.getInfoSuppl();
         this.nomUtilisateur = user.getNom();
         this.prenomUtilisateur = user.getPrenom();
-        this.motDePasse = user.getPassword();
         this.pseudoUtilisateur = user.getPseudo();
         this.urlPhotoUtilisateur = user.getUrlPhoto();
         this.telephoneUtilisateur = user.getTelephone();

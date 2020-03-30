@@ -1,8 +1,8 @@
 package be.technobel.ucmppg.controllers;
 
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
-import be.technobel.ucmppg.bl.dto.UserDTODetails;
 import be.technobel.ucmppg.bl.dto.UserDTOLogin;
 import be.technobel.ucmppg.bl.dto.UserDTORegister;
 import io.swagger.annotations.Api;
@@ -26,18 +26,18 @@ public class UserController {
 
     @ApiOperation(value = "Appelé pour l'enregistrement d'un nouvel utilisateur")
     @PostMapping("/register")
-    public ResponseEntity<UserDTODetails> registerUser (@RequestBody UserDTORegister userDTORegister)
+    public ResponseEntity<UtilisateurDetailsDTO> registerUser (@RequestBody UserDTORegister userDTORegister)
     {
        UtilisateurEntity utilisateurEntity = new UtilisateurEntity(userDTORegister);
 
-        return ResponseEntity.ok(new UserDTODetails(utilisateurRepository.save(utilisateurEntity)));
+        return ResponseEntity.ok(new UtilisateurDetailsDTO(utilisateurRepository.save(utilisateurEntity)));
     }
 
     @ApiOperation(value = "Appelé pour la connexion d'un utilisateur")
     @PostMapping("/login")
-    public ResponseEntity<UserDTODetails> loginUser (@RequestBody UserDTOLogin userDTOLogin)
+    public ResponseEntity<UtilisateurDetailsDTO> loginUser (@RequestBody UserDTOLogin userDTOLogin)
     {
-        UserDTODetails userDTODetails = new UserDTODetails(Objects.requireNonNull(utilisateurRepository.findByEmailAndMotDePasse(userDTOLogin.getEmail(), userDTOLogin.getPassword()).orElse(null)));
+        UtilisateurDetailsDTO userDTODetails = new UtilisateurDetailsDTO(Objects.requireNonNull(utilisateurRepository.findByEmailAndMotDePasse(userDTOLogin.getEmail(), userDTOLogin.getPassword()).orElse(null)));
         return ResponseEntity.ok(userDTODetails);
     }
 

@@ -1,6 +1,5 @@
 package be.technobel.ucmppg.dal.entities;
 
-import be.technobel.ucmppg.bl.dto.DroitDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,7 +22,7 @@ public class DroitProjetEntity implements Serializable {
     @Column(name = "nom",nullable = false, unique = true)
     private String nomDroit;
 
-    public DroitProjetEntity(DroitDTO droit_dao) {
-        this.nomDroit = droit_dao.getNom();
+    public DroitProjetEntity(String droit_dao) {
+        this.nomDroit = droit_dao;
     }
 }
