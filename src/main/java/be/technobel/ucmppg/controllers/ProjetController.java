@@ -51,6 +51,12 @@ public class ProjetController {
         return projetDTOS;
     }
 
+    @GetMapping("/{id}")
+    public ProjetDTO getProjetParId(@PathVariable("id") long id){
+        //todo : grosse ligne bien dégueu mais tant que ca plante pas its ok
+        return new ProjetDTO(projetRepository.findById(id).get());
+    }
+
 
     /* méthode pour créer un projet et l'envoyer dans la DB */
 //    @PostMapping("/enregistrementProjet")
