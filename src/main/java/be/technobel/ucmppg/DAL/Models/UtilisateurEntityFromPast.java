@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class UtilisateurEntity implements Serializable {
+public class UtilisateurEntityFromPast implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,7 +62,7 @@ public class UtilisateurEntity implements Serializable {
     @OneToMany
     private Set<ParticipationEntity> projets_participer;
 
-    public UtilisateurEntity(UtilisateurEnregistrementDTO user) {
+    public UtilisateurEntityFromPast(UtilisateurEnregistrementDTO user) {
         this.email = user.getEmail();
         this.motDePasse= user.getPassword();
         this.pseudo_Utilisateur = user.getPseudo();

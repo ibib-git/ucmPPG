@@ -1,6 +1,6 @@
 package be.technobel.ucmppg.controller;
 
-import be.technobel.ucmppg.DAL.Models.UtilisateurEntity;
+import be.technobel.ucmppg.DAL.Models.UtilisateurEntityFromPast;
 import be.technobel.ucmppg.DAL.repositories.UtilisateurRepository;
 import be.technobel.ucmppg.dto.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.dto.UtilisateurConnexionDTO;
@@ -28,9 +28,9 @@ public class UtilisateurController {
     @PostMapping("/register")
     public ResponseEntity<UtilisateurDetailsDTO> enregistrementUtilisateur(@RequestBody UtilisateurEnregistrementDTO utilisateurEnregistrementDTO)
     {
-       UtilisateurEntity utilisateurEntity = new UtilisateurEntity(utilisateurEnregistrementDTO);
+       UtilisateurEntityFromPast utilisateurEntityFromPast = new UtilisateurEntityFromPast(utilisateurEnregistrementDTO);
 
-        return ResponseEntity.ok(new UtilisateurDetailsDTO(utilisateurRepository.save(utilisateurEntity)));
+        return ResponseEntity.ok(new UtilisateurDetailsDTO(utilisateurRepository.save(utilisateurEntityFromPast)));
     }
 
     @ApiOperation(value = "Appelé pour la connexion d'un utilisateur")

@@ -22,7 +22,7 @@ public class ParticipationEntity implements Serializable{
     private RoleProjetEntity roleDuParticipant;
 
     @OneToOne
-    private UtilisateurEntity utilisateurParticipant;
+    private UtilisateurEntityFromPast utilisateurParticipant;
 
     @OneToOne
     private ProjetEntity projetParticipation;

@@ -27,7 +27,7 @@ public class ProjetEntity implements Serializable {
     private String descriptionDeProjet;
 
     @OneToOne
-    private UtilisateurEntity utilisateurCreateur;
+    private UtilisateurEntityFromPast utilisateurCreateur;
 
     @OneToMany
     private Set<ParticipationEntity> membresDuProjet =new HashSet<>();

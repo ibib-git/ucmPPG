@@ -1,6 +1,6 @@
 package be.technobel.ucmppg;
 
-import be.technobel.ucmppg.DAL.Models.UtilisateurEntity;
+import be.technobel.ucmppg.DAL.Models.UtilisateurEntityFromPast;
 import be.technobel.ucmppg.dto.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.dto.UtilisateurEnregistrementDTO;
 import org.junit.Assert;
@@ -9,15 +9,15 @@ import org.junit.Test;
 import javax.validation.*;
 import java.util.Set;
 
-public class UtilisateurEntityDTOMapperTest {
+public class UtilisateurEntityFromPastDTOMapperTest {
 
-    UtilisateurEntity utilisateurEntityWithAllParamNoProjets;
+    UtilisateurEntityFromPast utilisateurEntityFromPastWithAllParamNoProjets;
     private Validator validator;
 
     @Before
     public void init ()
     {
-        utilisateurEntityWithAllParamNoProjets = new UtilisateurEntity((long) 5, "sith@empireGalactique.st","Order#66","DarkVador","Skylwalker","Anakin","+66456123789","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr","Que la force soit avec vous",null);
+        utilisateurEntityFromPastWithAllParamNoProjets = new UtilisateurEntityFromPast((long) 5, "sith@empireGalactique.st","Order#66","DarkVador","Skylwalker","Anakin","+66456123789","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr","Que la force soit avec vous",null);
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
@@ -28,7 +28,7 @@ public class UtilisateurEntityDTOMapperTest {
     {
         UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO((long) 5, "sith@empireGalactique.st","Order#66","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
-        UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityWithAllParamNoProjets);
+        UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityFromPastWithAllParamNoProjets);
 
         Assert.assertEquals(userDTOExpected, utilisateurDetailsDTOFromEntity);
     }
@@ -37,12 +37,12 @@ public class UtilisateurEntityDTOMapperTest {
     public void utilisateurDetailsDTO_UtilisateurEntityAvecChampsRequiredEtResteANull_EqualsTrue()
     {
         UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO(null, "sith@empireGalactique.st","Order#66",null,null,"DarkVador",null,null,null);
-        UtilisateurEntity utilisateurEntityWithOnlyRequiredParam = new UtilisateurEntity();
-        utilisateurEntityWithOnlyRequiredParam.setEmail("sith@empireGalactique.st");
-        utilisateurEntityWithOnlyRequiredParam.setMotDePasse("Order#66");
-        utilisateurEntityWithOnlyRequiredParam.setPseudo_Utilisateur("DarkVador");
+        UtilisateurEntityFromPast utilisateurEntityFromPastWithOnlyRequiredParam = new UtilisateurEntityFromPast();
+        utilisateurEntityFromPastWithOnlyRequiredParam.setEmail("sith@empireGalactique.st");
+        utilisateurEntityFromPastWithOnlyRequiredParam.setMotDePasse("Order#66");
+        utilisateurEntityFromPastWithOnlyRequiredParam.setPseudo_Utilisateur("DarkVador");
 
-        UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityWithOnlyRequiredParam);
+        UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityFromPastWithOnlyRequiredParam);
 
         Assert.assertEquals(userDTOExpected, utilisateurDetailsDTOFromEntity);
     }
@@ -51,9 +51,9 @@ public class UtilisateurEntityDTOMapperTest {
     public void utilisateurDetailsDTO_UtilisateurEntityNull_EqualsTrue()
     {
         UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO();
-        UtilisateurEntity utilisateurEntityNull = new UtilisateurEntity();
+        UtilisateurEntityFromPast utilisateurEntityFromPastNull = new UtilisateurEntityFromPast();
 
-        UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityNull);
+        UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityFromPastNull);
 
         Assert.assertEquals(userDTOExpected, utilisateurDetailsDTOFromEntity);
     }
@@ -65,11 +65,11 @@ public class UtilisateurEntityDTOMapperTest {
     {
         UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith@empireGalactique.st","Order#66","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
-        UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
+        UtilisateurEntityFromPast utilisateurEntityFromPastFromDTORegister = new UtilisateurEntityFromPast(utilisateurEnregistrementDTO);
 
         //Simule l'auto génération de l'ID en DB
-        utilisateurEntityFromDTORegister.setId_Utilisateur((long)5);
-        Assert.assertEquals(utilisateurEntityWithAllParamNoProjets,utilisateurEntityFromDTORegister);
+        utilisateurEntityFromPastFromDTORegister.setId_Utilisateur((long)5);
+        Assert.assertEquals(utilisateurEntityFromPastWithAllParamNoProjets, utilisateurEntityFromPastFromDTORegister);
     }
 
     @Test ()
@@ -77,8 +77,8 @@ public class UtilisateurEntityDTOMapperTest {
     {
         UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith@empireGalactique.st","order","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
-        UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
-        Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
+        UtilisateurEntityFromPast utilisateurEntityFromPastFromDTORegister = new UtilisateurEntityFromPast(utilisateurEnregistrementDTO);
+        Set<ConstraintViolation<UtilisateurEntityFromPast>> constraintViolationSets = validator.validate(utilisateurEntityFromPastFromDTORegister);
 
         Assert.assertFalse(constraintViolationSets.isEmpty());
     }
@@ -88,8 +88,8 @@ public class UtilisateurEntityDTOMapperTest {
     {
         UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith","Order#66","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
-        UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
-        Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
+        UtilisateurEntityFromPast utilisateurEntityFromPastFromDTORegister = new UtilisateurEntityFromPast(utilisateurEnregistrementDTO);
+        Set<ConstraintViolation<UtilisateurEntityFromPast>> constraintViolationSets = validator.validate(utilisateurEntityFromPastFromDTORegister);
 
         Assert.assertFalse(constraintViolationSets.isEmpty());
     }
@@ -99,8 +99,8 @@ public class UtilisateurEntityDTOMapperTest {
     {
         UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith","Order#66","Skylwalker","A","D","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
-        UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
-        Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
+        UtilisateurEntityFromPast utilisateurEntityFromPastFromDTORegister = new UtilisateurEntityFromPast(utilisateurEnregistrementDTO);
+        Set<ConstraintViolation<UtilisateurEntityFromPast>> constraintViolationSets = validator.validate(utilisateurEntityFromPastFromDTORegister);
 
         Assert.assertFalse(constraintViolationSets.isEmpty());
     }
@@ -110,8 +110,8 @@ public class UtilisateurEntityDTOMapperTest {
     {
         UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( );
 
-        UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
-        Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
+        UtilisateurEntityFromPast utilisateurEntityFromPastFromDTORegister = new UtilisateurEntityFromPast(utilisateurEnregistrementDTO);
+        Set<ConstraintViolation<UtilisateurEntityFromPast>> constraintViolationSets = validator.validate(utilisateurEntityFromPastFromDTORegister);
 
         Assert.assertFalse(constraintViolationSets.isEmpty());
     }
@@ -121,11 +121,11 @@ public class UtilisateurEntityDTOMapperTest {
     {
         UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith@empireGalactique.st","Order#66","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
-        UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
+        UtilisateurEntityFromPast utilisateurEntityFromPastFromDTORegister = new UtilisateurEntityFromPast(utilisateurEnregistrementDTO);
 
         //Simule l'auto génération de l'ID en DB
-        utilisateurEntityFromDTORegister.setId_Utilisateur((long)5);
-        Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
+        utilisateurEntityFromPastFromDTORegister.setId_Utilisateur((long)5);
+        Set<ConstraintViolation<UtilisateurEntityFromPast>> constraintViolationSets = validator.validate(utilisateurEntityFromPastFromDTORegister);
 
         Assert.assertTrue(constraintViolationSets.isEmpty());
     }
@@ -135,11 +135,11 @@ public class UtilisateurEntityDTOMapperTest {
     {
         UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith@empireGalactique.st","Order#66",null,null,"DarkVador",null,null,null);
 
-        UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
+        UtilisateurEntityFromPast utilisateurEntityFromPastFromDTORegister = new UtilisateurEntityFromPast(utilisateurEnregistrementDTO);
 
         //Simule l'auto génération de l'ID en DB
-        utilisateurEntityFromDTORegister.setId_Utilisateur((long)5);
-        Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
+        utilisateurEntityFromPastFromDTORegister.setId_Utilisateur((long)5);
+        Set<ConstraintViolation<UtilisateurEntityFromPast>> constraintViolationSets = validator.validate(utilisateurEntityFromPastFromDTORegister);
 
         Assert.assertTrue(constraintViolationSets.isEmpty());
     }

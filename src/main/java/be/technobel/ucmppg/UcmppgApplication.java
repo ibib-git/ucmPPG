@@ -38,7 +38,7 @@ public class UcmppgApplication {
 
         System.out.println("GENERATING DATAS");
 
-        UtilisateurEntity utilisateur=new UtilisateurEntity();
+        UtilisateurEntityFromPast utilisateur=new UtilisateurEntityFromPast();
         utilisateur.setPseudo_Utilisateur("baba");
         utilisateur.setEmail("bastien@ppg.com");
         utilisateur.setInformation_supplementaire("c'est un sacré filou");
@@ -48,7 +48,7 @@ public class UcmppgApplication {
 
         utilisateurRepository.save(utilisateur);
 
-        UtilisateurEntity utilisateur2=new UtilisateurEntity();
+        UtilisateurEntityFromPast utilisateur2=new UtilisateurEntityFromPast();
         utilisateur2.setPseudo_Utilisateur("toto");
         utilisateur2.setEmail("thomas@ppg.com");
         utilisateur2.setInformation_supplementaire("il aime pas les champignons");
@@ -58,7 +58,7 @@ public class UcmppgApplication {
 
         utilisateurRepository.save(utilisateur2);
 
-        UtilisateurEntity utilisateur3=new UtilisateurEntity();
+        UtilisateurEntityFromPast utilisateur3=new UtilisateurEntityFromPast();
         utilisateur3.setPseudo_Utilisateur("dada");
         utilisateur3.setEmail("damien@ppg.com");
         utilisateur3.setInformation_supplementaire("il a 32 ans et deux enfants");

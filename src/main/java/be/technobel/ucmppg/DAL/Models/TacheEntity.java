@@ -44,6 +44,6 @@ public class TacheEntity implements Serializable {
     private Set<HistoriqueTacheEntity> historiqueTaches;
 
     @OneToOne
-    private UtilisateurEntity utilisateur_Tache;
+    private UtilisateurEntityFromPast utilisateur_Tache;
 
 }

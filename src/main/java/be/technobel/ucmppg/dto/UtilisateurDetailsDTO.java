@@ -1,7 +1,6 @@
 package be.technobel.ucmppg.dto;
 
-import be.technobel.ucmppg.DAL.Models.UtilisateurEntity;
-import be.technobel.ucmppg.DAL.repositories.UtilisateurRepository;
+import be.technobel.ucmppg.DAL.Models.UtilisateurEntityFromPast;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,15 +20,15 @@ public class UtilisateurDetailsDTO {
     private String infoSuppl;
     private String urlPhoto;
 
-    public UtilisateurDetailsDTO(UtilisateurEntity utilisateurEntity) {
-        this.id = utilisateurEntity.getId_Utilisateur();
-        this.email = utilisateurEntity.getEmail();
-        this.password = utilisateurEntity.getMotDePasse();
-        this.nom = utilisateurEntity.getNom_Utilisateur();
-        this.prenom = utilisateurEntity.getPrenom_Utilisateur();
-        this.pseudo = utilisateurEntity.getPseudo_Utilisateur();
-        this.telephone = utilisateurEntity.getTelephone_Utilisateur();
-        this.infoSuppl = utilisateurEntity.getInformation_supplementaire();
-        this.urlPhoto = utilisateurEntity.getUrlPhoto_Utilisateur();
+    public UtilisateurDetailsDTO(UtilisateurEntityFromPast utilisateurEntityFromPast) {
+        this.id = utilisateurEntityFromPast.getId_Utilisateur();
+        this.email = utilisateurEntityFromPast.getEmail();
+        this.password = utilisateurEntityFromPast.getMotDePasse();
+        this.nom = utilisateurEntityFromPast.getNom_Utilisateur();
+        this.prenom = utilisateurEntityFromPast.getPrenom_Utilisateur();
+        this.pseudo = utilisateurEntityFromPast.getPseudo_Utilisateur();
+        this.telephone = utilisateurEntityFromPast.getTelephone_Utilisateur();
+        this.infoSuppl = utilisateurEntityFromPast.getInformation_supplementaire();
+        this.urlPhoto = utilisateurEntityFromPast.getUrlPhoto_Utilisateur();
     }
 }
