@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTODetails {
+public class UtilisateurDetailsDTO {
 
     private Long id;
     private String email;
@@ -21,7 +21,7 @@ public class UserDTODetails {
     private String infoSuppl;
     private String urlPhoto;
 
-    public UserDTODetails(UtilisateurEntity utilisateurEntity) {
+    public UtilisateurDetailsDTO(UtilisateurEntity utilisateurEntity) {
         this.id = utilisateurEntity.getId_Utilisateur();
         this.email = utilisateurEntity.getEmail();
         this.password = utilisateurEntity.getMotDePasse();

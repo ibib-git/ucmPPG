@@ -1,7 +1,6 @@
 package be.technobel.ucmppg.DAL.Models;
 
-import be.technobel.ucmppg.dto.UserDTOLogin;
-import be.technobel.ucmppg.dto.UserDTORegister;
+import be.technobel.ucmppg.dto.UtilisateurEnregistrementDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,7 +31,7 @@ public class UtilisateurEntity implements Serializable {
     @NotNull(message = "un utilisateur doit posséder un email valide")
     private String email;
 
-    @Column(name ="MotDePasse_Utilisateur", nullable = false)
+    @Column(name ="Mot_De_Passe_Utilisateur", nullable = false)
     @Size(min = 8,message = "Un mot de passe doit être de minimum 8 caractères")
     @NotNull(message = "un utilisateur doit posséder un mot de passe valide")
     @Pattern(regexp = "^(?=.*[\\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\\w!@#$%^&*]{8,}$",
@@ -63,7 +62,7 @@ public class UtilisateurEntity implements Serializable {
     @OneToMany
     private Set<ParticipationEntity> projets_participer;
 
-    public UtilisateurEntity(UserDTORegister user) {
+    public UtilisateurEntity(UtilisateurEnregistrementDTO user) {
         this.email = user.getEmail();
         this.motDePasse= user.getPassword();
         this.pseudo_Utilisateur = user.getPseudo();
