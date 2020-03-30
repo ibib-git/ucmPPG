@@ -40,9 +40,9 @@ public class UcmppgApplication {
 
         UtilisateurEntity utilisateur=new UtilisateurEntity();
         utilisateur.setPseudoUtilisateur("baba");
-        utilisateur.setEmail("bastien@ppg.com");
-        utilisateur.setInformationSupplementaire("c'est un sacré filou");
-        utilisateur.setMotDePasse("Test1234!");
+        utilisateur.setEmailUtilisateur("bastien@ppg.com");
+        utilisateur.setInformationSupplementaireUtilisateur("c'est un sacré filou");
+        utilisateur.setMotDePasseUtilisateur("Test1234!");
         utilisateur.setNomUtilisateur("Housiaux");
         utilisateur.setPrenomUtilisateur("Bastien");
 
@@ -50,9 +50,9 @@ public class UcmppgApplication {
 
         UtilisateurEntity utilisateur2=new UtilisateurEntity();
         utilisateur2.setPseudoUtilisateur("toto");
-        utilisateur2.setEmail("thomas@ppg.com");
-        utilisateur2.setInformationSupplementaire("il aime pas les champignons");
-        utilisateur2.setMotDePasse("Test1234!");
+        utilisateur2.setEmailUtilisateur("thomas@ppg.com");
+        utilisateur2.setInformationSupplementaireUtilisateur("il aime pas les champignons");
+        utilisateur2.setMotDePasseUtilisateur("Test1234!");
         utilisateur2.setNomUtilisateur("Wattecamps");
         utilisateur2.setPrenomUtilisateur("Thomas");
 
@@ -60,9 +60,9 @@ public class UcmppgApplication {
 
         UtilisateurEntity utilisateur3=new UtilisateurEntity();
         utilisateur3.setPseudoUtilisateur("dada");
-        utilisateur3.setEmail("damien@ppg.com");
-        utilisateur3.setInformationSupplementaire("il a 32 ans et deux enfants");
-        utilisateur3.setMotDePasse("Test1234!");
+        utilisateur3.setEmailUtilisateur("damien@ppg.com");
+        utilisateur3.setInformationSupplementaireUtilisateur("il a 32 ans et deux enfants");
+        utilisateur3.setMotDePasseUtilisateur("Test1234!");
         utilisateur3.setNomUtilisateur("Fricot");
         utilisateur3.setPrenomUtilisateur("Damien");
         utilisateurRepository.save(utilisateur3);

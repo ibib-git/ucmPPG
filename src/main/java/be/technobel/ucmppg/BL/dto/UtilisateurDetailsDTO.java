@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTODetails {
+public class UtilisateurDetailsDTO {
 
     private Long id;
     private String email;
@@ -20,15 +20,15 @@ public class UserDTODetails {
     private String infoSuppl;
     private String urlPhoto;
 
-    public UserDTODetails(UtilisateurEntity utilisateurEntity) {
+    public UtilisateurDetailsDTO(UtilisateurEntity utilisateurEntity) {
         this.id = utilisateurEntity.getIdUtilisateur();
-        this.email = utilisateurEntity.getEmail();
-        this.password = utilisateurEntity.getMotDePasse();
+        this.email = utilisateurEntity.getEmailUtilisateur();
+        this.password = utilisateurEntity.getMotDePasseUtilisateur();
         this.nom = utilisateurEntity.getNomUtilisateur();
         this.prenom = utilisateurEntity.getPrenomUtilisateur();
         this.pseudo = utilisateurEntity.getPseudoUtilisateur();
         this.telephone = utilisateurEntity.getTelephoneUtilisateur();
-        this.infoSuppl = utilisateurEntity.getInformationSupplementaire();
+        this.infoSuppl = utilisateurEntity.getInformationSupplementaireUtilisateur();
         this.urlPhoto = utilisateurEntity.getUrlPhotoUtilisateur();
     }
 }

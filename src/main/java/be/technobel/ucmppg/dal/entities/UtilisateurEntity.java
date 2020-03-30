@@ -2,10 +2,14 @@ package be.technobel.ucmppg.dal.entities;
 
 
 import be.technobel.ucmppg.BL.dto.UtilisateurDTO;
-import be.technobel.ucmppg.BL.dto.UserDTORegister;
+import be.technobel.ucmppg.BL.dto.UtilisateurEnregistrementDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -25,18 +29,27 @@ public class UtilisateurEntity implements Serializable {
     private Long idUtilisateur;
 
     @Column(name = "Email_Utilisateur", unique = true , nullable = false)
-    private String email;
+    @Email(message = "Format non conforme pour un email valide")
+    @NotNull(message = "un utilisateur doit posséder un email valide")
+    private String emailUtilisateur;
 
-    @Column(name ="MotDePasse_Utilisateur", nullable = false)
-    private String motDePasse;
+    @Column(name ="Mot_De_Passe_Utilisateur", nullable = false)
+    @Size(min = 8,message = "Un mot de passe doit être de minimum 8 caractères")
+    @NotNull(message = "un utilisateur doit posséder un mot de passe valide")
+    @Pattern(regexp = "^(?=.*[\\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\\w!@#$%^&*]{8,}$",
+            message ="Format non conforme, un mot de passe valide doit contenir au min 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère special (!@#$%^&*)" )
+    private String motDePasseUtilisateur;
 
     @Column(name ="Pseudo_Utilisateur", unique = true, nullable = false)
+    @NotNull(message = "un utilisateur doit posséder un pseudo")
     private String pseudoUtilisateur;
 
     @Column(name="Nom_Utilisateur")
+    @Size(min = 2,message = "un nom doit être de minimum 2 caractères")
     private String nomUtilisateur;
 
     @Column(name="Prenom_Utilisateur")
+    @Size(min = 2,message = "un prénom doit être de minimum 2 caractères")
     private String prenomUtilisateur;
 
     @Column(name = "Numéro_Utilisateur")
@@ -46,35 +59,31 @@ public class UtilisateurEntity implements Serializable {
     private String urlPhotoUtilisateur;
 
     @Column(name="Information")
-    private String informationSupplementaire;
+    private String informationSupplementaireUtilisateur;
 
     @OneToMany
-    private Set<ParticipationEntity> projetsParticiper;
+    private Set<ParticipationEntity> projetsParticiperUtilisateur;
   
     public UtilisateurEntity(UtilisateurDTO user) {
-        this.email = user.getEmail();
-        this.informationSupplementaire = user.getInfoSuppl();
+        this.emailUtilisateur = user.getEmail();
+        this.informationSupplementaireUtilisateur = user.getInfoSuppl();
         this.nomUtilisateur = user.getNom();
         this.prenomUtilisateur = user.getPrenom();
-        this.motDePasse = user.getPassword();
+        this.motDePasseUtilisateur = user.getPassword();
         this.pseudoUtilisateur = user.getPseudo();
         this.urlPhotoUtilisateur = user.getUrlPhoto();
         this.telephoneUtilisateur = user.getTelephone();
     }
   
-    public UtilisateurEntity(UserDTORegister user) {
-        this.email = user.getEmail();
-        this.motDePasse= user.getPassword();
+    public UtilisateurEntity(UtilisateurEnregistrementDTO user) {
+        this.emailUtilisateur = user.getEmail();
+        this.motDePasseUtilisateur = user.getPassword();
         this.pseudoUtilisateur = user.getPseudo();
         this.nomUtilisateur = user.getNom();
         this.prenomUtilisateur = user.getPrenom();
         this.telephoneUtilisateur = user.getTelephone();
-        this.informationSupplementaire = user.getInfoSuppl();
+        this.informationSupplementaireUtilisateur = user.getInfoSuppl();
         this.urlPhotoUtilisateur = user.getUrlPhoto();
     }
 
-   /* public UtilisateurEntity(UserDTOLogin user) {
-        this.email = user.getEmail();
-        this.motDePasse = user.getPassword();
-    }*/
 }
