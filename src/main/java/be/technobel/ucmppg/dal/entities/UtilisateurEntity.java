@@ -2,7 +2,7 @@ package be.technobel.ucmppg.dal.entities;
 
 
 
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
 
 import lombok.*;
