@@ -22,13 +22,13 @@ public class UtilisateurDetailsDTO {
 
     public UtilisateurDetailsDTO(UtilisateurEntity utilisateurEntity) {
         this.id = utilisateurEntity.getIdUtilisateur();
-        this.email = utilisateurEntity.getEmail();
-        this.password = utilisateurEntity.getMotDePasse();
+        this.email = utilisateurEntity.getEmailUtilisateur();
+        this.password = utilisateurEntity.getMotDePasseUtilisateur();
         this.nom = utilisateurEntity.getNomUtilisateur();
         this.prenom = utilisateurEntity.getPrenomUtilisateur();
         this.pseudo = utilisateurEntity.getPseudoUtilisateur();
         this.telephone = utilisateurEntity.getTelephoneUtilisateur();
-        this.infoSuppl = utilisateurEntity.getInformationSupplementaire();
+        this.infoSuppl = utilisateurEntity.getInformationSupplementaireUtilisateur();
         this.urlPhoto = utilisateurEntity.getUrlPhotoUtilisateur();
     }
 }
