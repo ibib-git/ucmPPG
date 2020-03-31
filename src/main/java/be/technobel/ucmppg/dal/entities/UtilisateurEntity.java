@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -21,8 +22,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class UtilisateurEntity implements Serializable {
 
     @Id
@@ -87,4 +86,14 @@ public class UtilisateurEntity implements Serializable {
         this.urlPhotoUtilisateur = user.getUrlPhoto();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof UtilisateurEntity))return false;
+        return ((UtilisateurEntity)o).getIdUtilisateur().equals(this.getIdUtilisateur());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idUtilisateur);
+    }
 }
