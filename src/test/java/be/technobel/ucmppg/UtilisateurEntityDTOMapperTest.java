@@ -1,7 +1,8 @@
 package be.technobel.ucmppg;
 
+
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
-import be.technobel.ucmppg.bl.dto.UtilisateurEnregistrementDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import org.junit.Assert;
 import org.junit.Before;

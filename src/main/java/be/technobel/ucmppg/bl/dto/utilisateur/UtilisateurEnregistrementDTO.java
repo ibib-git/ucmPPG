@@ -1,4 +1,4 @@
-package be.technobel.ucmppg.bl.dto;
+package be.technobel.ucmppg.bl.dto.utilisateur;
 
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import lombok.AllArgsConstructor;
