@@ -1,7 +1,7 @@
 package be.technobel.ucmppg;
 
-import be.technobel.ucmppg.BL.dto.UtilisateurDetailsDTO;
-import be.technobel.ucmppg.BL.dto.UtilisateurEnregistrementDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
+import be.technobel.ucmppg.bl.dto.UtilisateurEnregistrementDTO;
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,7 +31,7 @@ public class UtilisateurEntityDTOMapperTest {
     @Test
     public void utilisateurDetailsDTO_UtilisateurEntityAvecTousParamMaisAucunProjets_EqualsTrue()
     {
-        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO((long) 5, "sith@empireGalactique.st","Order#66","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
+        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO((long) 5, "sith@empireGalactique.st","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
         UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityWithAllParamNoProjets);
 
@@ -41,13 +41,13 @@ public class UtilisateurEntityDTOMapperTest {
     @Test
     public void utilisateurDetailsDTO_UtilisateurEntityAvecChampsRequiredEtResteANull_EqualsTrue()
     {
-        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO(null, "sith@empireGalactique.st","Order#66",null,null,"DarkVador",null,null,null);
+        UtilisateurEnregistrementDTO userDTOExpected = new UtilisateurEnregistrementDTO("sith@empireGalactique.st", "Order#66",null,null,"DarkVador",null,null,null);
         UtilisateurEntity utilisateurEntityWithOnlyRequiredParam = new UtilisateurEntity();
         utilisateurEntityWithOnlyRequiredParam.setEmailUtilisateur("sith@empireGalactique.st");
         utilisateurEntityWithOnlyRequiredParam.setMotDePasseUtilisateur("Order#66");
         utilisateurEntityWithOnlyRequiredParam.setPseudoUtilisateur("DarkVador");
 
-        UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityWithOnlyRequiredParam);
+        UtilisateurEnregistrementDTO utilisateurDetailsDTOFromEntity = new UtilisateurEnregistrementDTO(utilisateurEntityWithOnlyRequiredParam);
 
         Assert.assertEquals(userDTOExpected, utilisateurDetailsDTOFromEntity);
     }

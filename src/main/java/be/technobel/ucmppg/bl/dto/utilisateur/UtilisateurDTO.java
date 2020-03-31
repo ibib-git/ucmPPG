@@ -23,12 +23,12 @@ public class UtilisateurDTO {
     private List<ParticipationDTO> participation=new ArrayList<>();
 
     public UtilisateurDTO(UtilisateurEntity utilisateurEntity) {
-        this.email=utilisateurEntity.getEmail();
+        this.email=utilisateurEntity.getEmailUtilisateur();
         this.nom=utilisateurEntity.getNomUtilisateur();
         this.prenom=utilisateurEntity.getPrenomUtilisateur();
         this.pseudo=utilisateurEntity.getPseudoUtilisateur();
         this.telephone=utilisateurEntity.getTelephoneUtilisateur();
-        this.infoSuppl=utilisateurEntity.getInformationSupplementaire();
+        this.infoSuppl=utilisateurEntity.getInformationSupplementaireUtilisateur();
         this.urlPhoto=utilisateurEntity.getUrlPhotoUtilisateur();
 
     }

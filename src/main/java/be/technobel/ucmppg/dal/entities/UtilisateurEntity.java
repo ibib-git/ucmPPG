@@ -1,9 +1,7 @@
 package be.technobel.ucmppg.dal.entities;
 
-
-
-import be.technobel.ucmppg.BL.dto.UtilisateurDTO;
-import be.technobel.ucmppg.BL.dto.UtilisateurEnregistrementDTO;
+import be.technobel.ucmppg.bl.dto.UtilisateurDetailsDTO;
+import be.technobel.ucmppg.bl.dto.UtilisateurEnregistrementDTO;
 
 import lombok.*;
 
@@ -66,7 +64,7 @@ public class UtilisateurEntity implements Serializable {
     @OneToMany
     private Set<ParticipationEntity> projetsParticiperUtilisateur;
   
-    public UtilisateurEntity(UtilisateurDTO user) {
+    public UtilisateurEntity(UtilisateurDetailsDTO user) {
         this.emailUtilisateur = user.getEmail();
         this.informationSupplementaireUtilisateur = user.getInfoSuppl();
         this.nomUtilisateur = user.getNom();

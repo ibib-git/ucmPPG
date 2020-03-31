@@ -44,7 +44,7 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
             projetEntity.setUtilisateurCreateur(utilisateurEntity);
 
             RoleProjetEntity roleProjetEntity=new RoleProjetEntity();
-            roleProjetEntity.setNomDeRole("admin");
+            roleProjetEntity.setNomDeRole("administrateur");
             Set<DroitProjetEntity> droitProjetEntities=new HashSet<>();
             droitProjetRepository.findAll().forEach(
                     droitProjetEntities::add
