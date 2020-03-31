@@ -12,7 +12,7 @@ import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
 @EnableSwagger2
-@EntityScan({"be.technobel.ucmppg.DAL.entities"})
+@EntityScan({"be.technobel.ucmppg.dal.entities"})
 public class UcmppgApplication {
 
     public static void main(String[] args) {

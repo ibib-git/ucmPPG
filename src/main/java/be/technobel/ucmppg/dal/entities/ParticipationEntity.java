@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ParticipationEntity implements Serializable{
 
     @Id

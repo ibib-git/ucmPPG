@@ -111,6 +111,11 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
 
             projetEntity.setEtapeWorkflows(etapeWorkflowEntities);
 
+            ParticipationEntity participationEntity=new ParticipationEntity();
+            participationEntity.setUtilisateurParticipant(utilisateurEntity);
+            participationEntity.setRoleDuParticipant(roleAdmininistrateurEntity);
+            participationEntity.setProjetParticipation(projetEntity);
+
             roleProjetRepository.save(roleAdmininistrateurEntity);
             roleProjetRepository.save(roleModerateurEntity);
             roleProjetRepository.save(roleMembreEntity);
@@ -119,7 +124,16 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
             etapeWorkflowRepository.save(etapeEnCoursEntity);
             etapeWorkflowRepository.save(etapeFaiteEntity);
 
+
+
             projetRepository.save(projetEntity);
+            participationRepository.save(participationEntity);
+
+            projetEntity.getMembresDuProjet().add(participationEntity);
+            utilisateurEntity.getProjetsParticiperUtilisateur().add(participationEntity);
+
+            projetRepository.save(projetEntity);
+            utilisateurRepository.save(utilisateurEntity);
 
             projetDTO=new ProjetDTO(projetEntity);
 
