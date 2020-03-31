@@ -1,4 +1,4 @@
-package be.technobel.ucmppg.bl.dto.utilisateur;
+package be.technobel.ucmppg.bl.dto;
 
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,7 @@ public class UtilisateurDetailsDTO {
 
     private Long id;
     private String email;
+    private String password;
     private String nom;
     private String prenom;
     private String pseudo;
@@ -22,6 +23,7 @@ public class UtilisateurDetailsDTO {
     public UtilisateurDetailsDTO(UtilisateurEntity utilisateurEntity) {
         this.id = utilisateurEntity.getIdUtilisateur();
         this.email = utilisateurEntity.getEmailUtilisateur();
+        this.password = utilisateurEntity.getMotDePasseUtilisateur();
         this.nom = utilisateurEntity.getNomUtilisateur();
         this.prenom = utilisateurEntity.getPrenomUtilisateur();
         this.pseudo = utilisateurEntity.getPseudoUtilisateur();

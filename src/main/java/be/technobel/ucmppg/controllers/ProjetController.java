@@ -31,7 +31,7 @@ public class ProjetController {
     @Autowired
     private ProjetRepository projetRepository;
     @Autowired
-    private CreationDeProjetService service_de_creation;
+    private CreationDeProjetService creationDeProjetService;
 //    @Autowired
 //    private CreationParDefautService creationParDefautService;
 
@@ -55,6 +55,18 @@ public class ProjetController {
     public ProjetDTO getProjetParId(@PathVariable("id") long id){
         //todo : grosse ligne bien dégueu mais tant que ca plante pas its ok
         return new ProjetDTO(projetRepository.findById(id).get());
+    }
+
+    @PostMapping()
+    public ResponseEntity<ProjetDTO> creerProjet(@RequestBody ProjetCreationDTO projetCreationDTO){
+
+        ResponseEntity<ProjetDTO> projet=null;
+
+        projet= ResponseEntity.ok(creationDeProjetService.execute(projetCreationDTO.getNom(),
+                projetCreationDTO.getDescription(),
+                projetCreationDTO.getIdUtilisateur()));
+
+        return projet;
     }
 
 
