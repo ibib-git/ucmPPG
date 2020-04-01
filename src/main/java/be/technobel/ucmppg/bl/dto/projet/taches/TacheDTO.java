@@ -22,9 +22,9 @@ public class TacheDTO {
     private long id;
     private String nom;
     private String description;
-    private List<Long> tacheEnfants=new ArrayList<>();
+    private List<TacheDTO> tacheEnfants=new ArrayList<>();
     private List<Long> tachesPrecedentes=new ArrayList<>();
-    private Integer estimationTemps; //TODO Faut faire attention Tache int
+    private Integer estimationTemps;
     private UniteDeTempsEnum uniteDeTemps;
     private List<HistoriqueDTO> historique=new ArrayList<>();
     private UtilisateurDetailsDTO utilisateurAffecte;
@@ -35,7 +35,7 @@ public class TacheDTO {
         this.description=tacheEntity.getDescriptionTache();
         this.tacheEnfants=tacheEntity.getTachesEnfants().stream()
                 .map(
-                        TacheEntity::getIdTache
+                        TacheDTO::new
                 ).collect(Collectors.toList());
         this.tachesPrecedentes=tacheEntity.getTachesPrecedentes().stream()
                 .map(
