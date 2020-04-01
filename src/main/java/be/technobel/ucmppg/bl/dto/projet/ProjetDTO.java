@@ -19,24 +19,25 @@ import java.util.stream.Collectors;
 @Setter
 public class ProjetDTO {
 
-    private String nomProjet;
-    private String descriptionProjet;
-    private UtilisateurDetailsDTO utilisateurCreateurProjet;
-    private List<MembreProjetDTO> utilisateursProjet=new ArrayList<>();
-    private List<EtapeWorkflowDTO> colonnesDuProjet =new ArrayList<>();
+    private String nom;
+    private String description;
+    private UtilisateurDetailsDTO utilisateurCreateur;
+    private List<MembreProjetDTO> utilisateurMembres =new ArrayList<>();
+    private List<EtapeWorkflowDTO> etapeWorkflows =new ArrayList<>();
 
     public ProjetDTO(ProjetEntity projetEntity) {
-        this.nomProjet=projetEntity.getNomDeProjet();
-        this.descriptionProjet=projetEntity.getDescriptionDeProjet();
-        this.utilisateurCreateurProjet=new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());
+        this.nom =projetEntity.getNomDeProjet();
+        this.description =projetEntity.getDescriptionDeProjet();
+        this.utilisateurCreateur =new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());
         projetEntity.getMembresDuProjet().forEach(
                 participationEntity -> {
-                    this.utilisateursProjet.add(new MembreProjetDTO(participationEntity));
+                    this.utilisateurMembres.add(new MembreProjetDTO(participationEntity));
                 }
         );
-        this.colonnesDuProjet=projetEntity.getEtapeWorkflows().stream()
+        this.etapeWorkflows =projetEntity.getEtapeWorkflows().stream()
                 .map(
                         EtapeWorkflowDTO::new
                 ).collect(Collectors.toList());
     }
+
 }

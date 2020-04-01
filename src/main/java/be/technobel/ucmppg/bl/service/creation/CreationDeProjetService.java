@@ -19,8 +19,6 @@ import java.util.Set;
 @Service
 public class CreationDeProjetService implements CreationDeProjetInterface {
 
-//    private CreationParDefautService creation;
-
     @Autowired
     private UtilisateurRepository utilisateurRepository;
     @Autowired

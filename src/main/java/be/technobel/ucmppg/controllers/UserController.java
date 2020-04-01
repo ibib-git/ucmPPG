@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UtilisateurDetailsDTO> loginUser (@RequestBody UtilisateurConnexionDTO utilisateurConnexionDTO)
     {
-        UtilisateurDetailsDTO utilisateurDetailsDTO = new UtilisateurDetailsDTO(Objects.requireNonNull(utilisateurRepository.findByEmailUtilisateurAndMotDePasseUtilisateur(utilisateurConnexionDTO.getEmail(), utilisateurConnexionDTO.getPassword()).orElse(null)));
+        UtilisateurDetailsDTO utilisateurDetailsDTO = new UtilisateurDetailsDTO(Objects.requireNonNull(utilisateurRepository.findByEmailUtilisateurAndMotDePasseUtilisateur(utilisateurConnexionDTO.getMail(), utilisateurConnexionDTO.getMotDePasse()).orElse(null)));
         return ResponseEntity.ok(utilisateurDetailsDTO);
     }
 

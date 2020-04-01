@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UtilisateurEnregistrementDTO {
 
-    private String email;
-    private String password;
+    private String mail;
+    private String motDePasse;
     private String nom;
     private String prenom;
     private String pseudo;

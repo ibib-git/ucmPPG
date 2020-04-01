@@ -67,7 +67,7 @@ public class UtilisateurEntity implements Serializable {
     private Set<ParticipationEntity> projetsParticiperUtilisateur;
   
     public UtilisateurEntity(UtilisateurDTO user) {
-        this.emailUtilisateur = user.getEmail();
+        this.emailUtilisateur = user.getMail();
         this.informationSupplementaireUtilisateur = user.getInfoSuppl();
         this.nomUtilisateur = user.getNom();
         this.prenomUtilisateur = user.getPrenom();
@@ -77,8 +77,8 @@ public class UtilisateurEntity implements Serializable {
     }
   
     public UtilisateurEntity(UtilisateurEnregistrementDTO user) {
-        this.emailUtilisateur = user.getEmail();
-        this.motDePasseUtilisateur = user.getPassword();
+        this.emailUtilisateur = user.getMail();
+        this.motDePasseUtilisateur = user.getMotDePasse();
         this.pseudoUtilisateur = user.getPseudo();
         this.nomUtilisateur = user.getNom();
         this.prenomUtilisateur = user.getPrenom();

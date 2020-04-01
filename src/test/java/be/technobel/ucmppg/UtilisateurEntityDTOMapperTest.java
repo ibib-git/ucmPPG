@@ -32,7 +32,7 @@ public class UtilisateurEntityDTOMapperTest {
     @Test
     public void utilisateurDetailsDTO_UtilisateurEntityAvecTousParamMaisAucunProjets_EqualsTrue()
     {
-        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO((long) 5, "sith@empireGalactique.st","Order#66","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
+        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO( "sith@empireGalactique.st","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
         UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityWithAllParamNoProjets);
 
@@ -42,10 +42,9 @@ public class UtilisateurEntityDTOMapperTest {
     @Test
     public void utilisateurDetailsDTO_UtilisateurEntityAvecChampsRequiredEtResteANull_EqualsTrue()
     {
-        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO(null, "sith@empireGalactique.st","Order#66",null,null,"DarkVador",null,null,null);
+        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO( "sith@empireGalactique.st",null,null,"DarkVador",null,null,null);
         UtilisateurEntity utilisateurEntityWithOnlyRequiredParam = new UtilisateurEntity();
         utilisateurEntityWithOnlyRequiredParam.setEmailUtilisateur("sith@empireGalactique.st");
-        utilisateurEntityWithOnlyRequiredParam.setMotDePasseUtilisateur("Order#66");
         utilisateurEntityWithOnlyRequiredParam.setPseudoUtilisateur("DarkVador");
 
         UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityWithOnlyRequiredParam);

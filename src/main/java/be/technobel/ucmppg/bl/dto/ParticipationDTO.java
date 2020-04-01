@@ -18,7 +18,4 @@ public class ParticipationDTO {
     private ProjetDTO projet;
     private RoleDTO role;
 
-    public ParticipationDTO(ParticipationEntity participationEntity) {
-
-    }
 }

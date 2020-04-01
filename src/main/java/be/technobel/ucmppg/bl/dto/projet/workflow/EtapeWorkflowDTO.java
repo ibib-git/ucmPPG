@@ -15,27 +15,27 @@ import java.util.List;
 @Setter
 public class EtapeWorkflowDTO {
 
-    private String nomWorkflow;
-    private String descriptionWorkflow;
+    private String nom;
+    private String description;
     private boolean estPrenable;
-    private List<RoleDTO> rolesAffectableWorkflow=new ArrayList<>();
+    private List<RoleDTO> roleAffectables =new ArrayList<>();
     private ConstrainteAffectationEnum contrainte;
-    private List<TacheDTO> tacheWorkflow=new ArrayList<>();
+    private List<TacheDTO> taches =new ArrayList<>();
 
     public EtapeWorkflowDTO(EtapeWorkflowEntity etapeWorkflowEntity) {
-        this.nomWorkflow=etapeWorkflowEntity.getNomEtapeWorkflow();
-        this.descriptionWorkflow=etapeWorkflowEntity.getNomEtapeWorkflow();
+        this.nom =etapeWorkflowEntity.getNomEtapeWorkflow();
+        this.description =etapeWorkflowEntity.getNomEtapeWorkflow();
         this.estPrenable=etapeWorkflowEntity.isEstPrenableEtapeWorkflow();
         etapeWorkflowEntity.getRolesAutorisation().forEach(
                 roleProjetEntity -> {
-                    this.rolesAffectableWorkflow.add(new RoleDTO(roleProjetEntity));
+                    this.roleAffectables.add(new RoleDTO(roleProjetEntity));
                 }
         );
 
         this.contrainte=etapeWorkflowEntity.getConstrainteAffectation();
         etapeWorkflowEntity.getTaches().forEach(
                 tacheEntity -> {
-                    this.tacheWorkflow.add(new TacheDTO(tacheEntity));
+                    this.taches.add(new TacheDTO(tacheEntity));
                 }
         );
     }

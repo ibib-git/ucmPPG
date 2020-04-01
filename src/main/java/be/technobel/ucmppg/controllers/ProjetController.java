@@ -1,15 +1,14 @@
 package be.technobel.ucmppg.controllers;
 
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
-import be.technobel.ucmppg.bl.dto.projet.ProjetCreationDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
-import be.technobel.ucmppg.dal.entities.ProjetEntity;
+import be.technobel.ucmppg.bl.service.projet.RecuperationProjetService;
 import be.technobel.ucmppg.dal.repositories.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -35,8 +34,8 @@ public class ProjetController {
     private ProjetRepository projetRepository;
     @Autowired
     private CreationDeProjetService service_de_creation;
-//    @Autowired
-//    private CreationParDefautService creationParDefautService;
+    @Autowired
+    private RecuperationProjetService recuperationProjetService;
 
 
     //todo : supprimer lorsque cette méthode n'est plus nécessaire
@@ -55,9 +54,11 @@ public class ProjetController {
     }
     @ApiOperation(value = "Appelé pour récupérer un projet bien précis")
     @GetMapping("/{id}")
-    public ProjetDTO getProjetParId(@PathVariable("id") long id){
-        //todo : grosse ligne bien dégueu mais tant que ca plante pas its ok
-        return new ProjetDTO(projetRepository.findById(id).get());
+    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id){
+
+        ProjetDTO projetDTO = recuperationProjetService.getProjetById(id);
+
+        return (projetDTO != null ? ResponseEntity.ok(projetDTO) : new ResponseEntity("Pas de projet existant", HttpStatus.NOT_FOUND) );
     }
 
 

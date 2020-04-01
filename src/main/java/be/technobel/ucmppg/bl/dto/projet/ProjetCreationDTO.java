@@ -14,19 +14,4 @@ public class ProjetCreationDTO {
     private String nom;
     private String description;
 
-
-    //private ProjetDTO projetParDefaut;
-    //private List<String> emailUtilisateur;
-
-//    public ProjetDTO getProjetParDefaut() {
-//        return projetParDefaut;
-//    }
-//
-//    public void setProjetParDefaut(ProjetDTO projetParDefaut) {
-//        this.projetParDefaut = projetParDefaut;
-//    }
-//
-//    public List<String> getEmailUtilisateur() {
-//        return emailUtilisateur;
-//    }
 }
