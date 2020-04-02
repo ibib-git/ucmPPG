@@ -18,7 +18,7 @@ public class ParticipationEntity implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idParticipation;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private RoleProjetEntity roleDuParticipant;
 
     @OneToOne

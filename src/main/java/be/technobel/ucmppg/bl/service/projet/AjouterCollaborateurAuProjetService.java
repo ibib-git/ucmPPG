@@ -10,7 +10,10 @@ import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
+import java.util.Iterator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AjouterCollaborateurAuProjetService {
@@ -23,37 +26,29 @@ public class AjouterCollaborateurAuProjetService {
     private ParticipationRepository participationRepository;
 
     public boolean execute(long idProjet,String emailCollaborateur){
-        System.out.println(idProjet);
         Optional<ProjetEntity> projetOptionalEntity= projetRepository.findById(idProjet);
-        System.out.println(projetOptionalEntity.get());
-        System.out.println(emailCollaborateur);
         Optional<UtilisateurEntity> utilisateurOptionalEntity=utilisateurRepository.findByEmailUtilisateur(emailCollaborateur);
-        System.out.println(utilisateurOptionalEntity.get());
         if(projetOptionalEntity.isPresent() && utilisateurOptionalEntity.isPresent()){
             ProjetEntity projetEntity=projetOptionalEntity.get();
             UtilisateurEntity utilisateurEntity=utilisateurOptionalEntity.get();
 
-            projetEntity.getMembresDuProjet();
-
             //recherche du role membre
-            RoleProjetEntity roleMembre=projetEntity.getRolesProjet()
-                    //on cherche le role membre et on le stocke
-                    .stream()
-                        .filter(
-                                role->role.getNomDeRole().equals("membre")
-                        ).findFirst()
-                    //si ce role n'existe pas on stocke le premier role de la liste à défaut
-                    .orElse(
-                            projetEntity.getRolesProjet()
-                                    .stream()
-                                    .findFirst()
-                                    .get()
-                    );
+            RoleProjetEntity roleProjetEntity=null;
+            Iterator<RoleProjetEntity> iterateurRole=projetEntity.getRolesProjet().iterator();
+            while(roleProjetEntity==null && iterateurRole.hasNext()){
+                RoleProjetEntity next=iterateurRole.next();
+                if(next.getNomDeRole().equals("membre"))roleProjetEntity=next;
+            };
+            if(roleProjetEntity==null){
+                if(projetEntity.getRolesProjet().size()>0){
+                    roleProjetEntity=projetEntity.getRolesProjet().iterator().next();
+                }
+            }
 
             ParticipationEntity participationEntity=new ParticipationEntity();
             participationEntity.setProjetParticipation(projetEntity);
             participationEntity.setUtilisateurParticipant(utilisateurEntity);
-            participationEntity.setRoleDuParticipant(roleMembre);
+            participationEntity.setRoleDuParticipant(roleProjetEntity);
 
             projetEntity.getMembresDuProjet().add(participationEntity);
             utilisateurEntity.getProjetsParticiperUtilisateur().add(participationEntity);
