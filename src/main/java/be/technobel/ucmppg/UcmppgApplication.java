@@ -248,6 +248,19 @@ public class UcmppgApplication {
         projetRepository.save(projet1);
 
         ProjetDTO test = service.execute("divan","sieste",utilisateur.getIdUtilisateur());
+
+        UtilisateurEntity utilisateurTest = new UtilisateurEntity();
+        utilisateurTest.setEmailUtilisateur("Gros@gmail.com");
+        utilisateurTest.setMotDePasseUtilisateur("Test1234&");
+        utilisateurTest.setPseudoUtilisateur("Hamburger");
+        utilisateurTest.setNomUtilisateur("Mac");
+        utilisateurTest.setPrenomUtilisateur("Donald");
+        utilisateurTest.setInformationSupplementaireUtilisateur("la vie estle gras");
+        utilisateurTest.setTelephoneUtilisateur("0123456789");
+
+        utilisateurRepository.save(utilisateurTest);
+
+
     }
 
 }

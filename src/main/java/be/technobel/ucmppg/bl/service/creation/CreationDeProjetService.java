@@ -11,7 +11,6 @@ import java.util.*;
 @Service
 public class CreationDeProjetService implements CreationDeProjetInterface {
 
-//    private CreationParDefautService creation;
     @Autowired
     private RoleProjetRepository roleProjetRepository;
     @Autowired

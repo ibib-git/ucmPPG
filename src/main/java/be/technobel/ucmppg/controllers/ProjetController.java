@@ -71,22 +71,6 @@ public class ProjetController {
         return projet;
     }
 
-
-    /* méthode pour créer un projet et l'envoyer dans la DB */
-//    @PostMapping("/enregistrementProjet")
-//    public ResponseEntity<ProjetEntity> postCreationProjet(@RequestBody ProjetCreationDTO projet_DTO){
-//
-////        ProjetEntity projetFinal = new ProjetEntity(new ProjetDTO());
-//        /*
-//        List<ParticipationEntity> participant = Service_Creation_De_Projet.Creation_de_Liste_Participation(projet_dao.getEmail_utilisateur());
-//        projetFinal.setMembresDuProjet(participant);
-//        projetFinal.membresDuProjet.add(new ParticipationEntity(new RoleProjetEntity(new Role_DTO(creation_par_defaut.administrateur_projet())),projetFinal.getUtilisateurCreateur,projetFinal));
-//         */
-//        return ResponseEntity.ok(projetRepository.save(projetFinal));
-//    }
-
-
-
     @PostMapping("/ajoutCollaborateur")
     public ResponseEntity<Boolean> ajouterCollaborateurProjet(@RequestBody AjoutCollaborateurDTO ajoutCollaborateurDTO){
 

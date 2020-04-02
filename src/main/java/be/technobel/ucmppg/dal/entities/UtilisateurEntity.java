@@ -74,6 +74,7 @@ public class UtilisateurEntity implements Serializable {
         this.pseudoUtilisateur = user.getPseudo();
         this.urlPhotoUtilisateur = user.getUrlPhoto();
         this.telephoneUtilisateur = user.getTelephone();
+        this.projetsParticiperUtilisateur = new HashSet<>();
     }
   
     public UtilisateurEntity(UtilisateurEnregistrementDTO user) {
@@ -85,6 +86,7 @@ public class UtilisateurEntity implements Serializable {
         this.telephoneUtilisateur = user.getTelephone();
         this.informationSupplementaireUtilisateur = user.getInfoSuppl();
         this.urlPhotoUtilisateur = user.getUrlPhoto();
+        this.projetsParticiperUtilisateur = new HashSet<>();
     }
 
     @Override
