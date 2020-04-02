@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class CreationDeProjetService implements CreationDeProjetInterface {
@@ -111,7 +110,7 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
 
             projetEntity.setEtapeWorkflows(etapeWorkflowEntities);
 
-            ParticipationEntity participationEntity=new ParticipationEntity();
+            ParticipationEntity participationEntity = new ParticipationEntity();
             participationEntity.setUtilisateurParticipant(utilisateurEntity);
             participationEntity.setRoleDuParticipant(roleAdmininistrateurEntity);
             participationEntity.setProjetParticipation(projetEntity);
@@ -123,8 +122,6 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
             etapeWorkflowRepository.save(etapeAFaireEntity);
             etapeWorkflowRepository.save(etapeEnCoursEntity);
             etapeWorkflowRepository.save(etapeFaiteEntity);
-
-
 
             projetRepository.save(projetEntity);
             participationRepository.save(participationEntity);
@@ -140,4 +137,5 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
         }
         return projetDTO;
     }
+
 }

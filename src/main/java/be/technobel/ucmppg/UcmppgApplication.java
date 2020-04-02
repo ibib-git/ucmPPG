@@ -1,5 +1,8 @@
 package be.technobel.ucmppg;
 
+import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
+import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+
+import javax.servlet.http.Part;
+import java.util.HashSet;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -33,6 +39,9 @@ public class UcmppgApplication {
     @Autowired
     private ProjetRepository projetRepository;
 
+    @Autowired
+    private CreationDeProjetService service;
+
     @EventListener(ApplicationReadyEvent.class)
     public void generateData(){
 
@@ -45,6 +54,7 @@ public class UcmppgApplication {
         utilisateur.setMotDePasseUtilisateur("Test1234!");
         utilisateur.setNomUtilisateur("Housiaux");
         utilisateur.setPrenomUtilisateur("Bastien");
+        utilisateur.setProjetsParticiperUtilisateur(new HashSet<ParticipationEntity>());
 
         utilisateurRepository.save(utilisateur);
 
@@ -55,6 +65,7 @@ public class UcmppgApplication {
         utilisateur2.setMotDePasseUtilisateur("Test1234!");
         utilisateur2.setNomUtilisateur("Wattecamps");
         utilisateur2.setPrenomUtilisateur("Thomas");
+        utilisateur2.setProjetsParticiperUtilisateur(new HashSet<ParticipationEntity>());
 
         utilisateurRepository.save(utilisateur2);
 
@@ -65,6 +76,8 @@ public class UcmppgApplication {
         utilisateur3.setMotDePasseUtilisateur("Test1234!");
         utilisateur3.setNomUtilisateur("Fricot");
         utilisateur3.setPrenomUtilisateur("Damien");
+        utilisateur3.setProjetsParticiperUtilisateur(new HashSet<ParticipationEntity>());
+
         utilisateurRepository.save(utilisateur3);
 
         DroitProjetEntity gererTache=new DroitProjetEntity();
@@ -123,6 +136,7 @@ public class UcmppgApplication {
         participationRepository.save(participation);
 
         projet1.getMembresDuProjet().add(participation);
+        utilisateur.getProjetsParticiperUtilisateur().add(participation);
 
         ParticipationEntity participation2=new ParticipationEntity();
         participation2.setUtilisateurParticipant(utilisateur2);
@@ -224,7 +238,6 @@ public class UcmppgApplication {
         tacheRepository.save(tache1);
         tacheRepository.save(tache3);
 
-
         todo.getTaches().add(tache2);
         todo.getTaches().add(tache3);
         done.getTaches().add(tache1);
@@ -233,5 +246,8 @@ public class UcmppgApplication {
         etapeWorkflowRepository.save(done);
 
         projetRepository.save(projet1);
+
+        ProjetDTO test = service.execute("divan","sieste",utilisateur.getIdUtilisateur());
     }
+
 }
