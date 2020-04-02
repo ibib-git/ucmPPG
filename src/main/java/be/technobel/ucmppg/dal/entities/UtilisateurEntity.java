@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,13 +21,12 @@ import java.util.Set;
 @Table(name = "Tableau_Utilisateur")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class UtilisateurEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_utilisateur")
+    @Column(name = "Id_utilisateur",unique = true)
     private Long idUtilisateur;
 
     @Column(name = "Email_Utilisateur", unique = true , nullable = false)
@@ -62,9 +62,13 @@ public class UtilisateurEntity implements Serializable {
     @Column(name="Information")
     private String informationSupplementaireUtilisateur;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<ParticipationEntity> projetsParticiperUtilisateur;
-  
+
+    public UtilisateurEntity() {
+        this.projetsParticiperUtilisateur=new HashSet<>();
+    }
+
     public UtilisateurEntity(UtilisateurDetailsDTO user) {
         this.emailUtilisateur = user.getEmail();
         this.informationSupplementaireUtilisateur = user.getInfoSuppl();
