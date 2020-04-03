@@ -12,17 +12,17 @@ import java.util.List;
 @AllArgsConstructor
 public class UtilisateurDTO {
 
-    private String email;
+    private String mail;
     private String nom;
     private String prenom;
     private String pseudo;
     private String telephone;
     private String infoSuppl;
     private String urlPhoto;
-    private List<ParticipationDTO> participation=new ArrayList<>();
+    private List<ParticipationDTO> participations =new ArrayList<>();
 
     public UtilisateurDTO(UtilisateurEntity utilisateurEntity) {
-        this.email=utilisateurEntity.getEmailUtilisateur();
+        this.mail =utilisateurEntity.getEmailUtilisateur();
         this.nom=utilisateurEntity.getNomUtilisateur();
         this.prenom=utilisateurEntity.getPrenomUtilisateur();
         this.pseudo=utilisateurEntity.getPseudoUtilisateur();

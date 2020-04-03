@@ -2,10 +2,11 @@ package be.technobel.ucmppg.dal.entities;
 
 
 
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
 
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -22,6 +23,7 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 public class UtilisateurEntity implements Serializable {
 
     @Id
@@ -41,7 +43,7 @@ public class UtilisateurEntity implements Serializable {
             message ="Format non conforme, un mot de passe valide doit contenir au min 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère special (!@#$%^&*)" )
     private String motDePasseUtilisateur;
 
-    @Column(name ="Pseudo_Utilisateur", unique = true, nullable = false)
+    @Column(name ="Pseudo_Utilisateur",unique = true, nullable = false)
     @NotNull(message = "un utilisateur doit posséder un pseudo")
     private String pseudoUtilisateur;
 
@@ -73,6 +75,7 @@ public class UtilisateurEntity implements Serializable {
     public UtilisateurEntity() {
         this.projetsParticiperUtilisateur=new HashSet<>();
     }
+
     public UtilisateurEntity(UtilisateurDetailsDTO user) {
         this.emailUtilisateur = user.getEmail();
         this.informationSupplementaireUtilisateur = user.getInfoSuppl();
@@ -85,8 +88,8 @@ public class UtilisateurEntity implements Serializable {
     }
   
     public UtilisateurEntity(UtilisateurEnregistrementDTO user) {
-        this.emailUtilisateur = user.getEmail();
-        this.motDePasseUtilisateur = user.getPassword();
+        this.emailUtilisateur = user.getMail();
+        this.motDePasseUtilisateur = user.getMotDePasse();
         this.pseudoUtilisateur = user.getPseudo();
         this.nomUtilisateur = user.getNom();
         this.prenomUtilisateur = user.getPrenom();

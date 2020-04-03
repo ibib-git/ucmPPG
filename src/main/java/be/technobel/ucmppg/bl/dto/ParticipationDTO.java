@@ -26,4 +26,5 @@ public class ParticipationDTO {
         this.projet = new ProjetDTO(participationEntity.getProjetParticipation());
         this.role = new RoleDTO(participationEntity.getRoleDuParticipant());
     }
+
 }

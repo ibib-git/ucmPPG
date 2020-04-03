@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UtilisateurDetailsDTO {
 
-    private Long id;
-    private String email;
+    private String mail;
     private String nom;
     private String prenom;
     private String pseudo;
@@ -20,8 +19,7 @@ public class UtilisateurDetailsDTO {
     private String urlPhoto;
 
     public UtilisateurDetailsDTO(UtilisateurEntity utilisateurEntity) {
-        this.id = utilisateurEntity.getIdUtilisateur();
-        this.email = utilisateurEntity.getEmailUtilisateur();
+        this.mail = utilisateurEntity.getEmailUtilisateur();
         this.nom = utilisateurEntity.getNomUtilisateur();
         this.prenom = utilisateurEntity.getPrenomUtilisateur();
         this.pseudo = utilisateurEntity.getPseudoUtilisateur();

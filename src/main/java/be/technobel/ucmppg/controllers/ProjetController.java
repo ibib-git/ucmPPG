@@ -4,15 +4,21 @@ import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.ProjetCreationDTO;
 import be.technobel.ucmppg.bl.dto.projet.collaborateur.AjoutCollaborateurDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
+import be.technobel.ucmppg.bl.service.projet.RecuperationProjetService;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
 import be.technobel.ucmppg.dal.repositories.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Api(value = "API pour les opérations CRUD sur un/les projets ")
 @RestController
 @RequestMapping("/projet")
 @CrossOrigin
@@ -31,6 +37,9 @@ public class ProjetController {
     @Autowired
     private ProjetRepository projetRepository;
     @Autowired
+    private CreationDeProjetService service_de_creation;
+    @Autowired
+    private RecuperationProjetService recuperationProjetService;
     private CreationDeProjetService creationDeProjetService;
     @Autowired
     private AjouterCollaborateurAuProjetService ajouterCollaborateurAuProjetService;
@@ -52,11 +61,13 @@ public class ProjetController {
         );
         return projetDTOS;
     }
-
+    @ApiOperation(value = "Appelé pour récupérer un projet bien précis")
     @GetMapping("/{id}")
-    public ProjetDTO getProjetParId(@PathVariable("id") long id){
-        //todo : grosse ligne bien dégueu mais tant que ca plante pas its ok
-        return new ProjetDTO(projetRepository.findById(id).get());
+    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id){
+
+        ProjetDTO projetDTO = recuperationProjetService.getProjetById(id);
+
+        return (projetDTO != null ? ResponseEntity.ok(projetDTO) : new ResponseEntity("Pas de projet existant", HttpStatus.NOT_FOUND) );
     }
 
     @PostMapping()

@@ -15,9 +15,9 @@ import lombok.Setter;
 @Setter
 public class HistoriqueDTO {
 
-    private UtilisateurDTO utilisateurTache;
-    private EtapeWorkflowDTO etapeWorflowTache;
-    private TacheDTO tacheHistorique;
+    private UtilisateurDTO utilisateur;
+    private EtapeWorkflowDTO etapeWorflow;
+    private TacheDTO tache;
 
     public HistoriqueDTO(HistoriqueTacheEntity historiqueTacheEntity){
         this.utilisateurTache = new UtilisateurDTO(historiqueTacheEntity.getUtilisateur_Tache_historique());

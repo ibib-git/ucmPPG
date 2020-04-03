@@ -30,17 +30,14 @@ public class ProjetDTO {
 
     public ProjetDTO(ProjetEntity projetEntity) {
         this.nomProjet=projetEntity.getNomDeProjet();
-
         this.descriptionProjet=projetEntity.getDescriptionDeProjet();
-
         this.utilisateurCreateurProjet=new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());
-
         projetEntity.getMembresDuProjet().forEach(
                 participationEntity -> {
-                    this.utilisateursProjet.add(new MembreProjetDTO(participationEntity));
+                    this.utilisateurMembres.add(new MembreProjetDTO(participationEntity));
                 }
         );
-        this.colonnesDuProjet=projetEntity.getEtapeWorkflows().stream()
+        this.etapeWorkflows =projetEntity.getEtapeWorkflows().stream()
                 .map(
                         EtapeWorkflowDTO::new
                 ).collect(Collectors.toList());
@@ -51,4 +48,5 @@ public class ProjetDTO {
                 ).collect(Collectors.toList());
 
     }
+
 }

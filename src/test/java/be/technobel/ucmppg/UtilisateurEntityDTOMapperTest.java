@@ -31,7 +31,7 @@ public class UtilisateurEntityDTOMapperTest {
     @Test
     public void utilisateurDetailsDTO_UtilisateurEntityAvecTousParamMaisAucunProjets_EqualsTrue()
     {
-        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO((long) 5, "sith@empireGalactique.st","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
+        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO( "sith@empireGalactique.st","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
         UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityWithAllParamNoProjets);
 
@@ -41,13 +41,12 @@ public class UtilisateurEntityDTOMapperTest {
     @Test
     public void utilisateurDetailsDTO_UtilisateurEntityAvecChampsRequiredEtResteANull_EqualsTrue()
     {
-        UtilisateurEnregistrementDTO userDTOExpected = new UtilisateurEnregistrementDTO("sith@empireGalactique.st", "Order#66",null,null,"DarkVador",null,null,null);
+        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO( "sith@empireGalactique.st",null,null,"DarkVador",null,null,null);
         UtilisateurEntity utilisateurEntityWithOnlyRequiredParam = new UtilisateurEntity();
         utilisateurEntityWithOnlyRequiredParam.setEmailUtilisateur("sith@empireGalactique.st");
-        utilisateurEntityWithOnlyRequiredParam.setMotDePasseUtilisateur("Order#66");
         utilisateurEntityWithOnlyRequiredParam.setPseudoUtilisateur("DarkVador");
 
-        UtilisateurEnregistrementDTO utilisateurDetailsDTOFromEntity = new UtilisateurEnregistrementDTO(utilisateurEntityWithOnlyRequiredParam);
+        UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityWithOnlyRequiredParam);
 
         Assert.assertEquals(userDTOExpected, utilisateurDetailsDTOFromEntity);
     }
@@ -78,36 +77,68 @@ public class UtilisateurEntityDTOMapperTest {
     }
 
     @Test ()
-    public void utilisateurEntity_UtilisateurEnregistrementDTOAvecMotDePasseNeCorrespondPasRegex_ConstraintViolationIsEmptyPatternFalse()
+    public void utilisateurEntity_UtilisateurEnregistrementDTOAvecMotDePasseNeCorrespondPasRegex_ConstraintViolationMotDePasseUtilisateurTrue()
     {
         UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith@empireGalactique.st","order","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
         UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
         Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
 
-        Assert.assertFalse(constraintViolationSets.isEmpty());
+        boolean isPresent = false;
+        for (ConstraintViolation c: constraintViolationSets) {
+
+            isPresent = c.getPropertyPath().toString().equals("motDePasseUtilisateur");
+        }
+
+        Assert.assertTrue(isPresent);
     }
 
     @Test ()
-    public void utilisateurEntity_UtilisateurEnregistrementDTOAvecEmailNeCorrespondPasRegex_ConstraintViolationIsEmptyEmailFalse()
+    public void utilisateurEntity_UtilisateurEnregistrementDTOAvecEmailNeCorrespondPasRegex_ConstraintViolationEmailUtilisateurTrue()
     {
         UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith","Order#66","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
         UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
         Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
+        boolean isPresent = false;
+        for (ConstraintViolation c: constraintViolationSets) {
 
-        Assert.assertFalse(constraintViolationSets.isEmpty());
+            isPresent = c.getPropertyPath().toString().equals("emailUtilisateur");
+        }
+
+        Assert.assertTrue(isPresent);
     }
 
     @Test ()
-    public void utilisateurEntity_UtilisateurEnregistrementDTOAvecNomEtPrenomEnDessousLongueurMin_ConstraintViolationIsEmptyMinFalse()
+    public void utilisateurEntity_UtilisateurEnregistrementDTOAvecNomEnDessousLongueurMin_ConstraintViolationNomUtilisateurTrue()
     {
-        UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith","Order#66","Skylwalker","A","D","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
+        UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith@empireGalactique.st","Order#66","S","Anakin","sith","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
         UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
         Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
+        boolean isPresent = false;
+        for (ConstraintViolation c: constraintViolationSets) {
 
-        Assert.assertFalse(constraintViolationSets.isEmpty());
+            isPresent = c.getPropertyPath().toString().equals("nomUtilisateur");
+        }
+
+        Assert.assertTrue(isPresent);
+    }
+
+    @Test ()
+    public void utilisateurEntity_UtilisateurEnregistrementDTOAvecPrenomEnDessousLongueurMin_ConstraintViolationPrenomUtilisateurTrue()
+    {
+        UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith@empireGalactique.st","Order#66","Skywalker","A","sith","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
+
+        UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
+        Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
+        boolean isPresent = false;
+        for (ConstraintViolation c: constraintViolationSets) {
+
+            isPresent = c.getPropertyPath().toString().equals("prenomUtilisateur");
+        }
+
+        Assert.assertTrue(isPresent);
     }
 
     @Test ()
@@ -128,8 +159,6 @@ public class UtilisateurEntityDTOMapperTest {
 
         UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
 
-        //Simule l'auto génération de l'ID en DB
-        utilisateurEntityFromDTORegister.setIdUtilisateur((long)5);
         Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
 
         Assert.assertTrue(constraintViolationSets.isEmpty());
@@ -142,8 +171,6 @@ public class UtilisateurEntityDTOMapperTest {
 
         UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
 
-        //Simule l'auto génération de l'ID en DB
-        utilisateurEntityFromDTORegister.setIdUtilisateur((long)5);
         Set<ConstraintViolation<UtilisateurEntity>> constraintViolationSets = validator.validate(utilisateurEntityFromDTORegister);
 
         Assert.assertTrue(constraintViolationSets.isEmpty());
