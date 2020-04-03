@@ -20,8 +20,8 @@ public class UtilisateurEnregistrementDTO {
     private String urlPhoto;
 
     public UtilisateurEnregistrementDTO(UtilisateurEntity utilisateurEntity) {
-        this.email=utilisateurEntity.getEmailUtilisateur();
-        this.password=utilisateurEntity.getMotDePasseUtilisateur();
+        this.mail=utilisateurEntity.getEmailUtilisateur();
+        this.motDePasse=utilisateurEntity.getMotDePasseUtilisateur();
         this.nom=utilisateurEntity.getNomUtilisateur();
         this.prenom=utilisateurEntity.getPrenomUtilisateur();
         this.pseudo=utilisateurEntity.getPseudoUtilisateur();

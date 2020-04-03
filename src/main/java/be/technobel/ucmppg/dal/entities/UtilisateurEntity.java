@@ -22,9 +22,7 @@ import java.util.Set;
 @Table(name = "Tableau_Utilisateur")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString
 public class UtilisateurEntity implements Serializable {
 
