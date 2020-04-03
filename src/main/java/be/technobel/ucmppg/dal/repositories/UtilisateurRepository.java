@@ -11,4 +11,5 @@ public interface UtilisateurRepository extends CrudRepository<UtilisateurEntity,
 
     Optional<UtilisateurEntity> findByEmailUtilisateurAndMotDePasseUtilisateur(String email, String motDePasse);
     Optional<UtilisateurEntity> findByEmailUtilisateur(String email);
+    Optional<UtilisateurEntity> findById(long id);
 }

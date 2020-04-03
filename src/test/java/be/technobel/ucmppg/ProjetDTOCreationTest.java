@@ -1,73 +1,90 @@
 package be.technobel.ucmppg;
 
+import be.technobel.ucmppg.bl.dto.RoleDTO;
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.dal.entities.*;
+import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
+@SpringBootTest
 public class ProjetDTOCreationTest {
+
+    private UtilisateurEntity utilisateurTest = null;
+    private String description = null;
+    private String nomDuProjet = null;
+    private ProjetDTO projetATester = null;
+
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
 
     @Autowired
     private CreationDeProjetService creationDeProjetService;
-    private ProjetDTO projetATester;
 
-    @Before
-    public void init(){
-        System.out.println("Test");
-        projetATester = creationDeProjetService.execute("La Bouffe","j aime mangé de la bouffe",4L);
-
+    @Given("je veux un Utilisateur")
+    public void CreationUtilisateur(){
+        Optional<UtilisateurEntity> optionalUtilisateurEntity = utilisateurRepository.findById(1L);
+        optionalUtilisateurEntity.ifPresent(utilisateurEntity -> utilisateurTest = utilisateurEntity);
     }
 
-    @Test
-    public void ProjetDTO_NomDuProjet(){
-        Assert.assertEquals(projetATester.getNomProjet(),"la bouffe");
+    @And("nom {string}")
+    public void initNom(String value){
+        this.nomDuProjet = value;
     }
 
-    @Test
-    public void ProjetDTO_DescriptionDuProjet(){
-        Assert.assertEquals(projetATester.getDescriptionProjet(),"j aime mangé de la bouffe");
+    @And("descrip {string}")
+    public void initdescript(String value){
+        this.description = value;
     }
 
-    @Test
-    public void ProjetDTO_LesEtapeWorkflowAFaire(){
-        for (EtapeWorkflowDTO etape: projetATester.getColonnesDuProjet()) {
-            Assert.assertEquals("à faire", etape.getNomWorkflow());
+    @When("le projet nom {string}")
+    public void initProjetNom(String value){
+        projetATester = creationDeProjetService.execute(nomDuProjet,description,utilisateurTest.getIdUtilisateur());
+        Assert.assertEquals(value,projetATester.getNomProjet());
+    }
+
+    @When("le projet desc {string}")
+    public void initProjetDescr(String value){
+        projetATester = creationDeProjetService.execute(nomDuProjet,description,utilisateurTest.getIdUtilisateur());
+        Assert.assertEquals(value,projetATester.getDescriptionProjet());
+    }
+
+    @When("le createur nom {string}")
+    public void le_Createur(String value){
+        projetATester = creationDeProjetService.execute(nomDuProjet,description,utilisateurTest.getIdUtilisateur());
+        Assert.assertEquals(value,projetATester.getUtilisateurCreateurProjet().getPseudo());
+    }
+
+    @When("Etape {string}")
+    public void etape(String value){
+        projetATester = creationDeProjetService.execute(nomDuProjet,description,utilisateurTest.getIdUtilisateur());
+        for (EtapeWorkflowDTO d: projetATester.getColonnesDuProjet()) {
+            if(d.getNomWorkflow().equals(value)){
+                Assert.assertEquals(value,d.getNomWorkflow());
+            }
         }
     }
 
-    @Test
-    public void ProjetDTO_LesEtapeWorkflowEnCours(){
-        for (EtapeWorkflowDTO etape: projetATester.getColonnesDuProjet()) {
-            Assert.assertEquals("en cours", etape.getNomWorkflow());
+    @When("role {string}")
+    public void role(String value){
+        projetATester = creationDeProjetService.execute(nomDuProjet,description,utilisateurTest.getIdUtilisateur());
+        for (RoleDTO d: projetATester.getRoleDuProjets()) {
+            if(d.getNom().equals(value)){
+                Assert.assertEquals(value,d.getNom());
+            }
         }
-    }
-
-    @Test
-    public void ProjetDTO_LesEtapeWorkflowTerminer(){
-        for (EtapeWorkflowDTO etape: projetATester.getColonnesDuProjet()) {
-            Assert.assertEquals("fini", etape.getNomWorkflow());
-        }
-    }
-
-    @Test
-    public void ProjetDTO_Utilisateur_Createur(){
-
-        UtilisateurEntity utilisateurTest = new UtilisateurEntity();
-        utilisateurTest.setEmailUtilisateur("Gros@gmail.com");
-        utilisateurTest.setMotDePasseUtilisateur("Test1234&");
-        utilisateurTest.setPseudoUtilisateur("Hamburger");
-        utilisateurTest.setNomUtilisateur("Mac");
-        utilisateurTest.setPrenomUtilisateur("Donald");
-        utilisateurTest.setInformationSupplementaireUtilisateur("la vie estle gras");
-        utilisateurTest.setTelephoneUtilisateur("0123456789");
-        Assert.assertSame(projetATester.getUtilisateurCreateurProjet(),utilisateurTest);
     }
 
 }

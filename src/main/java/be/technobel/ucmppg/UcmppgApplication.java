@@ -260,7 +260,6 @@ public class UcmppgApplication {
         utilisateurRepository.save(utilisateurTest);
 
         ProjetDTO test = service.execute("divan","sieste",utilisateur.getIdUtilisateur());
-
     }
 
 }

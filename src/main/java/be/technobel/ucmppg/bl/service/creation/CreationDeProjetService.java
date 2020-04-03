@@ -38,22 +38,9 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
             RoleProjetEntity roleAdmininistrateurEntity=new RoleProjetEntity();
             roleAdmininistrateurEntity.setNomDeRole("administrateur");
             Set<DroitProjetEntity> droitAdministrateurEntities=new HashSet<>();
-
-
             droitProjetRepository.findAll().forEach(
                     droitAdministrateurEntities::add
             );
-
-
-            System.out.println("coucou");
-            for (DroitProjetEntity d: droitAdministrateurEntities
-                 ) {
-                System.out.println(d.getNomDroit());
-                System.out.println(d.toString());
-                System.out.println("Ok");
-            }
-
-
             roleAdmininistrateurEntity.setDroitProjets(droitAdministrateurEntities);
             RoleProjetEntity roleModerateurEntity=new RoleProjetEntity();
             roleModerateurEntity.setNomDeRole("modérateur");
@@ -127,7 +114,6 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
             utilisateurRepository.save(utilisateurEntity);
 
             projetDTO=new ProjetDTO(projetEntity);
-
         }
         return projetDTO;
     }
