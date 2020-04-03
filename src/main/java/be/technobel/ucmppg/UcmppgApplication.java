@@ -247,7 +247,6 @@ public class UcmppgApplication {
 
         projetRepository.save(projet1);
 
-        ProjetDTO test = service.execute("divan","sieste",utilisateur.getIdUtilisateur());
 
         UtilisateurEntity utilisateurTest = new UtilisateurEntity();
         utilisateurTest.setEmailUtilisateur("Gros@gmail.com");
@@ -260,6 +259,7 @@ public class UcmppgApplication {
 
         utilisateurRepository.save(utilisateurTest);
 
+        ProjetDTO test = service.execute("divan","sieste",utilisateur.getIdUtilisateur());
 
     }
 
