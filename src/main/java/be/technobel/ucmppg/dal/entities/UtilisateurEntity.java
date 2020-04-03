@@ -64,6 +64,11 @@ public class UtilisateurEntity implements Serializable {
     @Column(name="Information")
     private String informationSupplementaireUtilisateur;
 
+
+    @OneToMany
+    private Set<ParticipationEntity> projetsParticiperUtilisateur = new HashSet<>();
+  
+
     @OneToMany(fetch = FetchType.EAGER)
     private Set<ParticipationEntity> projetsParticiperUtilisateur;
 
@@ -71,15 +76,15 @@ public class UtilisateurEntity implements Serializable {
         this.projetsParticiperUtilisateur=new HashSet<>();
     }
 
-
-    public UtilisateurEntity(UtilisateurDTO user) {
-        this.emailUtilisateur = user.getMail();
+    public UtilisateurEntity(UtilisateurDetailsDTO user) {
+        this.emailUtilisateur = user.getEmail();
         this.informationSupplementaireUtilisateur = user.getInfoSuppl();
         this.nomUtilisateur = user.getNom();
         this.prenomUtilisateur = user.getPrenom();
         this.pseudoUtilisateur = user.getPseudo();
         this.urlPhotoUtilisateur = user.getUrlPhoto();
         this.telephoneUtilisateur = user.getTelephone();
+        this.projetsParticiperUtilisateur = new HashSet<>();
     }
   
     public UtilisateurEntity(UtilisateurEnregistrementDTO user) {
@@ -91,6 +96,7 @@ public class UtilisateurEntity implements Serializable {
         this.telephoneUtilisateur = user.getTelephone();
         this.informationSupplementaireUtilisateur = user.getInfoSuppl();
         this.urlPhotoUtilisateur = user.getUrlPhoto();
+        this.projetsParticiperUtilisateur = new HashSet<>();
     }
 
     @Override

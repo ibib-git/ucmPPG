@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class CreationDeProjetService implements CreationDeProjetInterface {
 
-//    private CreationParDefautService creation;
     @Autowired
     private RoleProjetRepository roleProjetRepository;
     @Autowired
@@ -31,14 +29,12 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
 
         ProjetDTO projetDTO=null;
         if(utilisateurOptionalEntity.isPresent()){
-
             UtilisateurEntity utilisateurEntity=utilisateurOptionalEntity.get();
-
+            utilisateurEntity.setProjetsParticiperUtilisateur(new HashSet<>());
             ProjetEntity projetEntity=new ProjetEntity();
             projetEntity.setNomDeProjet(nom);
             projetEntity.setDescriptionDeProjet(description);
             projetEntity.setUtilisateurCreateur(utilisateurEntity);
-
             RoleProjetEntity roleAdmininistrateurEntity=new RoleProjetEntity();
             roleAdmininistrateurEntity.setNomDeRole("administrateur");
             Set<DroitProjetEntity> droitAdministrateurEntities=new HashSet<>();
@@ -46,7 +42,6 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
                     droitAdministrateurEntities::add
             );
             roleAdmininistrateurEntity.setDroitProjets(droitAdministrateurEntities);
-
             RoleProjetEntity roleModerateurEntity=new RoleProjetEntity();
             roleModerateurEntity.setNomDeRole("modérateur");
             Set<DroitProjetEntity> droitModerateurEntities=new HashSet<>();
@@ -66,7 +61,6 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
                     droitProjetRepository.findDroitProjetByNomDroit("prendre une tâche")
             );
             roleModerateurEntity.setDroitProjets(droitModerateurEntities);
-
             RoleProjetEntity roleMembreEntity=new RoleProjetEntity();
             roleMembreEntity.setNomDeRole("membre");
             Set<DroitProjetEntity> droitMembreEntities=new HashSet<>();
@@ -74,9 +68,6 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
                     droitProjetRepository.findDroitProjetByNomDroit("prendre une tâche")
             );
             roleMembreEntity.setDroitProjets(droitMembreEntities);
-
-
-
             Set<RoleProjetEntity> roleProjetEntities=new HashSet<>();
             roleProjetEntities.add(roleAdmininistrateurEntity);
             roleProjetEntities.add(roleModerateurEntity);
@@ -85,59 +76,46 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
             projetEntity.setRolesProjet(roleProjetEntities);
 
             Set<EtapeWorkflowEntity> etapeWorkflowEntities=new HashSet<>();
-
             EtapeWorkflowEntity etapeAFaireEntity=new EtapeWorkflowEntity();
             etapeAFaireEntity.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
             etapeAFaireEntity.setEstPrenableEtapeWorkflow(true);
             etapeAFaireEntity.setNomEtapeWorkflow("à faire");
             etapeAFaireEntity.setDescriptionEtapeWorkflow("taches à faire");
-
-
             EtapeWorkflowEntity etapeEnCoursEntity=new EtapeWorkflowEntity();
             etapeEnCoursEntity.setConstrainteAffectation(ConstrainteAffectationEnum.MEME);
             etapeEnCoursEntity.setEstPrenableEtapeWorkflow(false);
             etapeEnCoursEntity.setNomEtapeWorkflow("en cours");
             etapeEnCoursEntity.setDescriptionEtapeWorkflow("taches en cours");
-
             EtapeWorkflowEntity etapeFaiteEntity=new EtapeWorkflowEntity();
             etapeFaiteEntity.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
             etapeFaiteEntity.setEstPrenableEtapeWorkflow(false);
             etapeFaiteEntity.setNomEtapeWorkflow("fini");
             etapeFaiteEntity.setDescriptionEtapeWorkflow("taches finies");
-
             etapeWorkflowEntities.add(etapeAFaireEntity);
             etapeWorkflowEntities.add(etapeEnCoursEntity);
             etapeWorkflowEntities.add(etapeFaiteEntity);
 
             projetEntity.setEtapeWorkflows(etapeWorkflowEntities);
-
-            ParticipationEntity participationEntity=new ParticipationEntity();
+            ParticipationEntity participationEntity = new ParticipationEntity();
             participationEntity.setUtilisateurParticipant(utilisateurEntity);
             participationEntity.setRoleDuParticipant(roleAdmininistrateurEntity);
             participationEntity.setProjetParticipation(projetEntity);
-
             roleProjetRepository.save(roleAdmininistrateurEntity);
             roleProjetRepository.save(roleModerateurEntity);
             roleProjetRepository.save(roleMembreEntity);
-
             etapeWorkflowRepository.save(etapeAFaireEntity);
             etapeWorkflowRepository.save(etapeEnCoursEntity);
             etapeWorkflowRepository.save(etapeFaiteEntity);
-
-
-
             projetRepository.save(projetEntity);
             participationRepository.save(participationEntity);
-
             projetEntity.getMembresDuProjet().add(participationEntity);
             utilisateurEntity.getProjetsParticiperUtilisateur().add(participationEntity);
-
             projetRepository.save(projetEntity);
             utilisateurRepository.save(utilisateurEntity);
 
             projetDTO=new ProjetDTO(projetEntity);
-
         }
         return projetDTO;
     }
+
 }

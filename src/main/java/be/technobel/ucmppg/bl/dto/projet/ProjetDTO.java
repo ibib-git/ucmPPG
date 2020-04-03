@@ -1,9 +1,11 @@
 package be.technobel.ucmppg.bl.dto.projet;
 
+import be.technobel.ucmppg.bl.dto.RoleDTO;
 import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
 import be.technobel.ucmppg.bl.dto.participations.MembreProjetDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.dal.entities.ProjetEntity;
+import be.technobel.ucmppg.dal.entities.RoleProjetEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,16 +21,17 @@ import java.util.stream.Collectors;
 @Setter
 public class ProjetDTO {
 
-    private String nom;
-    private String description;
-    private UtilisateurDetailsDTO utilisateurCreateur;
-    private List<MembreProjetDTO> utilisateurMembres =new ArrayList<>();
-    private List<EtapeWorkflowDTO> etapeWorkflows =new ArrayList<>();
+    private String nomProjet;
+    private String descriptionProjet;
+    private UtilisateurDetailsDTO utilisateurCreateurProjet;
+    private List<MembreProjetDTO> utilisateursProjet=new ArrayList<>();
+    private List<EtapeWorkflowDTO> colonnesDuProjet =new ArrayList<>();
+    private List<RoleDTO> roleDuProjets = new ArrayList<>();
 
     public ProjetDTO(ProjetEntity projetEntity) {
-        this.nom =projetEntity.getNomDeProjet();
-        this.description =projetEntity.getDescriptionDeProjet();
-        this.utilisateurCreateur =new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());
+        this.nomProjet=projetEntity.getNomDeProjet();
+        this.descriptionProjet=projetEntity.getDescriptionDeProjet();
+        this.utilisateurCreateurProjet=new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());
         projetEntity.getMembresDuProjet().forEach(
                 participationEntity -> {
                     this.utilisateurMembres.add(new MembreProjetDTO(participationEntity));
@@ -38,6 +41,12 @@ public class ProjetDTO {
                 .map(
                         EtapeWorkflowDTO::new
                 ).collect(Collectors.toList());
+
+        this.roleDuProjets = projetEntity.getRolesProjet().stream()
+                .map(
+                        RoleDTO::new
+                ).collect(Collectors.toList());
+
     }
 
 }

@@ -7,8 +7,10 @@ import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.validation.*;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Set;
 
 public class UtilisateurEntityDTOMapperTest {
