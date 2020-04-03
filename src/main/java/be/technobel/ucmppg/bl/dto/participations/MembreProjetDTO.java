@@ -1,6 +1,7 @@
 package be.technobel.ucmppg.bl.dto.participations;
 
 import be.technobel.ucmppg.bl.dto.RoleDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.dal.entities.ParticipationEntity;
 import lombok.AllArgsConstructor;

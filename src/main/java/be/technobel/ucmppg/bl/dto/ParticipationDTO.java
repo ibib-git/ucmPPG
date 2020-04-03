@@ -18,7 +18,4 @@ public class ParticipationDTO {
     private ProjetDTO projet;
     private be.technobel.ucmppg.bl.dto.RoleDTO role;
 
-    public ParticipationDTO(ParticipationEntity participationEntity) {
-
-    }
 }
