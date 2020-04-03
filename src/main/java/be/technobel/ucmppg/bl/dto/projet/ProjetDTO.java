@@ -24,8 +24,8 @@ public class ProjetDTO {
     private String nomProjet;
     private String descriptionProjet;
     private UtilisateurDetailsDTO utilisateurCreateurProjet;
-    private List<MembreProjetDTO> utilisateursProjet=new ArrayList<>();
-    private List<EtapeWorkflowDTO> colonnesDuProjet =new ArrayList<>();
+    private List<MembreProjetDTO> utilisateurMembres = new ArrayList<>();
+    private List<EtapeWorkflowDTO> etapeWorkflows = new ArrayList<>();
     private List<RoleDTO> roleDuProjets = new ArrayList<>();
 
     public ProjetDTO(ProjetEntity projetEntity) {

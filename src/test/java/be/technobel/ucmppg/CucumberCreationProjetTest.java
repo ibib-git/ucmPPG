@@ -8,5 +8,5 @@ import org.junit.runner.RunWith;
 @CucumberOptions(plugin = "pretty",
         features = "src/test/java/be/technobel/ucmppg/features",
         strict=true)
-public class CumcumberCreationTEst {
+public class CucumberCreationProjetTest {
 }

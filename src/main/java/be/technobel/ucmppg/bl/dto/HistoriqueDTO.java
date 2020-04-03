@@ -20,8 +20,8 @@ public class HistoriqueDTO {
     private TacheDTO tache;
 
     public HistoriqueDTO(HistoriqueTacheEntity historiqueTacheEntity){
-        this.utilisateurTache = new UtilisateurDTO(historiqueTacheEntity.getUtilisateur_Tache_historique());
-        this.etapeWorflowTache = new EtapeWorkflowDTO(historiqueTacheEntity.getEtapeWorkflowTacheHistorique());
-        this.tacheHistorique = new TacheDTO(historiqueTacheEntity.getTacheHistorique());
+        this.utilisateur = new UtilisateurDTO(historiqueTacheEntity.getUtilisateur_Tache_historique());
+        this.etapeWorflow = new EtapeWorkflowDTO(historiqueTacheEntity.getEtapeWorkflowTacheHistorique());
+        this.tache = new TacheDTO(historiqueTacheEntity.getTacheHistorique());
     }
 }

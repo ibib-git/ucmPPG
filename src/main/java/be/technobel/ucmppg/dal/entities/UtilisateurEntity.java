@@ -3,6 +3,7 @@ package be.technobel.ucmppg.dal.entities;
 
 
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
 
 import lombok.*;
@@ -64,11 +65,6 @@ public class UtilisateurEntity implements Serializable {
     @Column(name="Information")
     private String informationSupplementaireUtilisateur;
 
-
-    @OneToMany
-    private Set<ParticipationEntity> projetsParticiperUtilisateur = new HashSet<>();
-  
-
     @OneToMany(fetch = FetchType.EAGER)
     private Set<ParticipationEntity> projetsParticiperUtilisateur;
 
@@ -76,26 +72,26 @@ public class UtilisateurEntity implements Serializable {
         this.projetsParticiperUtilisateur=new HashSet<>();
     }
 
-    public UtilisateurEntity(UtilisateurDetailsDTO user) {
-        this.emailUtilisateur = user.getEmail();
-        this.informationSupplementaireUtilisateur = user.getInfoSuppl();
-        this.nomUtilisateur = user.getNom();
-        this.prenomUtilisateur = user.getPrenom();
-        this.pseudoUtilisateur = user.getPseudo();
-        this.urlPhotoUtilisateur = user.getUrlPhoto();
-        this.telephoneUtilisateur = user.getTelephone();
+    public UtilisateurEntity(UtilisateurDetailsDTO utilisateur) {
+        this.emailUtilisateur = utilisateur.getMail();
+        this.informationSupplementaireUtilisateur = utilisateur.getInfoSuppl();
+        this.nomUtilisateur = utilisateur.getNom();
+        this.prenomUtilisateur = utilisateur.getPrenom();
+        this.pseudoUtilisateur = utilisateur.getPseudo();
+        this.urlPhotoUtilisateur = utilisateur.getUrlPhoto();
+        this.telephoneUtilisateur = utilisateur.getTelephone();
         this.projetsParticiperUtilisateur = new HashSet<>();
     }
   
-    public UtilisateurEntity(UtilisateurEnregistrementDTO user) {
-        this.emailUtilisateur = user.getMail();
-        this.motDePasseUtilisateur = user.getMotDePasse();
-        this.pseudoUtilisateur = user.getPseudo();
-        this.nomUtilisateur = user.getNom();
-        this.prenomUtilisateur = user.getPrenom();
-        this.telephoneUtilisateur = user.getTelephone();
-        this.informationSupplementaireUtilisateur = user.getInfoSuppl();
-        this.urlPhotoUtilisateur = user.getUrlPhoto();
+    public UtilisateurEntity(UtilisateurEnregistrementDTO utilisateur) {
+        this.emailUtilisateur = utilisateur.getMail();
+        this.motDePasseUtilisateur = utilisateur.getMotDePasse();
+        this.pseudoUtilisateur = utilisateur.getPseudo();
+        this.nomUtilisateur = utilisateur.getNom();
+        this.prenomUtilisateur = utilisateur.getPrenom();
+        this.telephoneUtilisateur = utilisateur.getTelephone();
+        this.informationSupplementaireUtilisateur = utilisateur.getInfoSuppl();
+        this.urlPhotoUtilisateur = utilisateur.getUrlPhoto();
         this.projetsParticiperUtilisateur = new HashSet<>();
     }
 
