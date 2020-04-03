@@ -14,8 +14,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class RoleProjetEntity implements Serializable {
 
     @Id
@@ -30,9 +28,15 @@ public class RoleProjetEntity implements Serializable {
     private Set<DroitProjetEntity> droitProjets=new HashSet<>();
 
 //    public RoleProjetEntity(RoleDTO role_DAO) {
-//        this.nomDeRole = role_DAO.getNom();
-//        for (DroitDTO d: role_DAO.getDroitsDtoRole()) {
-//            droitProjets.add(new DroitProjetEntity(d));
-//        }
-//    }
+////        this.nomDeRole = role_DAO.getNom();
+////        for (DroitDTO d: role_DAO.getDroitsDtoRole()) {
+////            droitProjets.add(new DroitProjetEntity(d));
+////        }
+////    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof RoleProjetEntity))return false;
+        return ((RoleProjetEntity)o).getIdRole().equals(this.getIdRole());
+    }
 }

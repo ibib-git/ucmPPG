@@ -12,14 +12,13 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ParticipationEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idParticipation;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private RoleProjetEntity roleDuParticipant;
 
     @OneToOne

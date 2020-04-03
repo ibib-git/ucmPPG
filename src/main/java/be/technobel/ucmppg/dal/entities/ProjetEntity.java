@@ -16,11 +16,11 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ProjetEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true)
     private Long idProjet;
 
     @Column(name = "nom_du_Projet", nullable = false)
@@ -32,13 +32,13 @@ public class ProjetEntity implements Serializable {
     @OneToOne
     private UtilisateurEntity utilisateurCreateur;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<ParticipationEntity> membresDuProjet =new HashSet<>();
 
     @OneToMany
     private Set<EtapeWorkflowEntity> etapeWorkflows=new HashSet<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<RoleProjetEntity> rolesProjet=new HashSet<>();
 
     @Override

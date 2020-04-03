@@ -1,14 +1,18 @@
 package be.technobel.ucmppg.controllers;
 
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.bl.dto.projet.ProjetCreationDTO;
+import be.technobel.ucmppg.bl.dto.projet.collaborateur.AjoutCollaborateurDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.bl.service.projet.RecuperationProjetService;
+import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
 import be.technobel.ucmppg.dal.repositories.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -36,6 +40,11 @@ public class ProjetController {
     private CreationDeProjetService service_de_creation;
     @Autowired
     private RecuperationProjetService recuperationProjetService;
+    private CreationDeProjetService creationDeProjetService;
+    @Autowired
+    private AjouterCollaborateurAuProjetService ajouterCollaborateurAuProjetService;
+//    @Autowired
+//    private CreationParDefautService creationParDefautService;
 
 
     //todo : supprimer lorsque cette méthode n'est plus nécessaire
@@ -61,6 +70,18 @@ public class ProjetController {
         return (projetDTO != null ? ResponseEntity.ok(projetDTO) : new ResponseEntity("Pas de projet existant", HttpStatus.NOT_FOUND) );
     }
 
+    @PostMapping()
+    public ResponseEntity<ProjetDTO> creerProjet(@RequestBody ProjetCreationDTO projetCreationDTO){
+
+        ResponseEntity<ProjetDTO> projet=null;
+
+        projet= ResponseEntity.ok(creationDeProjetService.execute(projetCreationDTO.getNom(),
+                projetCreationDTO.getDescription(),
+                projetCreationDTO.getIdUtilisateur()));
+
+        return projet;
+    }
+
 
     /* méthode pour créer un projet et l'envoyer dans la DB */
 //    @PostMapping("/enregistrementProjet")
@@ -76,12 +97,17 @@ public class ProjetController {
 //    }
 
 
-    @ApiOperation(value = "Appelé pour ajouter un collaborateur à un projet")
-    @PostMapping("/{idProjet}/collaborateur/{idCollaborateur}")
-    public String ajouterCollaborateurProjet(
-            @PathVariable("idProjet") String idProjet,
-            @PathVariable("idCollaborateur") String idCollaborateur){
-        return "id projet : "+idProjet+"  id collaborateur : "+idCollaborateur;
+
+    @PostMapping("/ajoutCollaborateur")
+    public ResponseEntity<Boolean> ajouterCollaborateurProjet(@RequestBody AjoutCollaborateurDTO ajoutCollaborateurDTO){
+
+
+        return ResponseEntity.ok(
+                ajouterCollaborateurAuProjetService.execute(
+                        ajoutCollaborateurDTO.getIdProjet(),
+                        ajoutCollaborateurDTO.getEmailUtilisateur()
+                )
+        );
     }
 
 

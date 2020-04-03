@@ -16,6 +16,6 @@ public class ParticipationDTO {
 
     private UtilisateurDTO utilisateur;
     private ProjetDTO projet;
-    private RoleDTO role;
+    private be.technobel.ucmppg.bl.dto.RoleDTO role;
 
 }
