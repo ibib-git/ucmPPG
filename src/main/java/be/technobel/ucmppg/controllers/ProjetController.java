@@ -66,7 +66,7 @@ public class ProjetController {
     public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id){
 
         ProjetDTO projetDTO = recuperationProjetService.getProjetById(id);
-
+//TODO DAMIEN : a modifier pour map le dto en bl et gestion erreur
         return (projetDTO != null ? ResponseEntity.ok(projetDTO) : new ResponseEntity("Pas de projet existant", HttpStatus.NOT_FOUND) );
     }
 

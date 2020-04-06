@@ -157,6 +157,7 @@ public class UcmppgApplication {
         EtapeWorkflowEntity todo=new EtapeWorkflowEntity();
         todo.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
         todo.setEstPrenableEtapeWorkflow(true);
+        todo.setNumOrdreEtapeWorkflow(0);
         todo.setNomEtapeWorkflow("To Do");
         todo.setDescriptionEtapeWorkflow("A faire");
         todo.getRolesAutorisation().add(admin);
@@ -168,6 +169,7 @@ public class UcmppgApplication {
         EtapeWorkflowEntity doing=new EtapeWorkflowEntity();
         doing.setConstrainteAffectation(ConstrainteAffectationEnum.MEME);
         doing.setEstPrenableEtapeWorkflow(true);
+        doing.setNumOrdreEtapeWorkflow(1);
         doing.setNomEtapeWorkflow("Doing");
         doing.setDescriptionEtapeWorkflow("En cours");
         doing.getRolesAutorisation().add(admin);
@@ -179,6 +181,7 @@ public class UcmppgApplication {
         EtapeWorkflowEntity done=new EtapeWorkflowEntity();
         done.setConstrainteAffectation(ConstrainteAffectationEnum.MEME);
         done.setEstPrenableEtapeWorkflow(false);
+        done.setNumOrdreEtapeWorkflow(2);
         done.setNomEtapeWorkflow("Done");
         done.setDescriptionEtapeWorkflow("Fini");
         done.getRolesAutorisation().add(admin);
