@@ -94,5 +94,13 @@ public class UtilisateurController {
         return (utilisateurDetailsDTO != null ? ResponseEntity.ok(utilisateurDetailsDTO) : new ResponseEntity("mail ou mot de passe incorrect", HttpStatus.NOT_FOUND));
     }
 
+    @ApiOperation(value = "Appelé pour récupérer un utilisateur")
+    @GetMapping("/{id}")
+    public ResponseEntity<UtilisateurEntity> getUtilisateurParId(@PathVariable("id") long id){
+
+        UtilisateurEntity utilisateurEntity = recuperationUtilisateurService.recupererUtilisateur(id);
+
+        return (utilisateurEntity != null ? ResponseEntity.ok(utilisateurEntity): new ResponseEntity("Utilisateur incorrecte",HttpStatus.NOT_FOUND));
+    }
 
 }

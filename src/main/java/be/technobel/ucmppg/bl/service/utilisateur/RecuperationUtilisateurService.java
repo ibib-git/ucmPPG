@@ -21,4 +21,14 @@ public class RecuperationUtilisateurService {
 
         return utilisateurEntity.map(UtilisateurDetailsDTO::new).orElse(null);
     }
+
+    public UtilisateurEntity recupererUtilisateur(long  id){
+        UtilisateurEntity utilisateur = null;
+        Optional<UtilisateurEntity> optimalutilisateurEntity = utilisateurRepository.findById(id);
+        if(optimalutilisateurEntity.isPresent()) {
+            utilisateur = optimalutilisateurEntity.get();
+        }
+
+        return utilisateur;
+    }
 }
