@@ -2,6 +2,7 @@ package be.technobel.ucmppg.controllers;
 
 import be.technobel.ucmppg.bl.dto.ErrorDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurConnexionDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
 import be.technobel.ucmppg.bl.service.utilisateur.CreationUtilisateurService;
@@ -36,6 +37,7 @@ public class UtilisateurController {
     private RecuperationUtilisateurService recuperationUtilisateurService;
     @Autowired
     private CreationUtilisateurService creationUtilisateurService;
+
 
 
     @ApiOperation(value = "Appelé pour l'enregistrement d'un nouvel utilisateur" )
@@ -94,13 +96,14 @@ public class UtilisateurController {
         return (utilisateurDetailsDTO != null ? ResponseEntity.ok(utilisateurDetailsDTO) : new ResponseEntity("mail ou mot de passe incorrect", HttpStatus.NOT_FOUND));
     }
 
+
     @ApiOperation(value = "Appelé pour récupérer un utilisateur")
     @GetMapping("/{id}")
-    public ResponseEntity<UtilisateurEntity> getUtilisateurParId(@PathVariable("id") long id){
+    public ResponseEntity<UtilisateurDTO> getUtilisateurParId(@PathVariable("id") long id){
 
-        UtilisateurEntity utilisateurEntity = recuperationUtilisateurService.recupererUtilisateur(id);
+        UtilisateurDTO utilisateur = recuperationUtilisateurService.recupererUtilisateur(id);
 
-        return (utilisateurEntity != null ? ResponseEntity.ok(utilisateurEntity): new ResponseEntity("Utilisateur incorrecte",HttpStatus.NOT_FOUND));
+        return (utilisateur != null ? ResponseEntity.ok(utilisateur): new ResponseEntity("Utilisateur incorrecte",HttpStatus.NOT_FOUND));
     }
 
 }

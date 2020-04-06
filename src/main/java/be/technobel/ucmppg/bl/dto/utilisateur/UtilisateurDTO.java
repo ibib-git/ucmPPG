@@ -5,7 +5,9 @@ import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -21,7 +23,7 @@ public class UtilisateurDTO {
     private String telephone;
     private String infoSuppl;
     private String urlPhoto;
-    private List<ParticipationDTO> participations =new ArrayList<>();
+    private Set<ParticipationDTO> participations =new HashSet<>();
 
     public UtilisateurDTO(UtilisateurEntity utilisateurEntity) {
         this.motDePasse = utilisateurEntity.getMotDePasseUtilisateur();
@@ -32,9 +34,8 @@ public class UtilisateurDTO {
         this.telephone=utilisateurEntity.getTelephoneUtilisateur();
         this.infoSuppl=utilisateurEntity.getInformationSupplementaireUtilisateur();
         this.urlPhoto=utilisateurEntity.getUrlPhotoUtilisateur();
-        participations = utilisateurEntity.getProjetsParticiperUtilisateur().stream()
-                .map(
-                        ParticipationDTO::new
-                ).collect(Collectors.toList());
+        this.participations = utilisateurEntity.getProjetsParticiperUtilisateur().stream().map(
+                ParticipationDTO::new
+        ).collect(Collectors.toSet());
     }
 }

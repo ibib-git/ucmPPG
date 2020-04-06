@@ -21,10 +21,10 @@ public class RecuperationUtilisateurService {
         return utilisateurEntity.map(UtilisateurDetailsDTO::new).orElse(null);
     }
 
-    public UtilisateurDTO recupererUtilisateur(long  id){
+    public UtilisateurDTO recupererUtilisateur(long id){
 
         Optional<UtilisateurEntity> utilisateurEntity = utilisateurRepository.findById(id);
 
-        return utilisateurEntity.map(UtilisateurDTO::new).orElse(null);
+        return utilisateurEntity.map(UtilisateurDTO::new).get();
     }
 }
