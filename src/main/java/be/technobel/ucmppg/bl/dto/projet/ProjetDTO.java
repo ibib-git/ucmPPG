@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class ProjetDTO {
-
+    private long id;
     private String nomProjet;
     private String descriptionProjet;
     private UtilisateurDetailsDTO utilisateurCreateurProjet;
@@ -28,7 +28,10 @@ public class ProjetDTO {
     private List<EtapeWorkflowDTO> etapeWorkflows = new ArrayList<>();
     private List<RoleDTO> roleDuProjets = new ArrayList<>();
 
+
+
     public ProjetDTO(ProjetEntity projetEntity) {
+        this.id=projetEntity.getIdProjet();
         this.nomProjet=projetEntity.getNomDeProjet();
         this.descriptionProjet=projetEntity.getDescriptionDeProjet();
         this.utilisateurCreateurProjet=new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());

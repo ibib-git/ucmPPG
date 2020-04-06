@@ -21,7 +21,7 @@ public class RoleProjetEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRole;
 
-    @Column(name = "nom_de_Role",nullable = false)
+    @Column(name = "nom_de_role",nullable = false)
     private String nomDeRole;
 
     @ManyToMany

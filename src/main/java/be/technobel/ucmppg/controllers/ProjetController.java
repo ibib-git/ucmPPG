@@ -3,7 +3,9 @@ package be.technobel.ucmppg.controllers;
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.ProjetCreationDTO;
 import be.technobel.ucmppg.bl.dto.projet.collaborateur.AjoutCollaborateurDTO;
+import be.technobel.ucmppg.bl.dto.projet.collaborateur.ChangerRoleCollaborateurDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
+import be.technobel.ucmppg.bl.service.projet.ChangerRoleCollaborateurService;
 import be.technobel.ucmppg.bl.service.projet.RecuperationProjetService;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
 import be.technobel.ucmppg.dal.repositories.*;
@@ -43,7 +45,9 @@ public class ProjetController {
     private CreationDeProjetService creationDeProjetService;
     @Autowired
     private AjouterCollaborateurAuProjetService ajouterCollaborateurAuProjetService;
-//    @Autowired
+    @Autowired
+    private ChangerRoleCollaborateurService changerRoleCollaborateurService;
+    //    @Autowired
 //    private CreationParDefautService creationParDefautService;
 
 
@@ -91,6 +95,13 @@ public class ProjetController {
                         ajoutCollaborateurDTO.getIdProjet(),
                         ajoutCollaborateurDTO.getEmailUtilisateur()
                 )
+        );
+    }
+
+    @PostMapping("/changerRoleCollaborateur")
+    public ResponseEntity<Boolean> changerRoleCollaborateur(@RequestBody ChangerRoleCollaborateurDTO changerRoleCollaborateurDTO){
+        return ResponseEntity.ok(
+                this.changerRoleCollaborateurService.execute(changerRoleCollaborateurDTO)
         );
     }
 

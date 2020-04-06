@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UtilisateurDTO {
 
+    private long id;
     private String mail;
     private String nom;
     private String prenom;
@@ -22,6 +23,7 @@ public class UtilisateurDTO {
     private List<ParticipationDTO> participations =new ArrayList<>();
 
     public UtilisateurDTO(UtilisateurEntity utilisateurEntity) {
+        this.id=utilisateurEntity.getIdUtilisateur();
         this.mail =utilisateurEntity.getEmailUtilisateur();
         this.nom=utilisateurEntity.getNomUtilisateur();
         this.prenom=utilisateurEntity.getPrenomUtilisateur();
