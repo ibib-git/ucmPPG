@@ -25,6 +25,6 @@ public class RecuperationUtilisateurService {
 
         Optional<UtilisateurEntity> utilisateurEntity = utilisateurRepository.findById(id);
 
-        return utilisateurEntity.map(UtilisateurDTO::new).get();
+        return utilisateurEntity.map(UtilisateurDTO::new).orElse(null);
     }
 }

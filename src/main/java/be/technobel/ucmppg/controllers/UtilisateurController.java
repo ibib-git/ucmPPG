@@ -7,23 +7,15 @@ import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
 import be.technobel.ucmppg.bl.service.utilisateur.CreationUtilisateurService;
 import be.technobel.ucmppg.bl.service.utilisateur.RecuperationUtilisateurService;
-import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
-import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.*;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -37,7 +29,6 @@ public class UtilisateurController {
     private RecuperationUtilisateurService recuperationUtilisateurService;
     @Autowired
     private CreationUtilisateurService creationUtilisateurService;
-
 
 
     @ApiOperation(value = "Appelé pour l'enregistrement d'un nouvel utilisateur" )
@@ -97,13 +88,13 @@ public class UtilisateurController {
     }
 
 
-    @ApiOperation(value = "Appelé pour récupérer un utilisateur")
+    @ApiOperation(value = "pour récupérer un utilisateur")
     @GetMapping("/{id}")
     public ResponseEntity<UtilisateurDTO> getUtilisateurParId(@PathVariable("id") long id){
 
-        UtilisateurDTO utilisateur = recuperationUtilisateurService.recupererUtilisateur(id);
+        UtilisateurDTO utilisateurDTO = recuperationUtilisateurService.recupererUtilisateur(id);
 
-        return (utilisateur != null ? ResponseEntity.ok(utilisateur): new ResponseEntity("Utilisateur incorrecte",HttpStatus.NOT_FOUND));
+        return ResponseEntity.ok(utilisateurDTO);
     }
 
 }

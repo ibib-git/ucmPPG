@@ -1,6 +1,7 @@
 package be.technobel.ucmppg.bl.dto.utilisateur;
 
 import be.technobel.ucmppg.bl.dto.ParticipationDTO;
+import be.technobel.ucmppg.bl.dto.ParticipationDetailDTO;
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UtilisateurDTO {
 
+    private Long id;
     private String motDePasse;
     private String mail;
     private String nom;
@@ -23,9 +25,10 @@ public class UtilisateurDTO {
     private String telephone;
     private String infoSuppl;
     private String urlPhoto;
-    private Set<ParticipationDTO> participations =new HashSet<>();
+    private List<ParticipationDetailDTO> participations = new ArrayList<>();
 
     public UtilisateurDTO(UtilisateurEntity utilisateurEntity) {
+        this.id = utilisateurEntity.getIdUtilisateur();
         this.motDePasse = utilisateurEntity.getMotDePasseUtilisateur();
         this.mail =utilisateurEntity.getEmailUtilisateur();
         this.nom=utilisateurEntity.getNomUtilisateur();
@@ -35,7 +38,7 @@ public class UtilisateurDTO {
         this.infoSuppl=utilisateurEntity.getInformationSupplementaireUtilisateur();
         this.urlPhoto=utilisateurEntity.getUrlPhotoUtilisateur();
         this.participations = utilisateurEntity.getProjetsParticiperUtilisateur().stream().map(
-                ParticipationDTO::new
-        ).collect(Collectors.toSet());
+                ParticipationDetailDTO::new
+        ).collect(Collectors.toList());
     }
 }

@@ -3,6 +3,7 @@ package be.technobel.ucmppg;
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
+import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,9 @@ public class UcmppgApplication {
 
     @Autowired
     private CreationDeProjetService service;
+
+    @Autowired
+    private AjouterCollaborateurAuProjetService aCAPS;
 
     @EventListener(ApplicationReadyEvent.class)
     public void generateData(){
@@ -260,6 +264,8 @@ public class UcmppgApplication {
         utilisateurRepository.save(utilisateurTest);
 
         ProjetDTO test = service.execute("divan","sieste",utilisateur.getIdUtilisateur());
+
+        aCAPS.execute(projet1.getIdProjet(),utilisateur2.getEmailUtilisateur());
     }
 
 }
