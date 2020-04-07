@@ -36,13 +36,6 @@ public class RoleProjetEntity implements Serializable {
     }
 
 
-//    public RoleProjetEntity(RoleDTO role_DAO) {
-////        this.nomDeRole = role_DAO.getNom();
-////        for (DroitDTO d: role_DAO.getDroitsDtoRole()) {
-////            droitProjets.add(new DroitProjetEntity(d));
-////        }
-////    }
-
     @Override
     public boolean equals(Object o) {
         if(!(o instanceof RoleProjetEntity))return false;
