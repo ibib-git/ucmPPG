@@ -86,7 +86,7 @@ public class UcmppgApplication {
 
         DroitProjetEntity gererRole=new DroitProjetEntity();
         gererRole.setNomDroit("gérer les rôles");
-        droitProjetRepository.save(gererTache);
+        droitProjetRepository.save(gererRole);
 
         DroitProjetEntity creerTache=new DroitProjetEntity();
         creerTache.setNomDroit("Créer des tâches");
@@ -99,6 +99,8 @@ public class UcmppgApplication {
         DroitProjetEntity inviterCollaborateurs=new DroitProjetEntity();
         inviterCollaborateurs.setNomDroit("inviter des collaborateurs");
         droitProjetRepository.save(inviterCollaborateurs);
+
+
 
         DroitProjetEntity prendreTache=new DroitProjetEntity();
         prendreTache.setNomDroit("prendre une tâche");
@@ -123,6 +125,9 @@ public class UcmppgApplication {
         roleProjetRepository.save(membre);
 
         ProjetEntity projet1 =new ProjetEntity();
+        projet1.getRolesProjet().add(admin);
+        projet1.getRolesProjet().add(moderateur);
+        projet1.getRolesProjet().add(membre);
         projet1.setNomDeProjet("The cheese project");
         projet1.setDescriptionDeProjet("By Technobel studio");
         projet1.setUtilisateurCreateur(utilisateur);
@@ -134,6 +139,8 @@ public class UcmppgApplication {
         participation.setRoleDuParticipant(admin);
         participation.setProjetParticipation(projet1);
         participationRepository.save(participation);
+        utilisateur.getProjetsParticiperUtilisateur().add(participation);
+        utilisateurRepository.save(utilisateur);
 
         projet1.getMembresDuProjet().add(participation);
         utilisateur.getProjetsParticiperUtilisateur().add(participation);
@@ -143,6 +150,8 @@ public class UcmppgApplication {
         participation2.setRoleDuParticipant(moderateur);
         participation2.setProjetParticipation(projet1);
         participationRepository.save(participation2);
+        utilisateur2.getProjetsParticiperUtilisateur().add(participation2);
+        utilisateurRepository.save(utilisateur2);
 
         projet1.getMembresDuProjet().add(participation2);
 
@@ -151,6 +160,8 @@ public class UcmppgApplication {
         participation3.setRoleDuParticipant(membre);
         participation3.setProjetParticipation(projet1);
         participationRepository.save(participation3);
+        utilisateur3.getProjetsParticiperUtilisateur().add(participation3);
+        utilisateurRepository.save(utilisateur3);
 
         projet1.getMembresDuProjet().add(participation3);
 
@@ -246,6 +257,7 @@ public class UcmppgApplication {
         etapeWorkflowRepository.save(done);
 
         projetRepository.save(projet1);
+
 
 
         UtilisateurEntity utilisateurTest = new UtilisateurEntity();

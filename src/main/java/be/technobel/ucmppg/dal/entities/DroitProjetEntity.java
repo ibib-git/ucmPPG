@@ -24,7 +24,7 @@ public class DroitProjetEntity implements Serializable {
     @Column(name = "nom",nullable = false, unique = true)
     private String nomDroit;
 
-    public DroitProjetEntity(DroitDTO droitDTO){
-        this.nomDroit = droitDTO.getNom();
+    public DroitProjetEntity(String droit){
+        this.nomDroit = droit;
     }
 }

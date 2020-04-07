@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -17,14 +18,32 @@ import java.util.stream.Collectors;
 @Setter
 public class RoleDTO {
 
+
+    private long id;
     private String nom;
-    private List<DroitDTO> droits=new ArrayList<>();
+    private List<String> droits=new ArrayList<>();
 
     public RoleDTO(RoleProjetEntity roleProjetEntity) {
+        this.id=roleProjetEntity.getIdRole();
         this.nom=roleProjetEntity.getNomDeRole();
-        this.droits = roleProjetEntity.getDroitProjets().stream()
-                .map(
-                        DroitDTO::new
-                ).collect(Collectors.toList());
+        System.out.println(roleProjetEntity.getDroitProjets());
+
+        Set<DroitProjetEntity> droits=roleProjetEntity.getDroitProjets();
+        droits.stream().forEach(
+                droitProjetEntity -> {
+                    System.out.println(droitProjetEntity);
+                    this.droits.add(
+                            droitProjetEntity.getNomDroit()
+                    );
+                }
+        );
+//        DroitProjetEntity[] droits=(DroitProjetEntity[])roleProjetEntity.getDroitProjets().toArray();
+//        for(int i=0;i<droits.length;i++){
+//            this.droits.add(droits[i].getNomDroit());
+//        }
+//        this.droits = roleProjetEntity.getDroitProjets().stream()
+//                .map(
+//                        DroitDTO::new
+//                ).collect(Collectors.toList());
     }
 }

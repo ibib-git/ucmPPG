@@ -21,7 +21,7 @@ public class RoleProjetEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRole;
 
-    @Column(name = "nom_de_role",nullable = false)
+    @Column(nullable = false)
     private String nomDeRole;
 
     @ManyToMany
@@ -30,7 +30,7 @@ public class RoleProjetEntity implements Serializable {
 
     public RoleProjetEntity (RoleDTO roleDTO){
         this.nomDeRole = roleDTO.getNom();
-        for (DroitDTO d : roleDTO.getDroits()) {
+        for (String d : roleDTO.getDroits()) {
             droitProjets.add(new DroitProjetEntity(d));
         }
     }

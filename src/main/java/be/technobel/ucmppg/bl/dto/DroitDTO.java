@@ -16,6 +16,6 @@ public class DroitDTO {
 
 
     public DroitDTO(DroitProjetEntity droitProjetEntity) {
-        this.nom = getNom();
+        this.nom = droitProjetEntity.getNomDroit();
     }
 }
