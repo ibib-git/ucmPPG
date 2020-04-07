@@ -26,7 +26,6 @@ public class RoleDTO {
     public RoleDTO(RoleProjetEntity roleProjetEntity) {
         this.id=roleProjetEntity.getIdRole();
         this.nom=roleProjetEntity.getNomDeRole();
-        System.out.println(roleProjetEntity.getDroitProjets());
 
         Set<DroitProjetEntity> droits=roleProjetEntity.getDroitProjets();
         droits.stream().forEach(
@@ -37,13 +36,5 @@ public class RoleDTO {
                     );
                 }
         );
-//        DroitProjetEntity[] droits=(DroitProjetEntity[])roleProjetEntity.getDroitProjets().toArray();
-//        for(int i=0;i<droits.length;i++){
-//            this.droits.add(droits[i].getNomDroit());
-//        }
-//        this.droits = roleProjetEntity.getDroitProjets().stream()
-//                .map(
-//                        DroitDTO::new
-//                ).collect(Collectors.toList());
     }
 }
