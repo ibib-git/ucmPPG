@@ -1,0 +1,21 @@
+Les Utilisateurs:
+
+UtilisateurDTO : Permet de récuperer toutes les informations venant de la DB
+=> utilise la Class ParticipationDetailDTO.
+
+UtilisateurDetailDTO:
+
+UtilisateurConnexionDTO:
+
+UtilisateurEnregistrementDTO:
+
+les Participations:
+
+ParticipationDetailDTO : Permet De récuperer les informations de la DB de ParticipationEntity d'un utilisateur
+=> utilise les Class ProjetDetaiDTO, RoleDTO, UtilisateurDetailDTO
+
+ParticipationDTO:
+
+
+les ProjetDetailDTO: Permet de récuperer le nom, la description, le createur du projet et l'id
+=> utilise la Class UtilisateurDetailDTO

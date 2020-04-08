@@ -21,17 +21,17 @@ import java.util.stream.Collectors;
 @Setter
 public class ProjetDTO {
 
-    private String nomProjet;
-    private String descriptionProjet;
-    private UtilisateurDetailsDTO utilisateurCreateurProjet;
+    private String nom;
+    private String description;
+    private UtilisateurDetailsDTO createurUtilisateur;
     private List<MembreProjetDTO> utilisateurMembres = new ArrayList<>();
     private List<EtapeWorkflowDTO> etapeWorkflows = new ArrayList<>();
-    private List<RoleDTO> roleDuProjets = new ArrayList<>();
+    private List<RoleDTO> roles = new ArrayList<>();
 
     public ProjetDTO(ProjetEntity projetEntity) {
-        this.nomProjet=projetEntity.getNomDeProjet();
-        this.descriptionProjet=projetEntity.getDescriptionDeProjet();
-        this.utilisateurCreateurProjet=new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());
+        this.nom=projetEntity.getNomDeProjet();
+        this.description=projetEntity.getDescriptionDeProjet();
+        this.createurUtilisateur=new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());
         projetEntity.getMembresDuProjet().forEach(
                 participationEntity -> {
                     this.utilisateurMembres.add(new MembreProjetDTO(participationEntity));
@@ -42,7 +42,7 @@ public class ProjetDTO {
                         EtapeWorkflowDTO::new
                 ).collect(Collectors.toList());
 
-        this.roleDuProjets = projetEntity.getRolesProjet().stream()
+        this.roles = projetEntity.getRolesProjet().stream()
                 .map(
                         RoleDTO::new
                 ).collect(Collectors.toList());
