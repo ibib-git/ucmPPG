@@ -21,14 +21,14 @@ import java.util.stream.Collectors;
 public class ProjetDetailDTO {
 
     private long id;
-    private String nomProjet;
-    private String descriptionProjet;
-    private UtilisateurDetailsDTO utilisateurCreateurProjet;
+    private String nom;
+    private String description;
+    private UtilisateurDetailsDTO createurUtilisateur;
 
     public ProjetDetailDTO(ProjetEntity projetEntity) {
         this.id = projetEntity.getIdProjet();
-        this.nomProjet = projetEntity.getNomDeProjet();
-        this.descriptionProjet = projetEntity.getDescriptionDeProjet();
-        this.utilisateurCreateurProjet = new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());
+        this.nom = projetEntity.getNomDeProjet();
+        this.description = projetEntity.getDescriptionDeProjet();
+        this.createurUtilisateur = new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());
     }
 }

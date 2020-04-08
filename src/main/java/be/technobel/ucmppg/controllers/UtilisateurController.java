@@ -1,6 +1,7 @@
 package be.technobel.ucmppg.controllers;
 
 import be.technobel.ucmppg.bl.dto.ErrorDTO;
+import be.technobel.ucmppg.bl.dto.ParticipationDetailDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurConnexionDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
@@ -94,7 +95,7 @@ public class UtilisateurController {
 
         UtilisateurDTO utilisateurDTO = recuperationUtilisateurService.recupererUtilisateur(id);
 
-        return ResponseEntity.ok(utilisateurDTO);
+        return (utilisateurDTO != null ? ResponseEntity.ok(utilisateurDTO) : new ResponseEntity("l'utilisateur n'existe",HttpStatus.NOT_FOUND));
     }
 
 }

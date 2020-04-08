@@ -48,19 +48,19 @@ public class ProjetDTOCreationTest {
     @When("le projet nom {string}")
     public void initProjetNom(String value){
         projetATester = creationDeProjetService.execute(nomDuProjet,description,utilisateurTest.getIdUtilisateur());
-        Assert.assertEquals(value,projetATester.getNomProjet());
+        Assert.assertEquals(value,projetATester.getNom());
     }
 
     @When("le projet desc {string}")
     public void initProjetDescr(String value){
         projetATester = creationDeProjetService.execute(nomDuProjet,description,utilisateurTest.getIdUtilisateur());
-        Assert.assertEquals(value,projetATester.getDescriptionProjet());
+        Assert.assertEquals(value,projetATester.getDescription());
     }
 
     @When("le createur nom {string}")
     public void le_Createur(String value){
         projetATester = creationDeProjetService.execute(nomDuProjet,description,utilisateurTest.getIdUtilisateur());
-        Assert.assertEquals(value,projetATester.getUtilisateurCreateurProjet().getPseudo());
+        Assert.assertEquals(value,projetATester.getCreateurUtilisateur().getPseudo());
     }
 
     @When("Etape {string}")
@@ -76,7 +76,7 @@ public class ProjetDTOCreationTest {
     @When("role {string}")
     public void role(String value){
         projetATester = creationDeProjetService.execute(nomDuProjet,description,utilisateurTest.getIdUtilisateur());
-        for (RoleDTO d: projetATester.getRoleDuProjets()) {
+        for (RoleDTO d: projetATester.getRoles()) {
             if(d.getNom().equals(value)){
                 Assert.assertEquals(value,d.getNom());
             }

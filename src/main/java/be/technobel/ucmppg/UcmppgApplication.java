@@ -249,6 +249,10 @@ public class UcmppgApplication {
         etapeWorkflowRepository.save(todo);
         etapeWorkflowRepository.save(done);
 
+        projet1.getRolesProjet().add(admin);
+        projet1.getRolesProjet().add(membre);
+        projet1.getRolesProjet().add(moderateur);
+
         projetRepository.save(projet1);
 
 
