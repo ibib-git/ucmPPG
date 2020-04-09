@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Setter
 public class ProjetDTO {
 
+    private long id;
     private String nom;
     private String description;
     private UtilisateurDetailsDTO createurUtilisateur;
@@ -46,7 +47,6 @@ public class ProjetDTO {
                 .map(
                         RoleDTO::new
                 ).collect(Collectors.toList());
-
     }
 
 }
