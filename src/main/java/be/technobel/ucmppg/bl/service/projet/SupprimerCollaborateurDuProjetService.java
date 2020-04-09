@@ -23,7 +23,7 @@ public class SupprimerCollaborateurDuProjetService {
     @Autowired
     private TacheRepository tacheRepository;
 
-    public boolean execute(SupprimerCollaborateurDTO supprimerCollaborateurDTO){
+    public ProjetEntity execute(SupprimerCollaborateurDTO supprimerCollaborateurDTO){
 
         Optional<UtilisateurEntity> optionalUtilisateurEntity = utilisateurRepository.findByEmailUtilisateur(supprimerCollaborateurDTO.getMail());
         Optional<ProjetEntity> optionalProjetEntity = projetRepository.findByIdProjet(supprimerCollaborateurDTO.getIdProjet());
@@ -44,10 +44,10 @@ public class SupprimerCollaborateurDuProjetService {
                         projet.getMembresDuProjet().remove(participationProjet);
                     }
                 }
-                for (EtapeWorkflowEntity workflow : projet.getEtapeWorkflows()){
-                    for (TacheEntity tache: workflow.getTaches()) {
-                        if(tache.getUtilisateur_Tache().getPseudoUtilisateur().equals(utilisateur.getPseudoUtilisateur())){
-                            HistoriqueTacheEntity historique = new HistoriqueTacheEntity(null,tache,workflow,utilisateur);
+                for (EtapeWorkflowEntity workflow : projet.getEtapeWorkflows()) {
+                    for (TacheEntity tache : workflow.getTaches()) {
+                        if (tache.getUtilisateur_Tache().getPseudoUtilisateur().equals(utilisateur.getPseudoUtilisateur())) {
+                            HistoriqueTacheEntity historique = new HistoriqueTacheEntity(null, tache, workflow, utilisateur);
                             historiqueTacheRepository.save(historique);
                             tache.setUtilisateur_Tache(null);
                             tacheRepository.save(tache);
@@ -55,12 +55,14 @@ public class SupprimerCollaborateurDuProjetService {
                     }
 
                 }
+
                 projetRepository.save(projet);
+
                 utilisateurRepository.save(utilisateur);
 
-                return true;
+                return projet;
             }
         }
-        return false;
+        return null;
     }
 }
