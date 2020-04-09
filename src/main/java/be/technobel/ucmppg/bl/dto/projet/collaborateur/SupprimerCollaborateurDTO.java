@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SupprimerCollaborateurDTO {
-
-    private long idUtilisateur;
+    private String mail;
     private long idProjet;
 }
