@@ -1,6 +1,7 @@
-package be.technobel.ucmppg;
+package be.technobel.ucmppg.cucumber.configuration;
 
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
+import io.cucumber.java.ParameterType;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.regex.Matcher;
@@ -9,6 +10,7 @@ import java.util.regex.Pattern;
 @SpringBootTest
 public class CucumberConfig {
 
+    @ParameterType("mail:.*,pseudo:.*,motDePasse:.*")
     public UtilisateurEntity utilisateur(String utilisateurRegex)
     {
         UtilisateurEntity utilisateurEntity = new UtilisateurEntity();

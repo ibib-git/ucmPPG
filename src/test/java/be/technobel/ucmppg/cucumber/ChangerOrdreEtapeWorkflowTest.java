@@ -1,4 +1,4 @@
-package be.technobel.ucmppg;
+package be.technobel.ucmppg.cucumber;
 
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
@@ -6,17 +6,23 @@ import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.ProjetRepository;
 import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
+import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Etantdonné;
 import io.cucumber.java.fr.Quand;
+import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@SpringBootTest
+
 public class ChangerOrdreEtapeWorkflowTest {
 
     private ProjetEntity projetEntity;
@@ -26,17 +32,11 @@ public class ChangerOrdreEtapeWorkflowTest {
     private RoleProjetEntity roleStormtrooperEntity;
     private RoleProjetEntity roleSithEntity;
     private DroitProjetEntity droitChangerOrdeEtape;
+    private Set<EtapeWorkflowEntity> etapeWorkflowEntitySet;
+    private boolean result;
 
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
-    @Autowired
-    private ProjetRepository projetRepository;
-    @Autowired
-    private AjouterCollaborateurAuProjetService ajouterCollaborateurAuProjetService;
-    @Autowired
-    private CreationDeProjetService creationDeProjetService;
 
-    @Etantdonné("un droit de changer l'ordre de 2 étapes workflow d'un projet")
+    @Etantdonné("un droit de changer l'ordre d'une étape workflow d'un projet")
     public void creerUnDroit ()
     {
         this.droitChangerOrdeEtape = new DroitProjetEntity();
@@ -77,7 +77,7 @@ public class ChangerOrdreEtapeWorkflowTest {
         this.roleSithEntity=new RoleProjetEntity();
         this.roleSithEntity.setNomDeRole(roleSith);
         Set<DroitProjetEntity> droitSithEntities=new HashSet<>();
-        droitEmpereurEntities.add(this.droitChangerOrdeEtape);
+        droitSithEntities.add(this.droitChangerOrdeEtape);
         droitSithEntities.add(droitTaches);
         this.roleSithEntity.setDroitProjets(droitSithEntities);
         // endregion
@@ -108,7 +108,23 @@ public class ChangerOrdreEtapeWorkflowTest {
         // endregion
     }
 
-    @Etantdonné("un utilisateur membre {utilisateur}")
+    @Et("avec une liste d'étapes workflow avec leurs numero d'ordre :")
+    public void creerListeEtape (List<List<String>> etapeWorkflowEntityList)
+    {
+        this.etapeWorkflowEntitySet = new HashSet<>();
+
+        etapeWorkflowEntityList.forEach(l -> {
+            EtapeWorkflowEntity etape = new EtapeWorkflowEntity();
+            etape.setNomEtapeWorkflow(l.get(0));
+            etape.setNumOrdreEtapeWorkflow(Integer.parseInt(l.get(1)));
+            this.etapeWorkflowEntitySet.add(etape);
+        });
+        this.projetEntity.setEtapeWorkflows(this.etapeWorkflowEntitySet);
+    }
+
+    // region Scénario: Un membre de projet qui a le droit va changer l'ordre d'une colonne
+
+    @Etantdonné("un nouvel utilisateur {utilisateur}")
     public void creerUtilisateurMembreProjet(UtilisateurEntity utilisateur) {
         this.utilisateurMembreEntity = utilisateur;
     }
@@ -128,17 +144,80 @@ public class ChangerOrdreEtapeWorkflowTest {
 
     }
 
-    @Quand("l'utilisateur veut changer l'ordre de 2 étapes")
-    public void changerOrdre ()
+    @Quand("l'utilisateur veut changer l'ordre de l'étape {string} en ordre {int}")
+    public void changerOrdre (String etape,int newOrdre)
     {
-
-       boolean result = changerOrdreEtapeService(this.projetEntity,this.utilisateurMembreEntity);
-
+       this.result = changerOrdreEtapeService(this.projetEntity,this.utilisateurMembreEntity,etape,newOrdre);
     }
 
-    public boolean changerOrdreEtapeService(ProjetEntity projetEntity,UtilisateurEntity utilisateurEntity)
+    @Alors("l'ordre des étapes devient {string} = {int}, {string} = {int}, {string} = {int}, {string} = {int} de plus le service renvoie {string}")
+    public void ordreEstchange(String etape1,int ordreEtape1,String etape2,int ordreEtape2,String etape3,int ordreEtape3,String etape4,int ordreEtape4,String resultat )
     {
-        projetEntity = this.projetEntity;
-        return false;
+       EtapeWorkflowEntity etape1Entity = this.projetEntity.getEtapeWorkflows().stream()
+               .filter(e -> e.getNomEtapeWorkflow().equals(etape1)).findFirst().orElse(null);
+        EtapeWorkflowEntity etape2Entity = this.projetEntity.getEtapeWorkflows().stream()
+                .filter(e -> e.getNomEtapeWorkflow().equals(etape2)).findFirst().orElse(null);
+        EtapeWorkflowEntity etape3Entity = this.projetEntity.getEtapeWorkflows().stream()
+                .filter(e -> e.getNomEtapeWorkflow().equals(etape3)).findFirst().orElse(null);
+        EtapeWorkflowEntity etape4Entity = this.projetEntity.getEtapeWorkflows().stream()
+                .filter(e -> e.getNomEtapeWorkflow().equals(etape4)).findFirst().orElse(null);
+
+
+        assert etape1Entity != null;
+        assert etape2Entity != null;
+        assert etape3Entity != null;
+        assert etape4Entity != null;
+        Assert.assertEquals((int) etape1Entity.getNumOrdreEtapeWorkflow(), ordreEtape1);
+        Assert.assertEquals((int) etape2Entity.getNumOrdreEtapeWorkflow(), ordreEtape2);
+        Assert.assertEquals((int) etape3Entity.getNumOrdreEtapeWorkflow(), ordreEtape3);
+        Assert.assertEquals((int) etape4Entity.getNumOrdreEtapeWorkflow(), ordreEtape4);
+        Assert.assertEquals(resultat,String.valueOf(this.result));
+    }
+
+    // endregion
+
+    public boolean changerOrdreEtapeService(ProjetEntity projetEntity,UtilisateurEntity utilisateurEntity,String nomEtape,int nvOrdre)
+    {
+
+        //1 trouver la colonne puis lui changer son numero ordre
+        //2 regarder si une autre colonne possède ce nouveau numero
+        //3 si oui alors faut incrémenter son numero ainsi que celle d'apres
+        //4 si non alors finit
+        //5 tester si utilisateur a le droit
+        Set<EtapeWorkflowEntity> etapeWorkflowEntitySet = projetEntity.getEtapeWorkflows();
+        EtapeWorkflowEntity etapeInput = etapeWorkflowEntitySet.stream().filter(e -> e.getNomEtapeWorkflow().equals(nomEtape)).findFirst().orElse(null);
+
+        RoleProjetEntity roleUtilisateur = projetEntity.getMembresDuProjet().stream()
+                .filter(m -> m.getUtilisateurParticipant().equals(utilisateurEntity))
+                .map(ParticipationEntity::getRoleDuParticipant).findFirst().orElse(null);
+
+        assert roleUtilisateur != null;
+        Optional<DroitProjetEntity> droitUtilisateur = roleUtilisateur.getDroitProjets().stream()
+                .filter(d -> d.getNomDroit().equals(Constantes.DROIT_CHANGER_ORDRE_ETAPE))
+                .findFirst();
+
+        if (etapeInput !=  null && droitUtilisateur.isPresent())
+        {
+
+            if (nvOrdre < etapeInput.getNumOrdreEtapeWorkflow())
+            {
+                etapeWorkflowEntitySet.stream()
+                        .filter(e -> e.getNumOrdreEtapeWorkflow() >= nvOrdre && e.getNumOrdreEtapeWorkflow() < etapeInput.getNumOrdreEtapeWorkflow())
+                        .forEach(e -> e.setNumOrdreEtapeWorkflow(e.getNumOrdreEtapeWorkflow()+1));
+            } else {
+                etapeWorkflowEntitySet.stream()
+                        .filter(e -> e.getNumOrdreEtapeWorkflow() <= nvOrdre && e.getNumOrdreEtapeWorkflow() > etapeInput.getNumOrdreEtapeWorkflow())
+                        .forEach(e -> e.setNumOrdreEtapeWorkflow(e.getNumOrdreEtapeWorkflow()-1));
+            }
+
+            etapeWorkflowEntitySet.stream()
+                    .filter(e -> e.equals(etapeInput))
+                    .forEach(e -> e.setNumOrdreEtapeWorkflow(nvOrdre));
+
+            projetEntity.setEtapeWorkflows(etapeWorkflowEntitySet);
+            return true;
+
+        } else  return false;
+
     }
 }

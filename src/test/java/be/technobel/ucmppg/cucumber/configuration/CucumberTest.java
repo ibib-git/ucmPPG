@@ -1,4 +1,4 @@
-package be.technobel.ucmppg;
+package be.technobel.ucmppg.cucumber.configuration;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(plugin = "pretty",
-        features = "src/test/java/be/technobel/ucmppg/features",
+        features = "src/test/java/be/technobel/ucmppg/cucumber/features",
         strict=true)
 public class CucumberTest {
 }

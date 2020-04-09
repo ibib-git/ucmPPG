@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name="Role_dans_Projet")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleProjetEntity implements Serializable {

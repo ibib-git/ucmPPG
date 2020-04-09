@@ -1,4 +1,4 @@
-package be.technobel.ucmppg;
+package be.technobel.ucmppg.cucumber;
 
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
@@ -16,29 +16,28 @@ import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 public class AjouterCollaborateurAuProjetServiceTests {
 
     private UtilisateurEntity utilisateurEntity=null;
     private ProjetEntity projetEntity=null;
-
     @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    UtilisateurRepository utilisateurRepository;
     @Autowired
-    private ProjetRepository projetRepository;
+    ProjetRepository projetRepository;
     @Autowired
-    private RoleProjetRepository roleProjetRepository;
+    RoleProjetRepository roleProjetRepository;
     @Autowired
-    private AjouterCollaborateurAuProjetService ajouterCollaborateurAuProjetService;
+    AjouterCollaborateurAuProjetService ajouterCollaborateurAuProjetService;
     @Autowired
-    private CreationDeProjetService creationDeProjetService;
+    CreationDeProjetService creationDeProjetService;
     @Etantdonné("un utilisateur")
     public void createUtilisateur(){
         this.utilisateurEntity=new UtilisateurEntity();
         this.utilisateurEntity.setEmailUtilisateur("pierre.dupont@exemple.com");
         this.utilisateurEntity.setPseudoUtilisateur("pierre_dupont");
         this.utilisateurEntity.setMotDePasseUtilisateur("Test1234!");
-        this.utilisateurRepository.save(utilisateurEntity);
+        System.out.println(this.utilisateurEntity);
+        this.utilisateurRepository.save(this.utilisateurEntity);
     }
 
     @Etantdonné("un projet")
@@ -56,11 +55,11 @@ public class AjouterCollaborateurAuProjetServiceTests {
 
     @Quand("j'ajoute l'utilisateur au projet")
     public void ajouterUtilisateurAuProjet(){
-        System.out.println(
+
         ajouterCollaborateurAuProjetService.execute(
                 this.projetEntity.getIdProjet(),
                 this.utilisateurEntity.getEmailUtilisateur()
-        )
+
         );
     }
 
@@ -105,7 +104,7 @@ public class AjouterCollaborateurAuProjetServiceTests {
         );
     }
 
-    @After()
+  /*  @After()
     public void apres(){
         long idUtilisateur=this.utilisateurEntity.getIdUtilisateur();
         long idProjet=this.projetEntity.getIdProjet();
@@ -117,5 +116,5 @@ public class AjouterCollaborateurAuProjetServiceTests {
             this.projetRepository.deleteById(idProjet);
         }
 
-    }
+    }*/
 }

@@ -1,4 +1,4 @@
-package be.technobel.ucmppg;
+package be.technobel.ucmppg.cucumber;
 
 import be.technobel.ucmppg.bl.dto.RoleDTO;
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-@SpringBootTest
+
 public class ProjetDTOCreationTest {
 
     private UtilisateurEntity utilisateurTest = null;
@@ -25,7 +25,6 @@ public class ProjetDTOCreationTest {
 
     @Autowired
     private UtilisateurRepository utilisateurRepository;
-
     @Autowired
     private CreationDeProjetService creationDeProjetService;
 
