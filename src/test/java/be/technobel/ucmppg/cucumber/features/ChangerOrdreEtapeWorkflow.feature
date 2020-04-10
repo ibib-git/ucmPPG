@@ -36,12 +36,6 @@
       Quand l'utilisateur veut changer l'ordre de l'étape "Doing" en ordre 3
       Alors l'ordre des étapes devient "ToDo" = 1, "Doing" = 2, "Test" = 3, "Done" = 4 de plus le service renvoie "false"
 
-#    Scénario: L'utilisateur possède le droit pour le faire
-#      Mais le projet compte moins de 2 étapes workflow
-#      Alors un message d'erreur est envoyé
-#
-#    Scénario: L'utilisateur ne participe pas à ce projet
-#      Alors un message d'erreur est envoyé
 
 
 
