@@ -19,9 +19,9 @@ public class ChangerOrdreEtapeService {
     @Autowired
     UtilisateurRepository utilisateurRepository;
 
-    public boolean execute(long idProjet, long idUtilisateur, String nomEtape, int nvOrdre)
+    public Boolean execute(long idUtilisateur, long idEtape, int nvOrdre)
     {
-        Optional<ProjetEntity> projetEntityOptional = projetRepository.findByIdProjet(idProjet);
+        Optional<ProjetEntity> projetEntityOptional = projetRepository.getProjetByEtapeWorkflows(idEtape);
         Optional<UtilisateurEntity> utilisateurEntityOptional = utilisateurRepository.findById(idUtilisateur);
 
         //check si le projet existe et si l'utilisateur existe
@@ -43,7 +43,7 @@ public class ChangerOrdreEtapeService {
 
                 Set<EtapeWorkflowEntity> etapeWorkflowEntitySet = projetEntity.getEtapeWorkflows();
                 EtapeWorkflowEntity etapeInput = etapeWorkflowEntitySet.stream()
-                        .filter(e -> e.getNomEtapeWorkflow().equals(nomEtape)).findFirst().orElse(null);
+                        .filter(e -> e.getIdEtapeWorkflow() == idEtape).findFirst().orElse(null);
 
                 // check si l'etape du workflow en input existe bien dans le projet et si l'utilisateur à le droit
                 if (etapeInput !=  null && droitUtilisateur.isPresent())
