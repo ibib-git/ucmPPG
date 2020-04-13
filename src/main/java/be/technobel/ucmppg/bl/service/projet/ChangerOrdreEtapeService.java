@@ -19,7 +19,7 @@ public class ChangerOrdreEtapeService {
     @Autowired
     UtilisateurRepository utilisateurRepository;
 
-    public Boolean execute(long idUtilisateur, long idEtape, int nvOrdre)
+    public Boolean execute(Long idUtilisateur, Long idEtape, int nvOrdre)
     {
         Optional<ProjetEntity> projetEntityOptional = projetRepository.getProjetByEtapeWorkflows(idEtape);
         Optional<UtilisateurEntity> utilisateurEntityOptional = utilisateurRepository.findById(idUtilisateur);

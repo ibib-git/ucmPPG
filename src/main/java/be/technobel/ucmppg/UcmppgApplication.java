@@ -3,6 +3,7 @@ package be.technobel.ucmppg;
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
+import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,11 +105,16 @@ public class UcmppgApplication {
         prendreTache.setNomDroit("prendre une tâche");
         droitProjetRepository.save(prendreTache);
 
+        DroitProjetEntity changerEtapeOrdre=new DroitProjetEntity();
+        changerEtapeOrdre.setNomDroit(Constantes.DROIT_CHANGER_ORDRE_ETAPE);
+        droitProjetRepository.save(changerEtapeOrdre);
+
         RoleProjetEntity admin=new RoleProjetEntity();
         admin.setNomDeRole("administrateur");
         admin.getDroitProjets().add(gererTache);
         admin.getDroitProjets().add(inviterCollaborateurs);
         admin.getDroitProjets().add(prendreTache);
+        admin.getDroitProjets().add(changerEtapeOrdre);
         roleProjetRepository.save(admin);
 
         RoleProjetEntity moderateur=new RoleProjetEntity();

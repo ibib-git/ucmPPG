@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrdreEtapeDTO {
 
-    private int idUtilisateur;
+    private long idUtilisateur;
     private int nvOrdre;
 }

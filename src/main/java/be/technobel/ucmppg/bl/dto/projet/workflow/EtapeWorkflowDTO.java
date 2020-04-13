@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 public class EtapeWorkflowDTO {
-
+    private long id;
     private String nom;
     private String description;
     private boolean estPrenable;
@@ -25,6 +25,7 @@ public class EtapeWorkflowDTO {
     private List<TacheDTO> taches =new ArrayList<>();
 
     public EtapeWorkflowDTO(EtapeWorkflowEntity etapeWorkflowEntity) {
+        this.id = etapeWorkflowEntity.getIdEtapeWorkflow();
         this.nom =etapeWorkflowEntity.getNomEtapeWorkflow();
         this.description =etapeWorkflowEntity.getNomEtapeWorkflow();
         this.numOrdre = etapeWorkflowEntity.getNumOrdreEtapeWorkflow();

@@ -52,11 +52,9 @@ public class ChangerOrdreEtapeWorkflowTest {
 
 
     @Etantdonné("un droit de changer l'ordre d'une étape workflow d'un projet")
-    public void creerUnDroit ()
+    public void chercherUnDroit ()
     {
-        DroitProjetEntity droit = new DroitProjetEntity();
-        droit.setNomDroit(Constantes.DROIT_CHANGER_ORDRE_ETAPE);
-        this.droitChangerOrdeEtape = this.droitProjetRepository.save(droit);
+        this.droitChangerOrdeEtape = this.droitProjetRepository.findDroitProjetByNomDroit(Constantes.DROIT_CHANGER_ORDRE_ETAPE);
     }
 
     @Et("un utilisateur createur de projet {utilisateur}")
@@ -143,10 +141,12 @@ public class ChangerOrdreEtapeWorkflowTest {
             EtapeWorkflowEntity etape = new EtapeWorkflowEntity();
             etape.setNomEtapeWorkflow(l.get(0));
             etape.setNumOrdreEtapeWorkflow(Integer.parseInt(l.get(1)));
+            etape.setDescriptionEtapeWorkflow("cucumber Test");
             etape.setEstPrenableEtapeWorkflow(true);
             this.etapeWorkflowEntitySet.add(this.etapeWorkflowRepository.save(etape));
         });
         this.projetEntity.setEtapeWorkflows(this.etapeWorkflowEntitySet);
+        System.out.println("###############################################");
         System.out.println(this.projetEntity.getEtapeWorkflows());
         this.projetRepository.save(this.projetEntity);
     }
@@ -178,7 +178,8 @@ public class ChangerOrdreEtapeWorkflowTest {
     @Quand("l'utilisateur veut changer l'ordre de l'étape {string} en ordre {int}")
     public void changerOrdre (String etape,int newOrdre)
     {
-       this.result = this.changerOrdreEtapeService.execute(this.projetEntity.getIdProjet(),this.utilisateurMembreEntity.getIdUtilisateur(),etape,newOrdre);
+       EtapeWorkflowEntity etapeWorkflowEntity = this.etapeWorkflowEntitySet.stream().filter(e -> e.getNomEtapeWorkflow().equals(etape)).findFirst().orElse(null);
+        this.result = this.changerOrdreEtapeService.execute(this.utilisateurMembreEntity.getIdUtilisateur(),etapeWorkflowEntity.getIdEtapeWorkflow(),newOrdre);
     }
 
     @Alors("l'ordre des étapes devient {string} = {int}, {string} = {int}, {string} = {int}, {string} = {int} de plus le service renvoie {string}")

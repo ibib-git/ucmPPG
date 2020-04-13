@@ -17,7 +17,7 @@ public class EtapeWorkflowController {
     ChangerOrdreEtapeService changerOrdreEtapeService;
 
     @PatchMapping("{idEtape}/ordre")
-    public ResponseEntity<Boolean> changerOrdreEtape (@PathVariable Long idEtape, @RequestBody OrdreEtapeDTO ordreEtapeDTO)
+    public ResponseEntity<Boolean> changerOrdreEtape (@PathVariable long idEtape, @RequestBody OrdreEtapeDTO ordreEtapeDTO)
     {
         return ResponseEntity.ok(this.changerOrdreEtapeService.execute(ordreEtapeDTO.getIdUtilisateur(),idEtape,ordreEtapeDTO.getNvOrdre()));
     }
