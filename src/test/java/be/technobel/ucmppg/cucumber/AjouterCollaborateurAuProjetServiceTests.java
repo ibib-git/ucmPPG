@@ -18,18 +18,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 public class AjouterCollaborateurAuProjetServiceTests {
 
-    private UtilisateurEntity utilisateurEntity=null;
-    private ProjetEntity projetEntity=null;
+    private UtilisateurEntity utilisateurEntity = null;
+    private ProjetEntity projetEntity = null;
+
     @Autowired
-    UtilisateurRepository utilisateurRepository;
+    private UtilisateurRepository utilisateurRepository;
     @Autowired
-    ProjetRepository projetRepository;
+    private ProjetRepository projetRepository;
     @Autowired
-    RoleProjetRepository roleProjetRepository;
+    private RoleProjetRepository roleProjetRepository;
     @Autowired
-    AjouterCollaborateurAuProjetService ajouterCollaborateurAuProjetService;
+    private AjouterCollaborateurAuProjetService ajouterCollaborateurAuProjetService;
     @Autowired
-    CreationDeProjetService creationDeProjetService;
+    private CreationDeProjetService creationDeProjetService;
+
     @Etantdonné("un utilisateur")
     public void createUtilisateur(){
         this.utilisateurEntity=new UtilisateurEntity();
@@ -65,9 +67,9 @@ public class AjouterCollaborateurAuProjetServiceTests {
     @Alors("l'utilisateur possède une référence vers le projet")
     public void verifierReferenceUtilisateur(){
 
-        this.utilisateurEntity=this.utilisateurRepository.findById(this.utilisateurEntity.getIdUtilisateur()).orElse(null);
+        this.utilisateurEntity = this.utilisateurRepository.findById(this.utilisateurEntity.getIdUtilisateur()).orElse(null);
 
-        long idProjet=this.projetEntity.getIdProjet();
+        long idProjet = this.projetEntity.getIdProjet();
 
         //recherche si un élément dans les participations de l'utilisateur possède
         // l'id de projet correspondant à celui du projet auquel on a ajouté l'utilisateur
@@ -86,18 +88,18 @@ public class AjouterCollaborateurAuProjetServiceTests {
     }
 
     @Alors("le projet possède une référence vers le membre")
-    public void verifierReferenceProjet(){
-        this.projetEntity=this.projetRepository.findById(this.projetEntity.getIdProjet()).orElse(null);
-        long idUtilisateur=this.utilisateurEntity.getIdUtilisateur();
+    public void verifierReferenceProjet() {
+        this.projetEntity = this.projetRepository.findById(this.projetEntity.getIdProjet()).orElse(null);
+        long idUtilisateur = this.utilisateurEntity.getIdUtilisateur();
 
         Assert.assertTrue(
                 this.projetEntity.getMembresDuProjet().stream()
-                .anyMatch(
-                        participationEntity ->
-                            participationEntity.getUtilisateurParticipant().getIdUtilisateur()
-                                    .equals(
-                                            idUtilisateur
-                                    )
+                        .anyMatch(
+                                participationEntity ->
+                                        participationEntity.getUtilisateurParticipant().getIdUtilisateur()
+                                                .equals(
+                                                        idUtilisateur
+                                                )
 
                 )
         );
@@ -111,7 +113,7 @@ public class AjouterCollaborateurAuProjetServiceTests {
             this.utilisateurRepository.deleteById(idUtilisateur);
         }
 
-        if(this.projetRepository.findById(idProjet).isPresent()){
+        if (this.projetRepository.findById(idProjet).isPresent()) {
             this.projetRepository.deleteById(idProjet);
         }
 

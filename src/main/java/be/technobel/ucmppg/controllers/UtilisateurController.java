@@ -1,28 +1,22 @@
 package be.technobel.ucmppg.controllers;
 
 import be.technobel.ucmppg.bl.dto.ErrorDTO;
+import be.technobel.ucmppg.bl.dto.ParticipationDetailDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurConnexionDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
 import be.technobel.ucmppg.bl.service.utilisateur.CreationUtilisateurService;
 import be.technobel.ucmppg.bl.service.utilisateur.RecuperationUtilisateurService;
-import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
-import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.*;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -94,5 +88,14 @@ public class UtilisateurController {
         return (utilisateurDetailsDTO != null ? ResponseEntity.ok(utilisateurDetailsDTO) : new ResponseEntity("mail ou mot de passe incorrect", HttpStatus.NOT_FOUND));
     }
 
+
+    @ApiOperation(value = "pour récupérer un utilisateur")
+    @GetMapping("/{id}")
+    public ResponseEntity<UtilisateurDTO> getUtilisateurParId(@PathVariable("id") long id){
+
+        UtilisateurDTO utilisateurDTO = recuperationUtilisateurService.recupererUtilisateur(id);
+
+        return (utilisateurDTO != null ? ResponseEntity.ok(utilisateurDTO) : new ResponseEntity("l'utilisateur n'existe",HttpStatus.NOT_FOUND));
+    }
 
 }
