@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name="Role_dans_Projet")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleProjetEntity implements Serializable {
@@ -24,7 +25,7 @@ public class RoleProjetEntity implements Serializable {
     @Column(name = "nom_de_Role",nullable = false)
     private String nomDeRole;
 
-    @ManyToMany
+    @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(name="droit_role",joinColumns =@JoinColumn(name="role_id"),inverseJoinColumns = @JoinColumn(name="droit_id"))
     private Set<DroitProjetEntity> droitProjets=new HashSet<>();
 
@@ -35,13 +36,6 @@ public class RoleProjetEntity implements Serializable {
         }
     }
 
-
-//    public RoleProjetEntity(RoleDTO role_DAO) {
-////        this.nomDeRole = role_DAO.getNom();
-////        for (DroitDTO d: role_DAO.getDroitsDtoRole()) {
-////            droitProjets.add(new DroitProjetEntity(d));
-////        }
-////    }
 
     @Override
     public boolean equals(Object o) {
