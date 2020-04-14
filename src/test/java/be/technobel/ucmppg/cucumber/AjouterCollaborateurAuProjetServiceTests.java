@@ -116,6 +116,7 @@ public class AjouterCollaborateurAuProjetServiceTests {
         if (this.projetRepository.findById(idProjet).isPresent()) {
             this.projetRepository.deleteById(idProjet);
         }
+        //TODO : erreur lors du delete de l utilisateur (lien participation ?)
 
     }
 }

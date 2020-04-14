@@ -112,8 +112,5 @@ public class UtilisateurEntity implements Serializable {
                 Objects.equals(getProjetsParticiperUtilisateur(), that.getProjetsParticiperUtilisateur());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getIdUtilisateur(), getEmailUtilisateur(), getMotDePasseUtilisateur(), getPseudoUtilisateur(), getNomUtilisateur(), getPrenomUtilisateur(), getTelephoneUtilisateur(), getUrlPhotoUtilisateur(), getInformationSupplementaireUtilisateur(), getProjetsParticiperUtilisateur());
-    }
+
 }
