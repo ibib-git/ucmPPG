@@ -1,4 +1,4 @@
-package be.technobel.ucmppg;
+package be.technobel.ucmppg.unitTest;
 
 
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.HashSet;
 import java.util.Set;
 
 public class UtilisateurEntityDTOMapperTest {
@@ -22,7 +23,7 @@ public class UtilisateurEntityDTOMapperTest {
     @Before
     public void init ()
     {
-        utilisateurEntityWithAllParamNoProjets = new UtilisateurEntity((long) 5, "sith@empireGalactique.st","Order#66","DarkVador","Skylwalker","Anakin","+66456123789","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr","Que la force soit avec vous",null);
+        utilisateurEntityWithAllParamNoProjets = new UtilisateurEntity((long) 5, "sith@empireGalactique.st","Order#66","DarkVador","Skylwalker","Anakin","+66456123789","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr","Que la force soit avec vous",new HashSet<>());
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }

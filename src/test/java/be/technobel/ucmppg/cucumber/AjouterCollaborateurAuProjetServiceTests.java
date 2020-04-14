@@ -36,7 +36,6 @@ public class AjouterCollaborateurAuProjetServiceTests {
         this.utilisateurEntity.setEmailUtilisateur("pierre.dupont@exemple.com");
         this.utilisateurEntity.setPseudoUtilisateur("pierre_dupont");
         this.utilisateurEntity.setMotDePasseUtilisateur("Test1234!");
-        System.out.println(this.utilisateurEntity);
         this.utilisateurRepository.save(this.utilisateurEntity);
     }
 
@@ -104,7 +103,7 @@ public class AjouterCollaborateurAuProjetServiceTests {
         );
     }
 
-  /*  @After()
+    @After("@ajouterCollabo")
     public void apres(){
         long idUtilisateur=this.utilisateurEntity.getIdUtilisateur();
         long idProjet=this.projetEntity.getIdProjet();
@@ -116,5 +115,5 @@ public class AjouterCollaborateurAuProjetServiceTests {
             this.projetRepository.deleteById(idProjet);
         }
 
-    }*/
+    }
 }

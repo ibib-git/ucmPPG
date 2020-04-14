@@ -1,5 +1,6 @@
 # language: fr
 
+  @changerOrdre
   Fonctionnalité: Changer l'ordre d'une étape du workflow
     Test du changement d'ordre entre les étapes du workflow tout en respectant les contraintes de droit et permissions
     Contexte: situation de base
@@ -11,6 +12,7 @@
       |Doing|2|
       |Test|3|
       |Done|4|
+
 
     Scénario: Un membre de projet qui a le droit va changer l'ordre de deux étapes
       Etant donné un nouvel utilisateur mail:sith@empire.un,pseudo:DarkVador,motDePasse:Ordre66!

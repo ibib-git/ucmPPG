@@ -8,10 +8,12 @@ import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Transactional
 public class ChangerOrdreEtapeService {
 
     @Autowired
@@ -43,7 +45,7 @@ public class ChangerOrdreEtapeService {
 
                 Set<EtapeWorkflowEntity> etapeWorkflowEntitySet = projetEntity.getEtapeWorkflows();
                 EtapeWorkflowEntity etapeInput = etapeWorkflowEntitySet.stream()
-                        .filter(e -> e.getIdEtapeWorkflow() == idEtape).findFirst().orElse(null);
+                        .filter(e -> e.getIdEtapeWorkflow().equals(idEtape)).findFirst().orElse(null);
 
                 // check si l'etape du workflow en input existe bien dans le projet et si l'utilisateur à le droit
                 if (etapeInput !=  null && droitUtilisateur.isPresent())

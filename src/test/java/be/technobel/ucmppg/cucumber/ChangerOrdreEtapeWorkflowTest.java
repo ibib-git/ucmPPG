@@ -6,6 +6,7 @@ import be.technobel.ucmppg.bl.service.projet.ChangerOrdreEtapeService;
 import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
+import io.cucumber.java.After;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Etantdonné;
@@ -32,7 +33,7 @@ public class ChangerOrdreEtapeWorkflowTest {
     private RoleProjetEntity roleStormtrooperEntity;
     private RoleProjetEntity roleSithEntity;
     private ParticipationEntity participationEntity,participationMembre;
-    private DroitProjetEntity droitChangerOrdeEtape;
+    private DroitProjetEntity droitChangerOrdeEtape, droitTache, droitCollaborateur;
     private Set<EtapeWorkflowEntity> etapeWorkflowEntitySet;
     private boolean result;
     @Autowired
@@ -74,15 +75,15 @@ public class ChangerOrdreEtapeWorkflowTest {
 
         // region definition des roles du projet
             //region droits
-        DroitProjetEntity droitTaches = this.droitProjetRepository.save(new DroitProjetEntity(null, "Assigner un esclave rebel"));
-        DroitProjetEntity droitCollaborateurs = this.droitProjetRepository.save(new DroitProjetEntity(null, "Tuer un sous-fifre "));
+        this.droitTache = this.droitProjetRepository.save(new DroitProjetEntity(null, "Assigner un esclave rebel"));
+        this.droitCollaborateur = this.droitProjetRepository.save(new DroitProjetEntity(null, "Tuer un sous-fifre "));
             // endregion
         // region role Empereur
         RoleProjetEntity role=new RoleProjetEntity();
         role.setNomDeRole(roleEmpereur);
         Set<DroitProjetEntity> droitEmpereurEntities=new HashSet<>();
-        droitEmpereurEntities.add(droitTaches);
-        droitEmpereurEntities.add(droitCollaborateurs);
+        droitEmpereurEntities.add(this.droitTache);
+        droitEmpereurEntities.add(this.droitCollaborateur);
         droitEmpereurEntities.add(this.droitChangerOrdeEtape);
         role.setDroitProjets(droitEmpereurEntities);
         this.roleEmpereurEntity = this.roleProjetRepository.save(role);
@@ -93,7 +94,7 @@ public class ChangerOrdreEtapeWorkflowTest {
         role.setNomDeRole(roleSith);
         Set<DroitProjetEntity> droitSithEntities=new HashSet<>();
         droitSithEntities.add(this.droitChangerOrdeEtape);
-        droitSithEntities.add(droitTaches);
+        droitSithEntities.add(this.droitTache);
         role.setDroitProjets(droitSithEntities);
         this.roleSithEntity = this.roleProjetRepository.save(role);
 
@@ -103,7 +104,7 @@ public class ChangerOrdreEtapeWorkflowTest {
         role =new RoleProjetEntity();
         role.setNomDeRole(roleStormtrooper);
         Set<DroitProjetEntity> droitStormtrooperEntities=new HashSet<>();
-        droitStormtrooperEntities.add(droitTaches);
+        droitStormtrooperEntities.add(this.droitTache);
         role.setDroitProjets(droitStormtrooperEntities);
         this.roleStormtrooperEntity = this.roleProjetRepository.save(role);
 
@@ -127,7 +128,7 @@ public class ChangerOrdreEtapeWorkflowTest {
 
         this.projetEntity.getMembresDuProjet().add(this.participationEntity);
         this.utilisateurCreateurEntity.getProjetsParticiperUtilisateur().add(this.participationEntity);
-        this.projetRepository.save(this.projetEntity);
+        this.projetEntity = this.projetRepository.save(this.projetEntity);
         this.utilisateurRepository.save(this.utilisateurCreateurEntity);
         // endregion
     }
@@ -137,6 +138,7 @@ public class ChangerOrdreEtapeWorkflowTest {
     {
         this.etapeWorkflowEntitySet = new HashSet<>();
 
+        //TODO DAMIEN : changer vers une hashMap
         etapeWorkflowEntityList.forEach(l -> {
             EtapeWorkflowEntity etape = new EtapeWorkflowEntity();
             etape.setNomEtapeWorkflow(l.get(0));
@@ -146,9 +148,7 @@ public class ChangerOrdreEtapeWorkflowTest {
             this.etapeWorkflowEntitySet.add(this.etapeWorkflowRepository.save(etape));
         });
         this.projetEntity.setEtapeWorkflows(this.etapeWorkflowEntitySet);
-        System.out.println("###############################################");
-        System.out.println(this.projetEntity.getEtapeWorkflows());
-        this.projetRepository.save(this.projetEntity);
+        this.projetEntity = this.projetRepository.save(this.projetEntity);
     }
 
     // region Scénario: Un membre de projet qui a le droit va changer l'ordre d'une colonne
@@ -180,12 +180,14 @@ public class ChangerOrdreEtapeWorkflowTest {
     {
        EtapeWorkflowEntity etapeWorkflowEntity = this.etapeWorkflowEntitySet.stream().filter(e -> e.getNomEtapeWorkflow().equals(etape)).findFirst().orElse(null);
         this.result = this.changerOrdreEtapeService.execute(this.utilisateurMembreEntity.getIdUtilisateur(),etapeWorkflowEntity.getIdEtapeWorkflow(),newOrdre);
+        this.projetEntity = this.projetRepository.findById(this.projetEntity.getIdProjet()).orElse(null);
     }
 
     @Alors("l'ordre des étapes devient {string} = {int}, {string} = {int}, {string} = {int}, {string} = {int} de plus le service renvoie {string}")
     public void ordreEstchange(String etape1,int ordreEtape1,String etape2,int ordreEtape2,String etape3,int ordreEtape3,String etape4,int ordreEtape4,String resultat )
     {
-       EtapeWorkflowEntity etape1Entity = this.projetEntity.getEtapeWorkflows().stream()
+        //TODO DAMIEN : modifier le "alors" en un tableau
+        EtapeWorkflowEntity etape1Entity = this.projetEntity.getEtapeWorkflows().stream()
                .filter(e -> e.getNomEtapeWorkflow().equals(etape1)).findFirst().orElse(null);
         EtapeWorkflowEntity etape2Entity = this.projetEntity.getEtapeWorkflows().stream()
                 .filter(e -> e.getNomEtapeWorkflow().equals(etape2)).findFirst().orElse(null);
@@ -193,7 +195,6 @@ public class ChangerOrdreEtapeWorkflowTest {
                 .filter(e -> e.getNomEtapeWorkflow().equals(etape3)).findFirst().orElse(null);
         EtapeWorkflowEntity etape4Entity = this.projetEntity.getEtapeWorkflows().stream()
                 .filter(e -> e.getNomEtapeWorkflow().equals(etape4)).findFirst().orElse(null);
-
 
         assert etape1Entity != null;
         assert etape2Entity != null;
@@ -207,5 +208,37 @@ public class ChangerOrdreEtapeWorkflowTest {
     }
 
     // endregion
+
+    @After("@changerOrdre")
+    public void cleanDatabase ()
+    {
+
+        // mise a null de participation pour casser la relation participation-projet-utilisateur
+        this.participationMembre.setProjetParticipation(null);
+        this.participationMembre.setUtilisateurParticipant(null);
+        this.participationEntity.setProjetParticipation(null);
+        this.participationEntity.setUtilisateurParticipant(null);
+        this.participationRepository.save(this.participationMembre);
+        this.participationRepository.save(this.participationEntity);
+
+        this.projetRepository.deleteById(this.projetEntity.getIdProjet());
+
+        this.utilisateurRepository.deleteById(this.utilisateurCreateurEntity.getIdUtilisateur());
+        this.utilisateurRepository.deleteById(this.utilisateurMembreEntity.getIdUtilisateur());
+
+
+        this.participationRepository.deleteById(this.participationMembre.getIdParticipation());
+        this.participationRepository.deleteById(this.participationEntity.getIdParticipation());
+
+        this.roleProjetRepository.deleteById(this.roleEmpereurEntity.getIdRole());
+        this.roleProjetRepository.deleteById(this.roleSithEntity.getIdRole());
+        this.roleProjetRepository.deleteById(this.roleStormtrooperEntity.getIdRole());
+
+        this.droitProjetRepository.deleteById(this.droitTache.getIdDroit());
+        this.droitProjetRepository.deleteById(this.droitCollaborateur.getIdDroit());
+
+        this.etapeWorkflowRepository.deleteAll(this.etapeWorkflowEntitySet);
+
+    }
 
 }

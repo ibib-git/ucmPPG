@@ -36,7 +36,7 @@ public class ProjetEntity implements Serializable {
     @OneToMany(fetch = FetchType.EAGER)
     private Set<ParticipationEntity> membresDuProjet =new HashSet<>();
 
-    @OneToMany
+    @OneToMany (fetch = FetchType.EAGER)
     private Set<EtapeWorkflowEntity> etapeWorkflows=new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER)
