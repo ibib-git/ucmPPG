@@ -36,8 +36,8 @@ public class ChangerOrdreEtapeService {
                     .filter(m -> m.getUtilisateurParticipant().equals(utilisateurEntity))
                     .map(ParticipationEntity::getRoleDuParticipant).findFirst();
 
-            // check si l'utilisateur participe bien au projet
-            if (roleUtilisateur.isPresent())
+            // check si l'utilisateur participe bien au projet et si le nouvel ordre est compris dans les bornes
+            if (roleUtilisateur.isPresent() && nvOrdre <= projetEntity.getEtapeWorkflows().size() && nvOrdre >= 0)
             {
                 Optional<DroitProjetEntity> droitUtilisateur = roleUtilisateur.get().getDroitProjets().stream()
                         .filter(d -> d.getNomDroit().equals(Constantes.DROIT_CHANGER_ORDRE_ETAPE))
