@@ -1,6 +1,7 @@
 package be.technobel.ucmppg.bl.service.creation;
 
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,36 +37,39 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
             projetEntity.setDescriptionDeProjet(description);
             projetEntity.setUtilisateurCreateur(utilisateurEntity);
             RoleProjetEntity roleAdmininistrateurEntity=new RoleProjetEntity();
-            roleAdmininistrateurEntity.setNomDeRole("administrateur");
+            roleAdmininistrateurEntity.setNomDeRole(Constantes.ROLE_ADMINISTRATEUR);
             Set<DroitProjetEntity> droitAdministrateurEntities=new HashSet<>();
             droitProjetRepository.findAll().forEach(
                     droitAdministrateurEntities::add
             );
             roleAdmininistrateurEntity.setDroitProjets(droitAdministrateurEntities);
             RoleProjetEntity roleModerateurEntity=new RoleProjetEntity();
-            roleModerateurEntity.setNomDeRole("modérateur");
+            roleModerateurEntity.setNomDeRole(Constantes.ROLE_MODERATEUR);
             Set<DroitProjetEntity> droitModerateurEntities=new HashSet<>();
             droitModerateurEntities.add(
-                    droitProjetRepository.findDroitProjetByNomDroit("gérer les taches")
+                    droitProjetRepository.findDroitProjetByNomDroit(Constantes.DROIT_GERER_TACHES)
             );
             droitModerateurEntities.add(
-                    droitProjetRepository.findDroitProjetByNomDroit("gérer les rôles")
+                    droitProjetRepository.findDroitProjetByNomDroit(Constantes.DROIT_GERER_ROLES)
             );
             droitModerateurEntities.add(
-                    droitProjetRepository.findDroitProjetByNomDroit("Créer des tâches")
+                    droitProjetRepository.findDroitProjetByNomDroit(Constantes.DROIT_CREER_TACHES)
             );
             droitModerateurEntities.add(
-                    droitProjetRepository.findDroitProjetByNomDroit("inviter des collaborateurs")
+                    droitProjetRepository.findDroitProjetByNomDroit(Constantes.DROIT_INVITER_COLLABORATEURS)
             );
             droitModerateurEntities.add(
-                    droitProjetRepository.findDroitProjetByNomDroit("prendre une tâche")
+                    droitProjetRepository.findDroitProjetByNomDroit(Constantes.DROIT_PRENDRE_TACHE)
+            );
+            droitModerateurEntities.add(
+                    droitProjetRepository.findDroitProjetByNomDroit(Constantes.DROIT_VALIDER_TACHE)
             );
             roleModerateurEntity.setDroitProjets(droitModerateurEntities);
             RoleProjetEntity roleMembreEntity=new RoleProjetEntity();
-            roleMembreEntity.setNomDeRole("membre");
+            roleMembreEntity.setNomDeRole(Constantes.ROLE_MEMBRE);
             Set<DroitProjetEntity> droitMembreEntities=new HashSet<>();
             droitMembreEntities.add(
-                    droitProjetRepository.findDroitProjetByNomDroit("prendre une tâche")
+                    droitProjetRepository.findDroitProjetByNomDroit(Constantes.DROIT_PRENDRE_TACHE)
             );
             roleMembreEntity.setDroitProjets(droitMembreEntities);
             Set<RoleProjetEntity> roleProjetEntities=new HashSet<>();
@@ -79,20 +83,20 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
             EtapeWorkflowEntity etapeAFaireEntity=new EtapeWorkflowEntity();
             etapeAFaireEntity.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
             etapeAFaireEntity.setEstPrenableEtapeWorkflow(true);
-            etapeAFaireEntity.setNomEtapeWorkflow("à faire");
-            etapeAFaireEntity.setNumOrdreEtapeWorkflow(0);
+            etapeAFaireEntity.setNomEtapeWorkflow(Constantes.ETAPE_AFAIRE_DEFAUT);
+            etapeAFaireEntity.setNumOrdreEtapeWorkflow(1);
             etapeAFaireEntity.setDescriptionEtapeWorkflow("taches à faire");
             EtapeWorkflowEntity etapeEnCoursEntity=new EtapeWorkflowEntity();
             etapeEnCoursEntity.setConstrainteAffectation(ConstrainteAffectationEnum.MEME);
             etapeEnCoursEntity.setEstPrenableEtapeWorkflow(false);
-            etapeEnCoursEntity.setNumOrdreEtapeWorkflow(1);
-            etapeEnCoursEntity.setNomEtapeWorkflow("en cours");
+            etapeEnCoursEntity.setNumOrdreEtapeWorkflow(2);
+            etapeEnCoursEntity.setNomEtapeWorkflow(Constantes.ETAPE_ENCOURS_DEFAUT);
             etapeEnCoursEntity.setDescriptionEtapeWorkflow("taches en cours");
             EtapeWorkflowEntity etapeFaiteEntity=new EtapeWorkflowEntity();
             etapeFaiteEntity.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
             etapeFaiteEntity.setEstPrenableEtapeWorkflow(false);
-            etapeFaiteEntity.setNumOrdreEtapeWorkflow(2);
-            etapeFaiteEntity.setNomEtapeWorkflow("fini");
+            etapeFaiteEntity.setNumOrdreEtapeWorkflow(3);
+            etapeFaiteEntity.setNomEtapeWorkflow(Constantes.ETAPE_FINI_DEFAUT);
             etapeFaiteEntity.setDescriptionEtapeWorkflow("taches finies");
             etapeWorkflowEntities.add(etapeAFaireEntity);
             etapeWorkflowEntities.add(etapeEnCoursEntity);
