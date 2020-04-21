@@ -32,9 +32,7 @@ public class ParticipationEntity implements Serializable{
         return super.hashCode();
     }
 
-//    public ParticipationEntity(ParticipationDTO participation_DAO) {
-//        this.projetParticipation = new ProjetEntity(participation_DAO.getProjet());
-//        this.roleDuParticipant = new RoleProjetEntity(participation_DAO.getRole());
-//        this.utilisateurParticipant = new UtilisateurEntity(participation_DAO.getUtilisateur());
-//    }
+    @Column(name ="Actif_Sur_Le_Projet")
+    private boolean isActif;
+
 }

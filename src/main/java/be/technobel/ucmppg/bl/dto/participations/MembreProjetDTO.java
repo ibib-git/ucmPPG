@@ -15,9 +15,11 @@ public class MembreProjetDTO {
 
     private UtilisateurDetailsDTO utilisateur;
     private RoleDTO role;
+    private boolean isActif;
 
     public MembreProjetDTO(ParticipationEntity participationEntity) {
         this.utilisateur=new UtilisateurDetailsDTO(participationEntity.getUtilisateurParticipant());
         this.role=new RoleDTO(participationEntity.getRoleDuParticipant());
+        this.isActif = true;
     }
 }
