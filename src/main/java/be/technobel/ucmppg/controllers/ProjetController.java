@@ -103,7 +103,6 @@ public class ProjetController {
 
     @PostMapping("/supprimerCollaborateur")
     public ResponseEntity<Boolean> supprimerCollaborateurProjet(@RequestBody SupprimerCollaborateurDTO supprimerCollaborateurDTO){
-        System.out.println("Qu'est-ce qu'on dit ");
         return ResponseEntity.ok(supprimerCollaborateurDuProjetService.execute(supprimerCollaborateurDTO));
     }
 
