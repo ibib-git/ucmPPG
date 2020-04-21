@@ -7,6 +7,7 @@ public enum DroitPossibleEnum {
     PRENDRETACHE("Prendre une tache"),
     INVITER("Inviter des collaborateur"),
     CREERTACHE("Créer des taches"),
+    MODIFIERORDREETAPE("Modifier l'ordre des étapes"),
     CREERROLE("Créer des roles");
 
     private String nom;

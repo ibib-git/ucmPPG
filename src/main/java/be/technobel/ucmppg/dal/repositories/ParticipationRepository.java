@@ -9,9 +9,12 @@ import java.util.Optional;
 
 @Repository
 public interface ParticipationRepository extends CrudRepository<ParticipationEntity,Long> {
+
     @Query(value = "select * from participation_projet "
             +" where utilisateur_participant_id_utilisateur = :idUtilisateur "
             +" and projet_participation_id_projet = :idProjet ",nativeQuery = true)
     Optional<ParticipationEntity> findByParticipationOfProjet(@Param("idUtilisateur") Long idUtilisateur,@Param("idProjet") Long idProjet);
+   
+    boolean deleteByIdParticipation (Long idParticipation);
 }
 

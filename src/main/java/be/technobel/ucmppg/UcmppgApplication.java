@@ -4,6 +4,7 @@ import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.collaborateur.SupprimerCollaborateurDTO;
 import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
+import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
 import be.technobel.ucmppg.bl.service.projet.SupprimerCollaborateurDuProjetService;
 import be.technobel.ucmppg.dal.entities.*;
@@ -127,11 +128,16 @@ public class UcmppgApplication {
         prendreTache.setNomDroit("prendre une tâche");
         droitProjetRepository.save(prendreTache);
 
+        DroitProjetEntity changerEtapeOrdre=new DroitProjetEntity();
+        changerEtapeOrdre.setNomDroit(Constantes.DROIT_CHANGER_ORDRE_ETAPE);
+        droitProjetRepository.save(changerEtapeOrdre);
+
         RoleProjetEntity admin=new RoleProjetEntity();
         admin.setNomDeRole("administrateur");
         admin.getDroitProjets().add(gererTache);
         admin.getDroitProjets().add(inviterCollaborateurs);
         admin.getDroitProjets().add(prendreTache);
+        admin.getDroitProjets().add(changerEtapeOrdre);
         roleProjetRepository.save(admin);
 
         RoleProjetEntity moderateur=new RoleProjetEntity();
@@ -192,6 +198,7 @@ public class UcmppgApplication {
         EtapeWorkflowEntity todo=new EtapeWorkflowEntity();
         todo.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
         todo.setEstPrenableEtapeWorkflow(true);
+        todo.setNumOrdreEtapeWorkflow(0);
         todo.setNomEtapeWorkflow("To Do");
         todo.setDescriptionEtapeWorkflow("A faire");
         todo.getRolesAutorisation().add(admin);
@@ -203,6 +210,7 @@ public class UcmppgApplication {
         EtapeWorkflowEntity doing=new EtapeWorkflowEntity();
         doing.setConstrainteAffectation(ConstrainteAffectationEnum.MEME);
         doing.setEstPrenableEtapeWorkflow(true);
+        doing.setNumOrdreEtapeWorkflow(1);
         doing.setNomEtapeWorkflow("Doing");
         doing.setDescriptionEtapeWorkflow("En cours");
         doing.getRolesAutorisation().add(admin);
@@ -214,6 +222,7 @@ public class UcmppgApplication {
         EtapeWorkflowEntity done=new EtapeWorkflowEntity();
         done.setConstrainteAffectation(ConstrainteAffectationEnum.MEME);
         done.setEstPrenableEtapeWorkflow(false);
+        done.setNumOrdreEtapeWorkflow(2);
         done.setNomEtapeWorkflow("Done");
         done.setDescriptionEtapeWorkflow("Fini");
         done.getRolesAutorisation().add(admin);

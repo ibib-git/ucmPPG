@@ -30,6 +30,10 @@ public class EtapeWorkflowEntity implements Serializable {
     @Column(name="Prenable",nullable = false)
     private boolean estPrenableEtapeWorkflow;
 
+    // Le numero d'ordre représente l'odre de la suite logique d'étapes du projet
+    @Column(name = "numero_Ordre",nullable = false)
+    private Integer numOrdreEtapeWorkflow;
+
     @ManyToMany
     @JoinTable(name="autorisation_colonne",joinColumns=@JoinColumn(name="colonne_id"),inverseJoinColumns=@JoinColumn(name="role_id"))
     private Set<RoleProjetEntity> rolesAutorisation = new HashSet<>();
@@ -38,6 +42,5 @@ public class EtapeWorkflowEntity implements Serializable {
     private ConstrainteAffectationEnum constrainteAffectation;
 
     @OneToMany
-    private Set<TacheEntity> taches = new HashSet<>();
-
+    private Set<TacheEntity> taches=new HashSet<>();
 }

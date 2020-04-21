@@ -12,7 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 public class DroitProjetEntity implements Serializable {
 
     @Id
@@ -24,5 +23,13 @@ public class DroitProjetEntity implements Serializable {
 
     public DroitProjetEntity(DroitDTO droitDTO){
         this.nomDroit = droitDTO.getNom();
+    }
+
+    @Override
+    public String toString() {
+        return "DroitProjetEntity{" +
+                "idDroit=" + idDroit +
+                ", nomDroit='" + nomDroit + '\'' +
+                '}';
     }
 }

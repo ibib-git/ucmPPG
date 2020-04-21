@@ -30,7 +30,7 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
         ProjetDTO projetDTO=null;
         if(utilisateurOptionalEntity.isPresent()){
             UtilisateurEntity utilisateurEntity=utilisateurOptionalEntity.get();
-            utilisateurEntity.setProjetsParticiperUtilisateur(new HashSet<>());
+            utilisateurEntity.setProjetsParticiperUtilisateur(new HashSet<>());//TODO Bastien : que se passe t il si il a deja des participations dans d'autres projets ?
             ProjetEntity projetEntity=new ProjetEntity();
             projetEntity.setNomDeProjet(nom);
             projetEntity.setDescriptionDeProjet(description);
@@ -80,15 +80,18 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
             etapeAFaireEntity.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
             etapeAFaireEntity.setEstPrenableEtapeWorkflow(true);
             etapeAFaireEntity.setNomEtapeWorkflow("à faire");
+            etapeAFaireEntity.setNumOrdreEtapeWorkflow(0);
             etapeAFaireEntity.setDescriptionEtapeWorkflow("taches à faire");
             EtapeWorkflowEntity etapeEnCoursEntity=new EtapeWorkflowEntity();
             etapeEnCoursEntity.setConstrainteAffectation(ConstrainteAffectationEnum.MEME);
             etapeEnCoursEntity.setEstPrenableEtapeWorkflow(false);
+            etapeEnCoursEntity.setNumOrdreEtapeWorkflow(1);
             etapeEnCoursEntity.setNomEtapeWorkflow("en cours");
             etapeEnCoursEntity.setDescriptionEtapeWorkflow("taches en cours");
             EtapeWorkflowEntity etapeFaiteEntity=new EtapeWorkflowEntity();
             etapeFaiteEntity.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
             etapeFaiteEntity.setEstPrenableEtapeWorkflow(false);
+            etapeFaiteEntity.setNumOrdreEtapeWorkflow(2);
             etapeFaiteEntity.setNomEtapeWorkflow("fini");
             etapeFaiteEntity.setDescriptionEtapeWorkflow("taches finies");
             etapeWorkflowEntities.add(etapeAFaireEntity);

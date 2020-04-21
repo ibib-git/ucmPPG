@@ -1,4 +1,5 @@
 # language: fr
+@ajouterCollabo
 Fonctionnalité: Ajouter Collaborateur au projet
   Contexte: blabla
     Etant donné un utilisateur
