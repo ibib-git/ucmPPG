@@ -34,6 +34,7 @@ public class ParticipationEntity implements Serializable{
     public int hashCode() {
         return super.hashCode();
     }
-
-
+  
+    @Column(name ="Actif_Sur_Le_Projet")
+    private boolean isActif;
 }

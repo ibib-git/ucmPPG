@@ -29,4 +29,9 @@ public class HistoriqueTacheEntity implements Serializable {
     @OneToOne
     private UtilisateurEntity utilisateur_Tache_historique;
 
+    public HistoriqueTacheEntity(TacheEntity tacheEntity, EtapeWorkflowEntity etapeWorkflowEntity, UtilisateurEntity utilisateurEntity){
+        this.etapeWorkflowTacheHistorique = etapeWorkflowEntity;
+        this.tacheHistorique = tacheEntity;
+        this.utilisateur_Tache_historique = utilisateurEntity;
+    }
 }

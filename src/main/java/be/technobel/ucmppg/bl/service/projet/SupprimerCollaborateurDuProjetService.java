@@ -2,67 +2,65 @@ package be.technobel.ucmppg.bl.service.projet;
 
 import be.technobel.ucmppg.bl.dto.projet.collaborateur.SupprimerCollaborateurDTO;
 import be.technobel.ucmppg.dal.entities.*;
-import be.technobel.ucmppg.dal.repositories.HistoriqueTacheRepository;
-import be.technobel.ucmppg.dal.repositories.ProjetRepository;
-import be.technobel.ucmppg.dal.repositories.TacheRepository;
-import be.technobel.ucmppg.dal.repositories.UtilisateurRepository;
+import be.technobel.ucmppg.dal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.ls.LSOutput;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SupprimerCollaborateurDuProjetService {
 
     @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private HistoriqueTacheRepository historiqueTacheRepository;
     @Autowired
     private ProjetRepository projetRepository;
     @Autowired
-    private HistoriqueTacheRepository historiqueTacheRepository;
+    private ParticipationRepository participationRepository;
     @Autowired
     private TacheRepository tacheRepository;
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private EtapeWorkflowRepository etapeWorkflowRepository;
 
-    public ProjetEntity execute(SupprimerCollaborateurDTO supprimerCollaborateurDTO){
-
-        Optional<UtilisateurEntity> optionalUtilisateurEntity = utilisateurRepository.findByEmailUtilisateur(supprimerCollaborateurDTO.getMail());
+    public boolean execute(SupprimerCollaborateurDTO supprimerCollaborateurDTO){
         Optional<ProjetEntity> optionalProjetEntity = projetRepository.findByIdProjet(supprimerCollaborateurDTO.getIdProjet());
-
-        if(optionalUtilisateurEntity.isPresent() & optionalProjetEntity.isPresent()){
+        Optional<UtilisateurEntity> optionalUtilisateurEntity = utilisateurRepository.findByEmailUtilisateur(supprimerCollaborateurDTO.getMail());
+        if(optionalUtilisateurEntity.isPresent()&& optionalProjetEntity.isPresent()) {
             UtilisateurEntity utilisateur = optionalUtilisateurEntity.get();
             ProjetEntity projet = optionalProjetEntity.get();
-
-            if(!utilisateur.getPseudoUtilisateur().equals(projet.getUtilisateurCreateur().getPseudoUtilisateur())) {
-
-                for (ParticipationEntity participationUtilisateur : utilisateur.getProjetsParticiperUtilisateur()) {
-                    if (participationUtilisateur.getUtilisateurParticipant().getPseudoUtilisateur().equals(utilisateur.getPseudoUtilisateur())) {
-                        utilisateur.getProjetsParticiperUtilisateur().remove(participationUtilisateur);
+            Optional<ParticipationEntity> optionalParticipationEntity = participationRepository.findByParticipationOfProjet(utilisateur.getIdUtilisateur(),projet.getIdProjet());
+            if(optionalParticipationEntity.isPresent()){
+                Optional<List<TacheEntity>> optionalTacheEntities = tacheRepository.findByProjetAndUtilisateur(projet.getIdProjet(),utilisateur.getIdUtilisateur());
+                if(optionalTacheEntities.isPresent()) {
+                    for (TacheEntity tacheEntity : optionalTacheEntities.get()) {
+                        tacheEntity.setUtilisateur_Tache(null);
+                        HistoriqueTacheEntity historiqueTacheEntity = new HistoriqueTacheEntity();
+                        historiqueTacheEntity.setEtapeWorkflowTacheHistorique(recuperationEtapeWorkflow(tacheEntity));
+                        historiqueTacheEntity.setTacheHistorique(tacheEntity);
+                        historiqueTacheEntity.setUtilisateur_Tache_historique(utilisateur);
+                        historiqueTacheRepository.save(historiqueTacheEntity);
+                        tacheRepository.save(tacheEntity);
                     }
                 }
-                for (ParticipationEntity participationProjet : projet.getMembresDuProjet()) {
-                    if (participationProjet.getProjetParticipation().getIdProjet().equals(projet.getIdProjet())) {
-                        projet.getMembresDuProjet().remove(participationProjet);
-                    }
-                }
-                for (EtapeWorkflowEntity workflow : projet.getEtapeWorkflows()) {
-                    for (TacheEntity tache : workflow.getTaches()) {
-                        if (tache.getUtilisateur_Tache().getPseudoUtilisateur().equals(utilisateur.getPseudoUtilisateur())) {
-                            HistoriqueTacheEntity historique = new HistoriqueTacheEntity(null, tache, workflow, utilisateur);
-                            historiqueTacheRepository.save(historique);
-                            tache.setUtilisateur_Tache(null);
-                            tacheRepository.save(tache);
-                        }
-                    }
-
-                }
-
+                ParticipationEntity participationEntity = optionalParticipationEntity.get();
+                participationEntity.setActif(false);
+                participationRepository.save(participationEntity);
                 projetRepository.save(projet);
-
                 utilisateurRepository.save(utilisateur);
-
-                return projet;
             }
+            return true;
         }
-        return null;
+        return false;
     }
+
+    private EtapeWorkflowEntity recuperationEtapeWorkflow(TacheEntity tacheEntity){
+//TODO: Attention au tache Enfants pour la récupération de l'étape 
+        return etapeWorkflowRepository.findByTacheEntity(tacheEntity.getIdTache()).get();
+
+    }
+
 }

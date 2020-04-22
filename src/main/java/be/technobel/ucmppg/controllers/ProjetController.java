@@ -102,11 +102,8 @@ public class ProjetController {
     }
 
     @PostMapping("/supprimerCollaborateur")
-    public ResponseEntity<ProjetEntity> supprimerCollaborateurProjet(@RequestBody SupprimerCollaborateurDTO supprimerCollaborateurDTO){
-
-        ProjetEntity projetEntity = supprimerCollaborateurDuProjetService.execute(supprimerCollaborateurDTO);
-
-        return ResponseEntity.ok(projetEntity);
+    public ResponseEntity<Boolean> supprimerCollaborateurProjet(@RequestBody SupprimerCollaborateurDTO supprimerCollaborateurDTO){
+        return ResponseEntity.ok(supprimerCollaborateurDuProjetService.execute(supprimerCollaborateurDTO));
     }
 
 

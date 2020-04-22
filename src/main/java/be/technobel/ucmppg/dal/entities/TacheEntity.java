@@ -48,20 +48,4 @@ public class TacheEntity implements Serializable {
     @OneToOne
     private UtilisateurEntity utilisateur_Tache;
 
-//    public TacheEntity(TacheDTO tache) {
-//        this.descriptionTache = tache.getDescriptionWorkflow();
-//        this.nomTache = tache.getNomTache();
-//        this.estimationDeTemps_Tache = tache.getEstimationTempsTache();
-//        this.uniteDeTemps_tache = tache.getUniteDeTempsEnum();
-//        this.utilisateur_Tache = new UtilisateurEntity(tache.getUtilisateurAffecte());
-//        for (TacheDTO t: tache.getTacheEnfants()) {
-//            this.tachesEnfants.add(new TacheEntity(t));
-//        }
-//        for (TacheDTO t: tache.getTacheParents()) {
-//            this.tachesPrecedentes.add(new TacheEntity(t));
-//        }
-//        for (HistoriqueDTO h: tache.getHistorique()) {
-//            this.historiqueTaches.add(new HistoriqueTacheEntity(h));
-//        }
-//    }
 }

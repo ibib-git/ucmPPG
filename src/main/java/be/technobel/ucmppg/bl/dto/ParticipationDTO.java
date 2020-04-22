@@ -21,11 +21,13 @@ public class ParticipationDTO {
     private UtilisateurDetailsDTO utilisateur;
     private ProjetDTO projet;
     private RoleDTO role;
+    private boolean isActif;
 
     public ParticipationDTO(ParticipationEntity participationEntity) {
         this.utilisateur = new UtilisateurDetailsDTO(participationEntity.getUtilisateurParticipant());
         this.projet = new ProjetDTO(participationEntity.getProjetParticipation());
         this.role = new RoleDTO(participationEntity.getRoleDuParticipant());
+        this.isActif = true;
     }
 
 }

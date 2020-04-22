@@ -36,7 +36,6 @@ public class RoleProjetEntity implements Serializable {
         }
     }
 
-
     @Override
     public boolean equals(Object o) {
         if(!(o instanceof RoleProjetEntity))return false;

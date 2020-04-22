@@ -1,9 +1,7 @@
 package be.technobel.ucmppg.dal.entities;
 
 import be.technobel.ucmppg.bl.dto.DroitDTO;
-import be.technobel.ucmppg.dal.repositories.DroitProjetRepository;
 import lombok.*;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
