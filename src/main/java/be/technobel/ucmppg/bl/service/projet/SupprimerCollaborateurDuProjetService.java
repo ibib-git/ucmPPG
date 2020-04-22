@@ -58,7 +58,7 @@ public class SupprimerCollaborateurDuProjetService {
     }
 
     private EtapeWorkflowEntity recuperationEtapeWorkflow(TacheEntity tacheEntity){
-
+//TODO: Attention au tache Enfants pour la récupération de l'étape 
         return etapeWorkflowRepository.findByTacheEntity(tacheEntity.getIdTache()).get();
 
     }
