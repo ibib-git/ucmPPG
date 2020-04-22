@@ -23,6 +23,6 @@ public class ParticipationDetailDTO {
         this.utilisateur = new UtilisateurDetailsDTO(participationEntity.getUtilisateurParticipant());
         this.projet = new ProjetDetailDTO(participationEntity.getProjetParticipation());
         this.role = new RoleDTO(participationEntity.getRoleDuParticipant());
-        this.isActif = true;
+        this.isActif = participationEntity.isActif();
     }
 }
