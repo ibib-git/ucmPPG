@@ -278,8 +278,13 @@ public class UcmppgApplication {
         projetRepository.save(projet1);
 
         HistoriqueTacheEntity historique = new HistoriqueTacheEntity(null,tache5,todo,utilisateur);
-        HistoriqueTacheEntity historique2 = new HistoriqueTacheEntity(null,tache1,todo,utilisateur3);
-        HistoriqueTacheEntity historique3 = new HistoriqueTacheEntity(null,tache1,doing,utilisateur3);
+        HistoriqueTacheEntity historique2 = new HistoriqueTacheEntity(null,tache1,todo,utilisateur);
+        HistoriqueTacheEntity historique3 = new HistoriqueTacheEntity(null,tache1,doing,utilisateur);
+        HistoriqueTacheEntity historique4 = new HistoriqueTacheEntity(null,tache2,todo,utilisateur);
+        HistoriqueTacheEntity historique5 = new HistoriqueTacheEntity(null,tache3,todo,utilisateur2);
+        HistoriqueTacheEntity historique6 = new HistoriqueTacheEntity(null,tache4,done,utilisateur3);
+        HistoriqueTacheEntity historique7 = new HistoriqueTacheEntity(null,tache4,todo,utilisateur3);
+        HistoriqueTacheEntity historique8 = new HistoriqueTacheEntity(null,tache4,doing,utilisateur3);
 
         historiqueTacheRepository.save(historique);
         historiqueTacheRepository.save(historique2);
@@ -299,7 +304,7 @@ public class UcmppgApplication {
 
         ProjetDTO test = service.execute("divan","sieste",utilisateur.getIdUtilisateur());
 
-        aCAPS.execute(projet1.getIdProjet(),utilisateur2.getEmailUtilisateur());
+        aCAPS.execute(test.getId(),utilisateur2.getEmailUtilisateur());
     }
 
 }
