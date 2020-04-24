@@ -42,7 +42,6 @@ public class TacheController {
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ErrorDTO serviceException (ErrorServiceException ex)
     {
-        System.out.println(ex.toString());
         return new ErrorDTO(ex.getProperties(),ex.getErrorMessage());
     }
 }

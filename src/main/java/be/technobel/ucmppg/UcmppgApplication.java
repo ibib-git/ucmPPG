@@ -219,6 +219,8 @@ public class UcmppgApplication {
         tache1.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache1.setUtilisateur_Tache(utilisateur3);
 
+        tacheRepository.save(tache1);
+
         TacheEntity tache2=new TacheEntity();
         tache2.setNomTache("faire la DAL");
         tache2.setDescriptionTache("faire la couche DAL sur base du schéma fourni");
@@ -226,7 +228,9 @@ public class UcmppgApplication {
         tache2.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache2.setUtilisateur_Tache(utilisateur2);
 
-        tache1.getTachesPrecedentes().add(tache2);
+        tache2.getTachesPrecedentes().add(tache1);
+        tacheRepository.save(tache2);
+
 
         TacheEntity tache3=new TacheEntity();
         tache3.setNomTache("créer une voiture");
@@ -235,12 +239,16 @@ public class UcmppgApplication {
         tache3.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache3.setUtilisateur_Tache(utilisateur);
 
+        tacheRepository.save(tache3);
+
         TacheEntity tache4=new TacheEntity();
         tache4.setNomTache("réalisation du moteur");
         tache4.setDescriptionTache("y a de la mécanique");
         tache4.setEstimationDeTemps_Tache(8);
         tache4.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache4.setUtilisateur_Tache(utilisateur);
+
+        tacheRepository.save(tache4);
 
         TacheEntity tache5=new TacheEntity();
         tache5.setNomTache("réalisation de la carosserie");
@@ -249,20 +257,12 @@ public class UcmppgApplication {
         tache5.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache5.setUtilisateur_Tache(utilisateur);
 
-        tacheRepository.save(tache4);
-
-        tache5.getTachesPrecedentes().add(tache4);
         tacheRepository.save(tache5);
 
         tache3.getTachesEnfants().add(tache4);
         tache3.getTachesEnfants().add(tache5);
-
-        tacheRepository.save(tache2);
-        tacheRepository.save(tache1);
+        tache3.getTachesPrecedentes().add(tache2);
         tacheRepository.save(tache3);
-
-
-
 
         todo.getTaches().add(tache2);
         todo.getTaches().add(tache3);
@@ -282,13 +282,18 @@ public class UcmppgApplication {
         HistoriqueTacheEntity historique3 = new HistoriqueTacheEntity(null,tache1,doing,utilisateur);
         HistoriqueTacheEntity historique4 = new HistoriqueTacheEntity(null,tache2,todo,utilisateur);
         HistoriqueTacheEntity historique5 = new HistoriqueTacheEntity(null,tache3,todo,utilisateur2);
-        HistoriqueTacheEntity historique6 = new HistoriqueTacheEntity(null,tache4,done,utilisateur3);
-        HistoriqueTacheEntity historique7 = new HistoriqueTacheEntity(null,tache4,todo,utilisateur3);
-        HistoriqueTacheEntity historique8 = new HistoriqueTacheEntity(null,tache4,doing,utilisateur3);
+        HistoriqueTacheEntity historique6 = new HistoriqueTacheEntity(null,tache1,done,utilisateur);
+        HistoriqueTacheEntity historique7 = new HistoriqueTacheEntity(null,tache4,todo,utilisateur);
+        HistoriqueTacheEntity historique8 = new HistoriqueTacheEntity(null,tache4,doing,utilisateur);
 
         historiqueTacheRepository.save(historique);
         historiqueTacheRepository.save(historique2);
         historiqueTacheRepository.save(historique3);
+        historiqueTacheRepository.save(historique4);
+        historiqueTacheRepository.save(historique5);
+        historiqueTacheRepository.save(historique6);
+        historiqueTacheRepository.save(historique7);
+        historiqueTacheRepository.save(historique8);
 
 
         UtilisateurEntity utilisateurTest = new UtilisateurEntity();

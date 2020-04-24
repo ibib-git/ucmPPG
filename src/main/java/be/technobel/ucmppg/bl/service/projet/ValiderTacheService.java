@@ -73,7 +73,7 @@ public class ValiderTacheService {
 
                 if (tacheEnfantEntityList.isPresent() && historiqueTacheEnfantList.isPresent())
                 {
-                    estValideEnfants = verificationValidationTacheSpecialHistorique(historiqueTacheEnfantList.get(),tacheEnfantEntityList.get(),etapeCourante.getIdEtapeWorkflow());
+                    estValideEnfants = verificationValidationTacheSpecialHistorique(historiqueTacheEnfantList.get(),tacheEnfantEntityList.get(),etapeWorkflowSuivanteEntity.getIdEtapeWorkflow());
                 }
 
                 // check si toutes les conditions sont remplies pour valider la tache
@@ -152,7 +152,7 @@ public class ValiderTacheService {
 
     private boolean verificationValidationTacheSpecialHistorique (List<HistoriqueTacheEntity> historiqueTache, List<TacheEntity> tacheSpecialEntityList,Long idEtape)
     {
-        // transformer en liste de id filtrée par l id de l etape (dernière étape pour tache précédente et même étape pour taches enfants)
+        // transformer en liste de id filtrée par l id de l etape (dernière étape pour tache précédente et l'étape suivante pour taches enfants)
         // triée et sans doublons possible
         List<Long> historiqueList = historiqueTache.stream().filter(h -> h.getEtapeWorkflowTacheHistorique().getIdEtapeWorkflow().equals(idEtape))
                 .map(m -> m.getTacheHistorique().getIdTache())

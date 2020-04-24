@@ -51,8 +51,6 @@ public class TacheDTO {
                 .map(
                         HistoriqueDTO::new
                 ).collect(Collectors.toList());
-        System.out.println(this.historique);
-        System.out.println(tacheEntity.getHistoriqueTaches());
 
     }
 }
