@@ -13,13 +13,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ParticipationDetailDTO {
+
     private UtilisateurDetailsDTO utilisateur;
     private ProjetDetailDTO projet;
     private RoleDTO role;
+    private boolean isActif;
 
     public ParticipationDetailDTO(ParticipationEntity participationEntity) {
         this.utilisateur = new UtilisateurDetailsDTO(participationEntity.getUtilisateurParticipant());
         this.projet = new ProjetDetailDTO(participationEntity.getProjetParticipation());
         this.role = new RoleDTO(participationEntity.getRoleDuParticipant());
+        this.isActif = participationEntity.isActif();
     }
 }

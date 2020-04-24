@@ -4,6 +4,8 @@ import be.technobel.ucmppg.dal.entities.HistoriqueTacheEntity;
 import be.technobel.ucmppg.dal.entities.TacheEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,4 +31,10 @@ public interface HistoriqueTacheRepository extends CrudRepository<HistoriqueTach
             "            where te.TACHE_ENTITY_ID_TACHE = ?1)",
             nativeQuery = true)
     Optional<List<HistoriqueTacheEntity>> getAllTacheEnfantValidee (Long idTache);
+
+    @Query(value = "select * from historique_de_tache "
+            +" where tache_historique_id_tache = :idTache "
+            +" and utilisateur_tache_historique_id_utilisateur = :idUtilisateur ",nativeQuery = true)
+    Optional<HistoriqueTacheEntity> findByIdTacheAndIdUtilisateur(@Param("idTache")Long idTache, @Param("idUtilisateur") Long idUtilisateur);
+
 }

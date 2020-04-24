@@ -1,10 +1,12 @@
 package be.technobel.ucmppg;
 
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.bl.dto.projet.collaborateur.SupprimerCollaborateurDTO;
 import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
+import be.technobel.ucmppg.bl.service.projet.SupprimerCollaborateurDuProjetService;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.context.event.EventListener;
 
 import javax.servlet.http.Part;
 import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -48,6 +52,9 @@ public class UcmppgApplication {
 
     @Autowired
     private AjouterCollaborateurAuProjetService aCAPS;
+
+    @Autowired
+    private SupprimerCollaborateurDuProjetService scdps;
 
     @EventListener(ApplicationReadyEvent.class)
     public void generateData(){
@@ -86,6 +93,18 @@ public class UcmppgApplication {
         utilisateur3.setProjetsParticiperUtilisateur(new HashSet<ParticipationEntity>());
 
         utilisateurRepository.save(utilisateur3);
+
+        UtilisateurEntity testUtilisateur = new UtilisateurEntity();
+        testUtilisateur.setEmailUtilisateur("Gros@gmail.com");
+        testUtilisateur.setMotDePasseUtilisateur("Test1234&");
+        testUtilisateur.setPseudoUtilisateur("Hamburger");
+        testUtilisateur.setNomUtilisateur("Mac");
+        testUtilisateur.setPrenomUtilisateur("Donald");
+        testUtilisateur.setInformationSupplementaireUtilisateur("le gras c'est la vie");
+        testUtilisateur.setTelephoneUtilisateur("0123456789");
+        testUtilisateur.setProjetsParticiperUtilisateur(new HashSet<ParticipationEntity>());
+
+        utilisateurRepository.save(testUtilisateur);
 
         DroitProjetEntity gererTache=new DroitProjetEntity();
         gererTache.setNomDroit(Constantes.DROIT_GERER_TACHES);
@@ -151,6 +170,7 @@ public class UcmppgApplication {
         participation.setUtilisateurParticipant(utilisateur);
         participation.setRoleDuParticipant(admin);
         participation.setProjetParticipation(projet1);
+        participation.setActif(true);
         participationRepository.save(participation);
 
         projet1.getMembresDuProjet().add(participation);
@@ -160,6 +180,7 @@ public class UcmppgApplication {
         participation2.setUtilisateurParticipant(utilisateur2);
         participation2.setRoleDuParticipant(moderateur);
         participation2.setProjetParticipation(projet1);
+        participation2.setActif(true);
         participationRepository.save(participation2);
 
         projet1.getMembresDuProjet().add(participation2);
@@ -168,9 +189,19 @@ public class UcmppgApplication {
         participation3.setUtilisateurParticipant(utilisateur3);
         participation3.setRoleDuParticipant(membre);
         participation3.setProjetParticipation(projet1);
+        participation3.setActif(true);
         participationRepository.save(participation3);
 
         projet1.getMembresDuProjet().add(participation3);
+
+        ParticipationEntity participation4 = new ParticipationEntity();
+        participation4.setUtilisateurParticipant(testUtilisateur);
+        participation4.setRoleDuParticipant(membre);
+        participation4.setProjetParticipation(projet1);
+        participation4.setActif(true);
+        participationRepository.save(participation4);
+
+        projet1.getMembresDuProjet().add(participation4);
 
         EtapeWorkflowEntity todo=new EtapeWorkflowEntity();
         todo.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
@@ -218,6 +249,8 @@ public class UcmppgApplication {
         tache1.setEstimationDeTemps_Tache(12);
         tache1.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache1.setUtilisateur_Tache(utilisateur3);
+        tache1.setTachesPrecedentes(new HashSet<TacheEntity>());
+        tache1.setTachesEnfants(new HashSet<TacheEntity>());
 
         tacheRepository.save(tache1);
 
@@ -227,6 +260,8 @@ public class UcmppgApplication {
         tache2.setEstimationDeTemps_Tache(8);
         tache2.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache2.setUtilisateur_Tache(utilisateur2);
+        tache2.setTachesPrecedentes(new HashSet<TacheEntity>());
+        tache2.setTachesEnfants(new HashSet<TacheEntity>());
 
         tache2.getTachesPrecedentes().add(tache1);
         tacheRepository.save(tache2);
@@ -238,6 +273,8 @@ public class UcmppgApplication {
         tache3.setEstimationDeTemps_Tache(20);
         tache3.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache3.setUtilisateur_Tache(utilisateur);
+        tache3.setTachesPrecedentes(new HashSet<TacheEntity>());
+        tache3.setTachesEnfants(new HashSet<TacheEntity>());
 
         tacheRepository.save(tache3);
 
@@ -247,6 +284,8 @@ public class UcmppgApplication {
         tache4.setEstimationDeTemps_Tache(8);
         tache4.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache4.setUtilisateur_Tache(utilisateur);
+        tache4.setTachesPrecedentes(new HashSet<TacheEntity>());
+        tache4.setTachesEnfants(new HashSet<TacheEntity>());
 
         tacheRepository.save(tache4);
 
@@ -256,7 +295,10 @@ public class UcmppgApplication {
         tache5.setEstimationDeTemps_Tache(12);
         tache5.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache5.setUtilisateur_Tache(utilisateur);
+        tache5.setTachesPrecedentes(new HashSet<TacheEntity>());
+        tache5.setTachesEnfants(new HashSet<TacheEntity>());
 
+        tacheRepository.save(tache4);
         tacheRepository.save(tache5);
 
         tache3.getTachesEnfants().add(tache4);
