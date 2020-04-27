@@ -14,27 +14,27 @@ import java.util.Set;
 @Repository
 public interface TacheRepository extends CrudRepository<TacheEntity,Long> {
 
-    @Query(value = "select ID_TACHE from TABLEAU_DE_TACHE t\n" +
-                    " join TABLEAU_DE_TACHE_TACHES_ENFANTS te\n" +
-                    " on t.ID_TACHE = te.TACHE_ENTITY_ID_TACHE\n" +
-                    " where te.TACHES_ENFANTS_ID_TACHE = ?1",
+    @Query(value = "select ID_TACHE from TABLEAU_DE_TACHE t" +
+                    " join TABLEAU_DE_TACHE_TACHES_ENFANTS te" +
+                    " on t.ID_TACHE = te.TACHE_ENTITY_ID_TACHE" +
+                    " where te.TACHES_ENFANTS_ID_TACHE = :idEnfant",
                     nativeQuery = true)
-    Optional<Long> getIdTacheParent (Long idEnfant);
+    Optional<Long> getIdTacheParent (@Param("idEnfant") Long idEnfant);
 
-    @Query(value = "select * from TABLEAU_DE_TACHE t\n" +
-            "    join TACHES_PRECEDENTES tp\n" +
-            "        on tp.TACHE_PRECEDENTE = t.ID_TACHE\n" +
-            "    where tp.TACHE_SUIVANTE = ?1",
+    @Query(value = "select * from TABLEAU_DE_TACHE t" +
+            "    join TACHES_PRECEDENTES tp" +
+            "        on tp.TACHE_PRECEDENTE = t.ID_TACHE" +
+            "    where tp.TACHE_SUIVANTE = :idTache",
                 nativeQuery = true)
-    Optional<List<TacheEntity>> getAllTachePrecedente (Long idTache);
+    Optional<List<TacheEntity>> getAllTachePrecedente (@Param("idTache") Long idTache);
 
 
-    @Query(value = "select * from TABLEAU_DE_TACHE t\n" +
-            "    join TABLEAU_DE_TACHE_TACHES_ENFANTS te\n" +
-            "        on t.ID_TACHE = te.TACHES_ENFANTS_ID_TACHE\n" +
-            "    where te.TACHE_ENTITY_ID_TACHE = ?1",
+    @Query(value = "select * from TABLEAU_DE_TACHE t" +
+            "    join TABLEAU_DE_TACHE_TACHES_ENFANTS te" +
+            "        on t.ID_TACHE = te.TACHES_ENFANTS_ID_TACHE" +
+            "    where te.TACHE_ENTITY_ID_TACHE = :idTache",
             nativeQuery = true)
-    Optional<List<TacheEntity>> getAllTacheEnfant (Long idTache);
+    Optional<List<TacheEntity>> getAllTacheEnfant (@Param("idTache") Long idTache);
 
     @Query(value =" select * from tableau_de_tache"
             +" join colonne_du_workflow_taches"

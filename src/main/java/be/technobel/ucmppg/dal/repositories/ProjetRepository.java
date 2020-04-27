@@ -4,6 +4,7 @@ import be.technobel.ucmppg.dal.entities.EtapeWorkflowEntity;
 import be.technobel.ucmppg.dal.entities.ProjetEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.Set;
@@ -19,30 +20,30 @@ public interface ProjetRepository extends CrudRepository<ProjetEntity, Long> {
 
     Optional<ProjetEntity> findByNomDeProjet(String nom);
   
-    @Query(value ="select * from TABLEAU_PROJET p\n" +
-            "join TABLEAU_PROJET_ETAPE_WORKFLOWS e\n" +
-            "on e.PROJET_ENTITY_ID_PROJET = p.ID_PROJET\n" +
-            "where e.ETAPE_WORKFLOWS_ID_ETAPE_WORKFLOW = ?1",
+    @Query(value ="select * from TABLEAU_PROJET p" +
+            " join TABLEAU_PROJET_ETAPE_WORKFLOWS e" +
+            "   on e.PROJET_ENTITY_ID_PROJET = p.ID_PROJET" +
+            " where e.ETAPE_WORKFLOWS_ID_ETAPE_WORKFLOW = :idEtape",
             nativeQuery = true)
-    Optional<ProjetEntity> getProjetByEtapeWorkflows(Long idEtape);
+    Optional<ProjetEntity> getProjetByEtapeWorkflows(@Param("idEtape") Long idEtape);
 
-    @Query(value = "select p.ID_PROJET from TABLEAU_PROJET p\n" +
-                    " join TABLEAU_PROJET_ETAPE_WORKFLOWS e\n" +
-                    " on e.PROJET_ENTITY_ID_PROJET = p.ID_PROJET\n" +
-                    " join COLONNE_DU_WORKFLOW_TACHES c\n" +
-                    " on c.ETAPE_WORKFLOW_ENTITY_ID_ETAPE_WORKFLOW = e.ETAPE_WORKFLOWS_ID_ETAPE_WORKFLOW\n" +
-                    " where c.TACHES_ID_TACHE = ?1",
+    @Query(value = "select p.ID_PROJET from TABLEAU_PROJET p" +
+                    " join TABLEAU_PROJET_ETAPE_WORKFLOWS e" +
+                    " on e.PROJET_ENTITY_ID_PROJET = p.ID_PROJET" +
+                    " join COLONNE_DU_WORKFLOW_TACHES c" +
+                    " on c.ETAPE_WORKFLOW_ENTITY_ID_ETAPE_WORKFLOW = e.ETAPE_WORKFLOWS_ID_ETAPE_WORKFLOW" +
+                    " where c.TACHES_ID_TACHE = :idTache",
                 nativeQuery = true)
-    Long getIdProjetEntityByTacheParent(Long idTache);
+    Long getIdProjetEntityByTacheParent(@Param("idTache") Long idTache);
 
-    @Query(value = "select p.ID_PROJET from TABLEAU_PROJET p\n" +
-            "join TABLEAU_PROJET_ETAPE_WORKFLOWS e\n" +
-            "on e.PROJET_ENTITY_ID_PROJET = p.ID_PROJET\n" +
-            "join COLONNE_DU_WORKFLOW_TACHES c\n" +
-            "on c.ETAPE_WORKFLOW_ENTITY_ID_ETAPE_WORKFLOW = e.ETAPE_WORKFLOWS_ID_ETAPE_WORKFLOW\n" +
-            "join TABLEAU_DE_TACHE_TACHES_ENFANTS te\n" +
-            "on te.TACHE_ENTITY_ID_TACHE = c.TACHES_ID_TACHE\n" +
-            "where te.TACHES_ENFANTS_ID_TACHE = ?1",
+    @Query(value = "select p.ID_PROJET from TABLEAU_PROJET p" +
+            "   join TABLEAU_PROJET_ETAPE_WORKFLOWS e" +
+            "       on e.PROJET_ENTITY_ID_PROJET = p.ID_PROJET" +
+            "   join COLONNE_DU_WORKFLOW_TACHES c" +
+            "       on c.ETAPE_WORKFLOW_ENTITY_ID_ETAPE_WORKFLOW = e.ETAPE_WORKFLOWS_ID_ETAPE_WORKFLOW" +
+            "   join TABLEAU_DE_TACHE_TACHES_ENFANTS te" +
+            "       on te.TACHE_ENTITY_ID_TACHE = c.TACHES_ID_TACHE" +
+            "   where te.TACHES_ENFANTS_ID_TACHE = :idTache",
             nativeQuery =  true)
-    Long getIdProjetEntityByTacheEnfant(Long idTache);
+    Long getIdProjetEntityByTacheEnfant(@Param("idTache") Long idTache);
 }
