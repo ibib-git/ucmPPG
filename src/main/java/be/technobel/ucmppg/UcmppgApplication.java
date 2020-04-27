@@ -44,6 +44,8 @@ public class UcmppgApplication {
     private TacheRepository tacheRepository;
     @Autowired
     private ProjetRepository projetRepository;
+    @Autowired
+    private HistoriqueTacheRepository historiqueTacheRepository;
 
     @Autowired
     private CreationDeProjetService service;
@@ -105,49 +107,55 @@ public class UcmppgApplication {
         utilisateurRepository.save(testUtilisateur);
 
         DroitProjetEntity gererTache=new DroitProjetEntity();
-        gererTache.setNomDroit("gérer les taches");
+        gererTache.setNomDroit(Constantes.DROIT_GERER_TACHES);
         droitProjetRepository.save(gererTache);
 
         DroitProjetEntity gererRole=new DroitProjetEntity();
-        gererRole.setNomDroit("gérer les rôles");
+        gererRole.setNomDroit(Constantes.DROIT_GERER_ROLES);
         droitProjetRepository.save(gererTache);
 
         DroitProjetEntity creerTache=new DroitProjetEntity();
-        creerTache.setNomDroit("Créer des tâches");
+        creerTache.setNomDroit(Constantes.DROIT_CREER_TACHES);
         droitProjetRepository.save(creerTache);
 
         DroitProjetEntity creerRole=new DroitProjetEntity();
-        creerRole.setNomDroit("Créer des rôles");
+        creerRole.setNomDroit(Constantes.DROIT_CREER_ROLES);
         droitProjetRepository.save(creerRole);
 
         DroitProjetEntity inviterCollaborateurs=new DroitProjetEntity();
-        inviterCollaborateurs.setNomDroit("inviter des collaborateurs");
+        inviterCollaborateurs.setNomDroit(Constantes.DROIT_INVITER_COLLABORATEURS);
         droitProjetRepository.save(inviterCollaborateurs);
 
         DroitProjetEntity prendreTache=new DroitProjetEntity();
-        prendreTache.setNomDroit("prendre une tâche");
+        prendreTache.setNomDroit(Constantes.DROIT_PRENDRE_TACHE);
         droitProjetRepository.save(prendreTache);
 
         DroitProjetEntity changerEtapeOrdre=new DroitProjetEntity();
         changerEtapeOrdre.setNomDroit(Constantes.DROIT_CHANGER_ORDRE_ETAPE);
         droitProjetRepository.save(changerEtapeOrdre);
 
+        DroitProjetEntity validerTache = new DroitProjetEntity();
+        validerTache.setNomDroit(Constantes.DROIT_VALIDER_TACHE);
+        droitProjetRepository.save(validerTache);
+
         RoleProjetEntity admin=new RoleProjetEntity();
-        admin.setNomDeRole("administrateur");
+        admin.setNomDeRole(Constantes.ROLE_ADMINISTRATEUR);
         admin.getDroitProjets().add(gererTache);
         admin.getDroitProjets().add(inviterCollaborateurs);
         admin.getDroitProjets().add(prendreTache);
         admin.getDroitProjets().add(changerEtapeOrdre);
+        admin.getDroitProjets().add(validerTache);
         roleProjetRepository.save(admin);
 
         RoleProjetEntity moderateur=new RoleProjetEntity();
-        moderateur.setNomDeRole("modérateur");
+        moderateur.setNomDeRole(Constantes.ROLE_MODERATEUR);
         moderateur.getDroitProjets().add(gererTache);
         moderateur.getDroitProjets().add(prendreTache);
+        moderateur.getDroitProjets().add(validerTache);
         roleProjetRepository.save(moderateur);
 
         RoleProjetEntity membre=new RoleProjetEntity();
-        membre.setNomDeRole("membre");
+        membre.setNomDeRole(Constantes.ROLE_MEMBRE);
         membre.getDroitProjets().add(prendreTache);
         roleProjetRepository.save(membre);
 
@@ -198,7 +206,7 @@ public class UcmppgApplication {
         EtapeWorkflowEntity todo=new EtapeWorkflowEntity();
         todo.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
         todo.setEstPrenableEtapeWorkflow(true);
-        todo.setNumOrdreEtapeWorkflow(0);
+        todo.setNumOrdreEtapeWorkflow(1);
         todo.setNomEtapeWorkflow("To Do");
         todo.setDescriptionEtapeWorkflow("A faire");
         todo.getRolesAutorisation().add(admin);
@@ -210,7 +218,7 @@ public class UcmppgApplication {
         EtapeWorkflowEntity doing=new EtapeWorkflowEntity();
         doing.setConstrainteAffectation(ConstrainteAffectationEnum.MEME);
         doing.setEstPrenableEtapeWorkflow(true);
-        doing.setNumOrdreEtapeWorkflow(1);
+        doing.setNumOrdreEtapeWorkflow(2);
         doing.setNomEtapeWorkflow("Doing");
         doing.setDescriptionEtapeWorkflow("En cours");
         doing.getRolesAutorisation().add(admin);
@@ -222,7 +230,7 @@ public class UcmppgApplication {
         EtapeWorkflowEntity done=new EtapeWorkflowEntity();
         done.setConstrainteAffectation(ConstrainteAffectationEnum.MEME);
         done.setEstPrenableEtapeWorkflow(false);
-        done.setNumOrdreEtapeWorkflow(2);
+        done.setNumOrdreEtapeWorkflow(3);
         done.setNomEtapeWorkflow("Done");
         done.setDescriptionEtapeWorkflow("Fini");
         done.getRolesAutorisation().add(admin);
@@ -244,6 +252,8 @@ public class UcmppgApplication {
         tache1.setTachesPrecedentes(new HashSet<TacheEntity>());
         tache1.setTachesEnfants(new HashSet<TacheEntity>());
 
+        tacheRepository.save(tache1);
+
         TacheEntity tache2=new TacheEntity();
         tache2.setNomTache("faire la DAL");
         tache2.setDescriptionTache("faire la couche DAL sur base du schéma fourni");
@@ -253,7 +263,9 @@ public class UcmppgApplication {
         tache2.setTachesPrecedentes(new HashSet<TacheEntity>());
         tache2.setTachesEnfants(new HashSet<TacheEntity>());
 
-        tache1.getTachesPrecedentes().add(tache2);
+        tache2.getTachesPrecedentes().add(tache1);
+        tacheRepository.save(tache2);
+
 
         TacheEntity tache3=new TacheEntity();
         tache3.setNomTache("créer une voiture");
@@ -264,6 +276,8 @@ public class UcmppgApplication {
         tache3.setTachesPrecedentes(new HashSet<TacheEntity>());
         tache3.setTachesEnfants(new HashSet<TacheEntity>());
 
+        tacheRepository.save(tache3);
+
         TacheEntity tache4=new TacheEntity();
         tache4.setNomTache("réalisation du moteur");
         tache4.setDescriptionTache("y a de la mécanique");
@@ -272,6 +286,8 @@ public class UcmppgApplication {
         tache4.setUtilisateur_Tache(utilisateur);
         tache4.setTachesPrecedentes(new HashSet<TacheEntity>());
         tache4.setTachesEnfants(new HashSet<TacheEntity>());
+
+        tacheRepository.save(tache4);
 
         TacheEntity tache5=new TacheEntity();
         tache5.setNomTache("réalisation de la carosserie");
@@ -287,9 +303,7 @@ public class UcmppgApplication {
 
         tache3.getTachesEnfants().add(tache4);
         tache3.getTachesEnfants().add(tache5);
-
-        tacheRepository.save(tache2);
-        tacheRepository.save(tache1);
+        tache3.getTachesPrecedentes().add(tache2);
         tacheRepository.save(tache3);
 
         todo.getTaches().add(tache2);
@@ -305,9 +319,28 @@ public class UcmppgApplication {
 
         projetRepository.save(projet1);
 
+        HistoriqueTacheEntity historique = new HistoriqueTacheEntity(null,tache5,todo,utilisateur);
+        HistoriqueTacheEntity historique2 = new HistoriqueTacheEntity(null,tache1,todo,utilisateur);
+        HistoriqueTacheEntity historique3 = new HistoriqueTacheEntity(null,tache1,doing,utilisateur);
+        HistoriqueTacheEntity historique4 = new HistoriqueTacheEntity(null,tache2,todo,utilisateur);
+        HistoriqueTacheEntity historique5 = new HistoriqueTacheEntity(null,tache3,todo,utilisateur2);
+        HistoriqueTacheEntity historique6 = new HistoriqueTacheEntity(null,tache1,done,utilisateur);
+        HistoriqueTacheEntity historique7 = new HistoriqueTacheEntity(null,tache4,todo,utilisateur);
+        HistoriqueTacheEntity historique8 = new HistoriqueTacheEntity(null,tache4,doing,utilisateur);
+
+        historiqueTacheRepository.save(historique);
+        historiqueTacheRepository.save(historique2);
+        historiqueTacheRepository.save(historique3);
+        historiqueTacheRepository.save(historique4);
+        historiqueTacheRepository.save(historique5);
+        historiqueTacheRepository.save(historique6);
+        historiqueTacheRepository.save(historique7);
+        historiqueTacheRepository.save(historique8);
+
+
         ProjetDTO test = service.execute("divan","sieste",utilisateur.getIdUtilisateur());
 
-        aCAPS.execute(projet1.getIdProjet(),utilisateur2.getEmailUtilisateur());
-
+        aCAPS.execute(test.getId(),utilisateur2.getEmailUtilisateur());
     }
+
 }

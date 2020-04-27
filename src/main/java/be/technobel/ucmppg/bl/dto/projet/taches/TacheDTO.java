@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -23,7 +25,7 @@ public class TacheDTO {
     private String nom;
     private String description;
     private List<TacheDTO> tacheEnfants=new ArrayList<>();
-    private List<Long> tachesPrecedentes=new ArrayList<>();
+    private List<TacheDTO> tachesPrecedentes=new ArrayList<>();
     private Integer estimationTemps;
     private UniteDeTempsEnum uniteDeTemps;
     private List<HistoriqueDTO> historique=new ArrayList<>();
@@ -39,11 +41,16 @@ public class TacheDTO {
                 ).collect(Collectors.toList());
         this.tachesPrecedentes=tacheEntity.getTachesPrecedentes().stream()
                 .map(
-                        TacheEntity::getIdTache
+                        TacheDTO::new
                 ).collect(Collectors.toList());
         this.estimationTemps =tacheEntity.getEstimationDeTemps_Tache();
         this.uniteDeTemps =tacheEntity.getUniteDeTemps_tache();
         //todo : ajouter la gestion des historiques
         this.utilisateurAffecte=new UtilisateurDetailsDTO(tacheEntity.getUtilisateur_Tache());
+        this.historique = tacheEntity.getHistoriqueTaches().stream()
+                .map(
+                        HistoriqueDTO::new
+                ).collect(Collectors.toList());
+
     }
 }

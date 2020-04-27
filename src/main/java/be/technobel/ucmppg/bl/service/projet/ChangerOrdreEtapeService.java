@@ -63,7 +63,7 @@ public class ChangerOrdreEtapeService {
                                 .filter(e -> e.getNumOrdreEtapeWorkflow() <= nvOrdre && e.getNumOrdreEtapeWorkflow() > etapeInput.getNumOrdreEtapeWorkflow())
                                 .forEach(e -> e.setNumOrdreEtapeWorkflow(e.getNumOrdreEtapeWorkflow()-1));
                     }
-
+                    //TODO DAMIEN : a remplacer (Guillaume advice)
                     etapeWorkflowEntitySet.stream()
                             .filter(e -> e.equals(etapeInput))
                             .forEach(e -> e.setNumOrdreEtapeWorkflow(nvOrdre));

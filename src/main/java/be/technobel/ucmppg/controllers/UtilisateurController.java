@@ -95,7 +95,7 @@ public class UtilisateurController {
 
         UtilisateurDTO utilisateurDTO = recuperationUtilisateurService.recupererUtilisateur(id);
 
-        return (utilisateurDTO != null ? ResponseEntity.ok(utilisateurDTO) : new ResponseEntity("l'utilisateur n'existe",HttpStatus.NOT_FOUND));
+        return (utilisateurDTO != null ? ResponseEntity.ok(utilisateurDTO) : new ResponseEntity("l'utilisateur n'existe pas",HttpStatus.NOT_FOUND));
     }
 
 }
