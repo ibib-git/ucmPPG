@@ -73,7 +73,7 @@ public class ProjetController {
     public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id){
 
         ProjetDTO projetDTO = recuperationProjetService.getProjetById(id);
-
+//TODO DAMIEN : a modifier pour map le dto en bl et gestion erreur
         return (projetDTO != null ? ResponseEntity.ok(projetDTO) : new ResponseEntity("Pas de projet existant", HttpStatus.NOT_FOUND) );
     }
 
@@ -103,7 +103,6 @@ public class ProjetController {
 
     @PostMapping("/supprimerCollaborateur")
     public ResponseEntity<Boolean> supprimerCollaborateurProjet(@RequestBody SupprimerCollaborateurDTO supprimerCollaborateurDTO){
-        System.out.println("Qu'est-ce qu'on dit ");
         return ResponseEntity.ok(supprimerCollaborateurDuProjetService.execute(supprimerCollaborateurDTO));
     }
 

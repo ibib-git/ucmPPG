@@ -1,9 +1,7 @@
 package be.technobel.ucmppg.dal.entities;
 
 import be.technobel.ucmppg.bl.dto.DroitDTO;
-import be.technobel.ucmppg.dal.repositories.DroitProjetRepository;
 import lombok.*;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,7 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 public class DroitProjetEntity implements Serializable {
 
     @Id
@@ -26,5 +23,13 @@ public class DroitProjetEntity implements Serializable {
 
     public DroitProjetEntity(DroitDTO droitDTO){
         this.nomDroit = droitDTO.getNom();
+    }
+
+    @Override
+    public String toString() {
+        return "DroitProjetEntity{" +
+                "idDroit=" + idDroit +
+                ", nomDroit='" + nomDroit + '\'' +
+                '}';
     }
 }

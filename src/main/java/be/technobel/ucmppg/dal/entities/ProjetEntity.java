@@ -14,6 +14,7 @@ import java.util.Set;
 @Table(name = "Tableau_Projet")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjetEntity implements Serializable {
@@ -35,7 +36,7 @@ public class ProjetEntity implements Serializable {
     @OneToMany(fetch = FetchType.EAGER)
     private Set<ParticipationEntity> membresDuProjet =new HashSet<>();
 
-    @OneToMany
+    @OneToMany (fetch = FetchType.EAGER)
     private Set<EtapeWorkflowEntity> etapeWorkflows=new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -46,15 +47,4 @@ public class ProjetEntity implements Serializable {
         return super.hashCode();
     }
 
-//    public ProjetEntity(ProjetDTO projet_DAO) {
-//        this.nomDeProjet = projet_DAO.getNomProjet();
-//        this.descriptionDeProjet = projet_DAO.getDescriptionProjet();
-////        this.utilisateurCreateur = new UtilisateurEntity(projet_DAO.getUtilisateurCreateurProjet());
-////        for (ParticipationDTO p: projet_DAO.getUtilisateursProjet()) {
-////            this.membresDuProjet.add(new ParticipationEntity(p));
-////        }
-//        for (EtapeWorkflowDTO e: projet_DAO.getColonnesDuProjet()) {
-//            this.etapeWorkflows.add(new EtapeWorkflowEntity(e));
-//        }
-//    }
 }

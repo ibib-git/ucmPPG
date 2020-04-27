@@ -1,14 +1,8 @@
 package be.technobel.ucmppg.dal.entities;
 
-
-
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
-
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -97,12 +91,20 @@ public class UtilisateurEntity implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if(!(o instanceof UtilisateurEntity))return false;
-        return ((UtilisateurEntity)o).getIdUtilisateur().equals(this.getIdUtilisateur());
+        if (this == o) return true;
+        if (!(o instanceof UtilisateurEntity)) return false;
+        UtilisateurEntity that = (UtilisateurEntity) o;
+        return Objects.equals(getIdUtilisateur(), that.getIdUtilisateur()) &&
+                Objects.equals(getEmailUtilisateur(), that.getEmailUtilisateur()) &&
+                Objects.equals(getMotDePasseUtilisateur(), that.getMotDePasseUtilisateur()) &&
+                Objects.equals(getPseudoUtilisateur(), that.getPseudoUtilisateur()) &&
+                Objects.equals(getNomUtilisateur(), that.getNomUtilisateur()) &&
+                Objects.equals(getPrenomUtilisateur(), that.getPrenomUtilisateur()) &&
+                Objects.equals(getTelephoneUtilisateur(), that.getTelephoneUtilisateur()) &&
+                Objects.equals(getUrlPhotoUtilisateur(), that.getUrlPhotoUtilisateur()) &&
+                Objects.equals(getInformationSupplementaireUtilisateur(), that.getInformationSupplementaireUtilisateur()) &&
+                Objects.equals(getProjetsParticiperUtilisateur(), that.getProjetsParticiperUtilisateur());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idUtilisateur);
-    }
+
 }

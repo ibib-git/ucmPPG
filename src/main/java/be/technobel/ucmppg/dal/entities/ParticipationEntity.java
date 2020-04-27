@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Table(name = "Participation_Projet")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParticipationEntity implements Serializable{
@@ -27,14 +28,13 @@ public class ParticipationEntity implements Serializable{
     @OneToOne
     private ProjetEntity projetParticipation;
 
+
+
     @Override
     public int hashCode() {
         return super.hashCode();
     }
-
-//    public ParticipationEntity(ParticipationDTO participation_DAO) {
-//        this.projetParticipation = new ProjetEntity(participation_DAO.getProjet());
-//        this.roleDuParticipant = new RoleProjetEntity(participation_DAO.getRole());
-//        this.utilisateurParticipant = new UtilisateurEntity(participation_DAO.getUtilisateur());
-//    }
+  
+    @Column(name ="Actif_Sur_Le_Projet")
+    private boolean isActif;
 }

@@ -30,6 +30,7 @@ public class ProjetDTO {
     private List<RoleDTO> roles = new ArrayList<>();
 
     public ProjetDTO(ProjetEntity projetEntity) {
+        this.id = projetEntity.getIdProjet();
         this.nom=projetEntity.getNomDeProjet();
         this.description=projetEntity.getDescriptionDeProjet();
         this.createurUtilisateur=new UtilisateurDetailsDTO(projetEntity.getUtilisateurCreateur());

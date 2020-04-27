@@ -1,4 +1,4 @@
-package be.technobel.ucmppg;
+package be.technobel.ucmppg.cucumber;
 
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
@@ -16,7 +16,6 @@ import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 public class AjouterCollaborateurAuProjetServiceTests {
 
     private UtilisateurEntity utilisateurEntity = null;
@@ -34,21 +33,21 @@ public class AjouterCollaborateurAuProjetServiceTests {
     private CreationDeProjetService creationDeProjetService;
 
     @Etantdonné("un utilisateur")
-    public void createUtilisateur() {
-        this.utilisateurEntity = new UtilisateurEntity();
+    public void createUtilisateur(){
+        this.utilisateurEntity=new UtilisateurEntity();
         this.utilisateurEntity.setEmailUtilisateur("pierre.dupont@exemple.com");
         this.utilisateurEntity.setPseudoUtilisateur("pierre_dupont");
         this.utilisateurEntity.setMotDePasseUtilisateur("Test1234!");
-        this.utilisateurRepository.save(utilisateurEntity);
+        this.utilisateurRepository.save(this.utilisateurEntity);
     }
 
     @Etantdonné("un projet")
-    public void createProjet() {
+    public void createProjet(){
 
 
-        this.projetEntity = new ProjetEntity();
+        this.projetEntity=new ProjetEntity();
         projetEntity.setNomDeProjet("projet exemple");
-        RoleProjetEntity roleMembre = new RoleProjetEntity();
+        RoleProjetEntity roleMembre=new RoleProjetEntity();
         roleMembre.setNomDeRole("membre");
         roleProjetRepository.save(roleMembre);
         projetEntity.getRolesProjet().add(roleMembre);
@@ -56,17 +55,17 @@ public class AjouterCollaborateurAuProjetServiceTests {
     }
 
     @Quand("j'ajoute l'utilisateur au projet")
-    public void ajouterUtilisateurAuProjet() {
-        System.out.println(
-                ajouterCollaborateurAuProjetService.execute(
-                        this.projetEntity.getIdProjet(),
-                        this.utilisateurEntity.getEmailUtilisateur()
-                )
+    public void ajouterUtilisateurAuProjet(){
+
+        ajouterCollaborateurAuProjetService.execute(
+                this.projetEntity.getIdProjet(),
+                this.utilisateurEntity.getEmailUtilisateur()
+
         );
     }
 
     @Alors("l'utilisateur possède une référence vers le projet")
-    public void verifierReferenceUtilisateur() {
+    public void verifierReferenceUtilisateur(){
 
         this.utilisateurEntity = this.utilisateurRepository.findById(this.utilisateurEntity.getIdUtilisateur()).orElse(null);
 
@@ -102,21 +101,22 @@ public class AjouterCollaborateurAuProjetServiceTests {
                                                         idUtilisateur
                                                 )
 
-                        )
+                )
         );
     }
 
-    @After()
-    public void apres() {
-        long idUtilisateur = this.utilisateurEntity.getIdUtilisateur();
-        long idProjet = this.projetEntity.getIdProjet();
-        if (this.utilisateurRepository.findById(idUtilisateur).isPresent()) {
+    @After("@ajouterCollabo")
+    public void apres(){
+        long idUtilisateur=this.utilisateurEntity.getIdUtilisateur();
+        long idProjet=this.projetEntity.getIdProjet();
+        if(this.utilisateurRepository.findById(idUtilisateur).isPresent()){
             this.utilisateurRepository.deleteById(idUtilisateur);
         }
 
         if (this.projetRepository.findById(idProjet).isPresent()) {
             this.projetRepository.deleteById(idProjet);
         }
+        //TODO : erreur lors du delete de l utilisateur (lien participation ?)
 
     }
 }
