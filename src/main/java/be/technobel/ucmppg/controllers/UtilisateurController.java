@@ -94,6 +94,7 @@ public class UtilisateurController {
     public ResponseEntity<UtilisateurDTO> getUtilisateurParId(@PathVariable("id") long id){
 
         UtilisateurDTO utilisateurDTO = recuperationUtilisateurService.recupererUtilisateur(id);
+        System.out.println(utilisateurDTO.getParticipations());
 
         return (utilisateurDTO != null ? ResponseEntity.ok(utilisateurDTO) : new ResponseEntity("l'utilisateur n'existe pas",HttpStatus.NOT_FOUND));
     }

@@ -3,15 +3,13 @@ package be.technobel.ucmppg.bl.dto;
 import be.technobel.ucmppg.bl.dto.projet.ProjetDetailDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.dal.entities.ParticipationEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ParticipationDetailDTO {
 
     private UtilisateurDetailsDTO utilisateur;
