@@ -138,6 +138,15 @@ public class UcmppgApplication {
         validerTache.setNomDroit(Constantes.DROIT_VALIDER_TACHE);
         droitProjetRepository.save(validerTache);
 
+        DroitProjetEntity assignerTache = new DroitProjetEntity();
+        assignerTache.setNomDroit(Constantes.DROIT_ASSIGNER_TACHE);
+        droitProjetRepository.save(assignerTache);
+
+        DroitProjetEntity supprimeCollaboTache = new DroitProjetEntity();
+        supprimeCollaboTache.setNomDroit(Constantes.DROIT_SUPPRIMER_COLLABORATEUR_TACHE);
+        droitProjetRepository.save(supprimeCollaboTache);
+
+
         RoleProjetEntity admin=new RoleProjetEntity();
         admin.setNomDeRole(Constantes.ROLE_ADMINISTRATEUR);
         admin.getDroitProjets().add(gererTache);
@@ -145,6 +154,8 @@ public class UcmppgApplication {
         admin.getDroitProjets().add(prendreTache);
         admin.getDroitProjets().add(changerEtapeOrdre);
         admin.getDroitProjets().add(validerTache);
+        admin.getDroitProjets().add(assignerTache);
+        admin.getDroitProjets().add(supprimeCollaboTache);
         roleProjetRepository.save(admin);
 
         RoleProjetEntity moderateur=new RoleProjetEntity();
@@ -152,6 +163,8 @@ public class UcmppgApplication {
         moderateur.getDroitProjets().add(gererTache);
         moderateur.getDroitProjets().add(prendreTache);
         moderateur.getDroitProjets().add(validerTache);
+        moderateur.getDroitProjets().add(assignerTache);
+        moderateur.getDroitProjets().add(supprimeCollaboTache);
         roleProjetRepository.save(moderateur);
 
         RoleProjetEntity membre=new RoleProjetEntity();

@@ -13,6 +13,8 @@ public class Constantes {
     public static final String DROIT_PRENDRE_TACHE = "prendre une tâche";
     public static final String DROIT_CHANGER_ORDRE_ETAPE = "changer l'ordre de deux etapes workflow";
     public static final String DROIT_VALIDER_TACHE = "valider une tache du workflow";
+    public static final String DROIT_ASSIGNER_TACHE = "Assigner une tache à quelqu'un d autre";
+    public static final String DROIT_SUPPRIMER_COLLABORATEUR_TACHE = "Retirer l'assignation d'une tache d'un collaborateur";
     public static final String ETAPE_ENCOURS_DEFAUT = "en cours";
     public static final String ETAPE_FINI_DEFAUT = "fini";
     public static final String ETAPE_AFAIRE_DEFAUT = "à faire";
