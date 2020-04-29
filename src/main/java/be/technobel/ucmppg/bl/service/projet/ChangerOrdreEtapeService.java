@@ -1,5 +1,7 @@
 package be.technobel.ucmppg.bl.service.projet;
 
+import be.technobel.ucmppg.Exception.ErrorServiceException;
+import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.service.utilisateur.RecuperationUtilisateurService;
 import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.dal.entities.*;
@@ -21,8 +23,7 @@ public class ChangerOrdreEtapeService {
     @Autowired
     UtilisateurRepository utilisateurRepository;
 
-    public Boolean execute(Long idUtilisateur, Long idEtape, int nvOrdre)
-    {
+    public ProjetDTO execute(Long idUtilisateur, Long idEtape, int nvOrdre) throws ErrorServiceException {
         Optional<ProjetEntity> projetEntityOptional = projetRepository.getProjetByEtapeWorkflows(idEtape);
         Optional<UtilisateurEntity> utilisateurEntityOptional = utilisateurRepository.findById(idUtilisateur);
 
@@ -70,11 +71,13 @@ public class ChangerOrdreEtapeService {
 
                     projetEntity.setEtapeWorkflows(etapeWorkflowEntitySet);
                     projetRepository.save(projetEntity);
-                    return true;
+                    return new ProjetDTO(projetRepository.findById(projetEntity.getIdProjet()).get());
 
-                } else  return false;
+                } else  throw  new ErrorServiceException("Changer Ordre Etape workflow","L'utilisateur ne possède pas le droit et/ou la colonne n existe pas");
 
-            } return false;
-        } return false;
+            } throw  new ErrorServiceException("Changer Ordre Etape workflow","L'utilisateur ne participe pas au projet et/ou si le nouvel ordre d etape est incorrect");
+
+            } throw  new ErrorServiceException("Changer Ordre Etape workflow","Le projet et/ou l'utilisateur n'existe pas ");
+
     }
 }
