@@ -26,7 +26,7 @@ public interface EtapeWorkflowRepository extends CrudRepository<EtapeWorkflowEnt
             " from COLONNE_DU_WORKFLOW c" +
             "                        join COLONNE_DU_WORKFLOW_TACHES tc" +
             "                            on c.ID_ETAPE_WORKFLOW = tc.ETAPE_WORKFLOW_ENTITY_ID_ETAPE_WORKFLOW" +
-            "where tc.TACHES_ID_TACHE = :idTache",
+            " where tc.TACHES_ID_TACHE = :idTache",
                 nativeQuery = true)
     EtapeWorkflowEntity getEtapeByIdTache (@Param("idTache") Long idTache);
 

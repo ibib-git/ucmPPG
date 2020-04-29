@@ -3,6 +3,7 @@ package be.technobel.ucmppg.controllers;
 import be.technobel.ucmppg.Exception.ErrorServiceException;
 import be.technobel.ucmppg.bl.dto.ErrorDTO;
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.bl.service.projet.AssignerTacheService;
 import be.technobel.ucmppg.bl.service.projet.ValiderTacheService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,8 @@ public class TacheController {
 
     @Autowired
     ValiderTacheService validerTacheService;
+    @Autowired
+    AssignerTacheService assignerTacheService;
 
     @ApiOperation(value = "Appelé pour valider une tache")
     @PostMapping (value = "{idTache}/valider")
@@ -26,6 +29,22 @@ public class TacheController {
         //TODO TOKEN : remplacer le paramètre utilisateur avec l'identification par token
 
             return ResponseEntity.ok(this.validerTacheService.validerTache(idUtilisateur,idTache));
+    }
+
+    @ApiOperation(value = "Appelé pour assigner une tache à un utilisateur")
+    @PostMapping (value = "{idTache}/assigner/{idUtilisateurAssignateur}")
+    public ResponseEntity<ProjetDTO> assignerTache (@PathVariable("idTache") long idTache,@PathVariable("idUtilisateurAssignateur") long idUtilisateurAssignateur, @RequestBody Long idUtilisateurAssigne) throws ErrorServiceException {
+        //TODO TOKEN : remplacer le paramètre utilisateur assignateur avec l'identification par token
+
+        return ResponseEntity.ok(this.assignerTacheService.assignation(idUtilisateurAssigne,idUtilisateurAssignateur,idTache));
+    }
+
+    @ApiOperation(value = "Appelé pour retirer une assignation d'utilisateur à une tache")
+    @PostMapping (value = "{idTache}/congedier")
+    public ResponseEntity<ProjetDTO> congedierUtilisateurTache (@PathVariable("idTache") long idTache, @RequestBody Long idUtilisateur) throws ErrorServiceException {
+        //TODO TOKEN : remplacer le paramètre utilisateur avec l'identification par token et transformer la methode en get et pas post
+
+        return ResponseEntity.ok(this.assignerTacheService.congedierUtilisateur(idTache,idUtilisateur));
     }
 
     /**
