@@ -24,7 +24,7 @@ public class RecuperationUtilisateurService {
     public UtilisateurDTO recupererUtilisateur(long id){
 
         Optional<UtilisateurEntity> utilisateurEntity = utilisateurRepository.findById(id);
-      utilisateurEntity.get().getProjetsParticiperUtilisateur().forEach(System.out::println);
+      //utilisateurEntity.get().getProjetsParticiperUtilisateur().forEach(System.out::println);
 
         return utilisateurEntity.map(UtilisateurDTO::new).orElse(null);
     }

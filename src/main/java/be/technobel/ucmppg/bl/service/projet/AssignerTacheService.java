@@ -55,7 +55,7 @@ public class AssignerTacheService {
             {
                 estDroitAssignationValide = verificationDroitUtilisateurService(idUtilisateurAssignateur,Constantes.DROIT_ASSIGNER_TACHE,idProjet);
                 estDroitPrendreTacheValide = verificationDroitUtilisateurService(idUtilisateurAssigne,Constantes.DROIT_PRENDRE_TACHE,idProjet);
-            } else estDroitPrendreTacheValide = verificationDroitUtilisateurService(idUtilisateurAssignateur,Constantes.DROIT_PRENDRE_TACHE,idProjet);
+            } else {estDroitPrendreTacheValide = verificationDroitUtilisateurService(idUtilisateurAssignateur,Constantes.DROIT_PRENDRE_TACHE,idProjet);}
 
             // on verifie si toutes les conditions sont remplies
             if (estDroitAssignationValide && estDroitPrendreTacheValide && estDroitRemplacerUtilisateurValide)
@@ -86,7 +86,42 @@ public class AssignerTacheService {
 
         }  throw  new ErrorServiceException("Assigner utilisateur à une tache","La tache n'existe pas");
 
+    }
 
+    public ProjetDTO congedierUtilisateur (long idTache, long idUtilisateur) throws ErrorServiceException
+    {
+        Optional<TacheEntity> optionalTacheEntity = tacheRepository.findById(idTache);
+
+        if (optionalTacheEntity.isPresent())
+        {
+            TacheEntity tacheEntity = optionalTacheEntity.get();
+
+            if (tacheEntity.getUtilisateur_Tache() != null)
+            {
+                Optional<Long> tacheParente = tacheRepository.getIdTacheParent(idTache);
+
+                // Verifier si il s'agit d'une tache enfant et si oui chercher l idProjet de la tache parente
+                Long idProjet = tacheParente.isPresent() ? projetRepository.getIdProjetEntityByTacheEnfant(idTache) : projetRepository.getIdProjetEntityByTacheParent(idTache) ;
+
+                boolean estDroitCongedierValide = verificationDroitUtilisateurService(idUtilisateur,Constantes.DROIT_SUPPRIMER_COLLABORATEUR_TACHE,idProjet);
+
+                if (estDroitCongedierValide)
+                {
+                    //supprimer le user de la tache
+                    tacheEntity.setUtilisateur_Tache(null);
+
+                    // ajouter un historique
+                    EtapeWorkflowEntity etapeWorkflowEntityActuelle = tacheParente.isPresent() ? etapeWorkflowRepository.getEtapeByIdTache(idTache): etapeWorkflowRepository.getEtapeByIdTacheEnfant(idTache) ;
+                    HistoriqueTacheEntity historiqueTacheEntity = new HistoriqueTacheEntity(tacheEntity,etapeWorkflowEntityActuelle,null);
+                    historiqueTacheRepository.save(historiqueTacheEntity);
+
+                    return new ProjetDTO(projetRepository.findById(idProjet).get());
+
+                } throw  new ErrorServiceException("Congédier un utilisateur d'une tache","L'utilisateur ne possède pas le droit de prendre une tache");
+
+            } throw  new ErrorServiceException("Congédier un utilisateur d'une tache","La tache ne comprend pas d utilisateur assigné");
+
+        } throw  new ErrorServiceException("Congédier un utilisateur d'une tache","La tache n'existe pas");
     }
 
     //TODO TOKEN : service a généraliser avec le check du token

@@ -39,7 +39,13 @@ public class TacheController {
         return ResponseEntity.ok(this.assignerTacheService.assignation(idUtilisateurAssigne,idUtilisateurAssignateur,idTache));
     }
 
+    @ApiOperation(value = "Appelé pour retirer une assignation d'utilisateur à une tache")
+    @PostMapping (value = "{idTache}/congedier")
+    public ResponseEntity<ProjetDTO> congedierUtilisateurTache (@PathVariable("idTache") long idTache, @RequestBody Long idUtilisateur) throws ErrorServiceException {
+        //TODO TOKEN : remplacer le paramètre utilisateur avec l'identification par token et transformer la methode en get et pas post
 
+        return ResponseEntity.ok(this.assignerTacheService.congedierUtilisateur(idTache,idUtilisateur));
+    }
 
     /**
      * @author Damien Fricot

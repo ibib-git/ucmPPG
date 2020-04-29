@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Setter
 public class TacheDTO {
 
-    private long id;
+    private Long id;
     private String nom;
     private String description;
     private List<TacheDTO> tacheEnfants=new ArrayList<>();
@@ -46,7 +46,7 @@ public class TacheDTO {
         this.estimationTemps =tacheEntity.getEstimationDeTemps_Tache();
         this.uniteDeTemps =tacheEntity.getUniteDeTemps_tache();
         //todo : ajouter la gestion des historiques
-        this.utilisateurAffecte=new UtilisateurDetailsDTO(tacheEntity.getUtilisateur_Tache());
+        this.utilisateurAffecte= tacheEntity.getUtilisateur_Tache() == null ? null : new UtilisateurDetailsDTO(tacheEntity.getUtilisateur_Tache());
         this.historique = tacheEntity.getHistoriqueTaches().stream()
                 .map(
                         HistoriqueDTO::new

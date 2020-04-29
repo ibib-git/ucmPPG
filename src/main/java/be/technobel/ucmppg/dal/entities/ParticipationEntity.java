@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Table(name = "Participation_Projet")
 @Getter
 @Setter
-@ToString (exclude = "utilisateurParticipant")
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParticipationEntity implements Serializable{
