@@ -1,9 +1,10 @@
 package be.technobel.ucmppg.cucumber;
 
-import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
-import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
+import be.technobel.ucmppg.Exception.ErrorServiceException;
+import be.technobel.ucmppg.bl.dto.projet.workflow.OrdreEtapeDTO;
 import be.technobel.ucmppg.bl.service.projet.ChangerOrdreEtapeService;
 import be.technobel.ucmppg.configuration.Constantes;
+import be.technobel.ucmppg.controllers.EtapeWorkflowController;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
 import io.cucumber.java.After;
@@ -13,15 +14,7 @@ import io.cucumber.java.fr.Etantdonné;
 import io.cucumber.java.fr.Quand;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
 
 
 public class ChangerOrdreEtapeWorkflowTest {
@@ -35,9 +28,11 @@ public class ChangerOrdreEtapeWorkflowTest {
     private ParticipationEntity participationEntity,participationMembre;
     private DroitProjetEntity droitChangerOrdeEtape, droitTache, droitCollaborateur;
     private Set<EtapeWorkflowEntity> etapeWorkflowEntitySet;
-    private boolean result;
+
     @Autowired
     ChangerOrdreEtapeService changerOrdreEtapeService;
+    @Autowired
+    EtapeWorkflowController etapeWorkflowController;
     @Autowired
     UtilisateurRepository utilisateurRepository;
     @Autowired
@@ -58,12 +53,12 @@ public class ChangerOrdreEtapeWorkflowTest {
         this.droitChangerOrdeEtape = this.droitProjetRepository.findDroitProjetByNomDroit(Constantes.DROIT_CHANGER_ORDRE_ETAPE);
     }
 
-    @Et("un utilisateur createur de projet {utilisateur}")
+    @Etantdonné("un utilisateur createur de projet {utilisateur}")
     public void creerUtilisateurCreateurProjet(UtilisateurEntity utilisateur) {
         this.utilisateurCreateurEntity = this.utilisateurRepository.save(utilisateur);
     }
 
-    @Et("un projet {string} créé par ce dernier dont {string} avec un role {string} et un role {string} possédant le droit ainsi qu'un role {string} ne le possédant pas")
+    @Etantdonné("un projet {string} créé par ce dernier dont {string} avec un role {string} et un role {string} possédant le droit ainsi qu'un role {string} ne le possédant pas")
     public void creerProjet(String nom, String description, String roleEmpereur, String roleSith, String roleStormtrooper){
 
         //region definition du projet
@@ -124,6 +119,7 @@ public class ChangerOrdreEtapeWorkflowTest {
         participationEmpereurEntity.setUtilisateurParticipant(this.utilisateurCreateurEntity);
         participationEmpereurEntity.setRoleDuParticipant(this.roleEmpereurEntity);
         participationEmpereurEntity.setProjetParticipation(this.projetEntity);
+        participationEmpereurEntity.setActif(true);
         this.participationEntity = this.participationRepository.save(participationEmpereurEntity);
 
         this.projetEntity.getMembresDuProjet().add(this.participationEntity);
@@ -133,20 +129,25 @@ public class ChangerOrdreEtapeWorkflowTest {
         // endregion
     }
 
-    @Et("avec une liste d'étapes workflow avec leurs numero d'ordre :")
-    public void creerListeEtape (List<List<String>> etapeWorkflowEntityList)
+    @Etantdonné("une liste d'étapes workflow avec leurs numero d'ordre :")
+    public void creerListeEtape (Map<String,Integer> etapeInitMap)
     {
         this.etapeWorkflowEntitySet = new HashSet<>();
 
-        //TODO DAMIEN : changer vers une hashMap
-        etapeWorkflowEntityList.forEach(l -> {
+        for (String nom: etapeInitMap.keySet()) {
             EtapeWorkflowEntity etape = new EtapeWorkflowEntity();
-            etape.setNomEtapeWorkflow(l.get(0));
-            etape.setNumOrdreEtapeWorkflow(Integer.parseInt(l.get(1)));
+            etape.setNomEtapeWorkflow(nom);
             etape.setDescriptionEtapeWorkflow("cucumber Test");
             etape.setEstPrenableEtapeWorkflow(true);
-            this.etapeWorkflowEntitySet.add(this.etapeWorkflowRepository.save(etape));
+            this.etapeWorkflowEntitySet.add(etape);
+        }
+
+        this.etapeWorkflowEntitySet.forEach(e -> {
+            int ordre = etapeInitMap.get(e.getNomEtapeWorkflow());
+            e.setNumOrdreEtapeWorkflow(ordre);
+            this.etapeWorkflowRepository.save(e);
         });
+
         this.projetEntity.setEtapeWorkflows(this.etapeWorkflowEntitySet);
         this.projetEntity = this.projetRepository.save(this.projetEntity);
     }
@@ -168,6 +169,7 @@ public class ChangerOrdreEtapeWorkflowTest {
         participationMembreEntity.setUtilisateurParticipant(this.utilisateurMembreEntity);
         participationMembreEntity.setRoleDuParticipant(roleAjoute);
         participationMembreEntity.setProjetParticipation(this.projetEntity);
+        participationMembreEntity.setActif(true);
         this.participationMembre = this.participationRepository.save(participationMembreEntity);
 
         this.projetEntity.getMembresDuProjet().add(participationMembreEntity);
@@ -176,35 +178,24 @@ public class ChangerOrdreEtapeWorkflowTest {
     }
 
     @Quand("l'utilisateur veut changer l'ordre de l'étape {string} en ordre {int}")
-    public void changerOrdre (String etape,int newOrdre)
-    {
+    public void changerOrdre (String etape,int newOrdre) throws ErrorServiceException {
        EtapeWorkflowEntity etapeWorkflowEntity = this.etapeWorkflowEntitySet.stream().filter(e -> e.getNomEtapeWorkflow().equals(etape)).findFirst().orElse(null);
-        this.result = this.changerOrdreEtapeService.execute(this.utilisateurMembreEntity.getIdUtilisateur(),etapeWorkflowEntity.getIdEtapeWorkflow(),newOrdre);
-        this.projetEntity = this.projetRepository.findById(this.projetEntity.getIdProjet()).orElse(null);
+        OrdreEtapeDTO ordreEtapeDTO = new OrdreEtapeDTO(this.utilisateurMembreEntity.getIdUtilisateur(),newOrdre);
+       this.etapeWorkflowController.changerOrdreEtape(etapeWorkflowEntity.getIdEtapeWorkflow(),ordreEtapeDTO);
     }
 
-    @Alors("l'ordre des étapes devient {string} = {int}, {string} = {int}, {string} = {int}, {string} = {int} de plus le service renvoie {string}")
-    public void ordreEstchange(String etape1,int ordreEtape1,String etape2,int ordreEtape2,String etape3,int ordreEtape3,String etape4,int ordreEtape4,String resultat )
+    @Alors("l'ordre des étapes devient")
+    public void ordreEstchange(Map<String,Integer> etapeResultatMap)
     {
-        //TODO DAMIEN : modifier le "alors" en un tableau
-        EtapeWorkflowEntity etape1Entity = this.projetEntity.getEtapeWorkflows().stream()
-               .filter(e -> e.getNomEtapeWorkflow().equals(etape1)).findFirst().orElse(null);
-        EtapeWorkflowEntity etape2Entity = this.projetEntity.getEtapeWorkflows().stream()
-                .filter(e -> e.getNomEtapeWorkflow().equals(etape2)).findFirst().orElse(null);
-        EtapeWorkflowEntity etape3Entity = this.projetEntity.getEtapeWorkflows().stream()
-                .filter(e -> e.getNomEtapeWorkflow().equals(etape3)).findFirst().orElse(null);
-        EtapeWorkflowEntity etape4Entity = this.projetEntity.getEtapeWorkflows().stream()
-                .filter(e -> e.getNomEtapeWorkflow().equals(etape4)).findFirst().orElse(null);
+        this.projetEntity = this.projetRepository.findById(this.projetEntity.getIdProjet()).orElse(null);
 
-        assert etape1Entity != null;
-        assert etape2Entity != null;
-        assert etape3Entity != null;
-        assert etape4Entity != null;
-        Assert.assertEquals((int) etape1Entity.getNumOrdreEtapeWorkflow(), ordreEtape1);
-        Assert.assertEquals((int) etape2Entity.getNumOrdreEtapeWorkflow(), ordreEtape2);
-        Assert.assertEquals((int) etape3Entity.getNumOrdreEtapeWorkflow(), ordreEtape3);
-        Assert.assertEquals((int) etape4Entity.getNumOrdreEtapeWorkflow(), ordreEtape4);
-        Assert.assertEquals(resultat,String.valueOf(this.result));
+        for (String nom :etapeResultatMap.keySet()) {
+            EtapeWorkflowEntity etapeEntity = this.projetEntity.getEtapeWorkflows().stream()
+                    .filter(e -> e.getNomEtapeWorkflow().equals(nom)).findFirst().orElse(null);
+
+            assert etapeEntity != null;
+            Assert.assertEquals(etapeEntity.getNumOrdreEtapeWorkflow(), etapeResultatMap.get(nom));
+        }
     }
 
     // endregion

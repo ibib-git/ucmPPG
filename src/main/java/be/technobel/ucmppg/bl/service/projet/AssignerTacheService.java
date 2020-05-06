@@ -2,30 +2,32 @@ package be.technobel.ucmppg.bl.service.projet;
 
 import be.technobel.ucmppg.Exception.ErrorServiceException;
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.bl.service.droits.TokenVerificationDroitService;
 import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
 public class AssignerTacheService {
 
-    @Autowired
-    private TacheRepository tacheRepository;
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
-    @Autowired
-    private ProjetRepository projetRepository;
-    @Autowired
-    private DroitProjetRepository droitProjetRepository;
-    @Autowired
-    private HistoriqueTacheRepository historiqueTacheRepository;
-    @Autowired
-    private EtapeWorkflowRepository etapeWorkflowRepository;
+    private final TacheRepository tacheRepository;
+    private final UtilisateurRepository utilisateurRepository;
+    private final ProjetRepository projetRepository;
+    private final HistoriqueTacheRepository historiqueTacheRepository;
+    private final EtapeWorkflowRepository etapeWorkflowRepository;
+    private final TokenVerificationDroitService tokenVerificationDroitService;
+
+    public AssignerTacheService(TacheRepository tacheRepository, UtilisateurRepository utilisateurRepository, ProjetRepository projetRepository, HistoriqueTacheRepository historiqueTacheRepository, EtapeWorkflowRepository etapeWorkflowRepository, TokenVerificationDroitService tokenVerificationDroitService) {
+        this.tacheRepository = tacheRepository;
+        this.utilisateurRepository = utilisateurRepository;
+        this.projetRepository = projetRepository;
+        this.historiqueTacheRepository = historiqueTacheRepository;
+        this.etapeWorkflowRepository = etapeWorkflowRepository;
+        this.tokenVerificationDroitService = tokenVerificationDroitService;
+    }
 
 
     public ProjetDTO assignation (long idUtilisateurAssigne, long idUtilisateurAssignateur, long idTache) throws ErrorServiceException {
@@ -47,15 +49,15 @@ public class AssignerTacheService {
             // on test si un utilisateur est deja en charge de la tache et si on a le droit de la remplacer
             if (tacheEntity.getUtilisateur_Tache() != null)
             {
-                estDroitRemplacerUtilisateurValide = verificationDroitUtilisateurService(idUtilisateurAssignateur, Constantes.DROIT_SUPPRIMER_COLLABORATEUR_TACHE,idProjet);
+                estDroitRemplacerUtilisateurValide = tokenVerificationDroitService.verificationDroitUtilisateurService(idUtilisateurAssignateur, Constantes.DROIT_SUPPRIMER_COLLABORATEUR_TACHE,idProjet);
             }
 
             // on verifie si un utilisateur prend une tache pour assigne a un autre utilisateur
             if (idUtilisateurAssignateur != idUtilisateurAssigne)
             {
-                estDroitAssignationValide = verificationDroitUtilisateurService(idUtilisateurAssignateur,Constantes.DROIT_ASSIGNER_TACHE,idProjet);
-                estDroitPrendreTacheValide = verificationDroitUtilisateurService(idUtilisateurAssigne,Constantes.DROIT_PRENDRE_TACHE,idProjet);
-            } else {estDroitPrendreTacheValide = verificationDroitUtilisateurService(idUtilisateurAssignateur,Constantes.DROIT_PRENDRE_TACHE,idProjet);}
+                estDroitAssignationValide = tokenVerificationDroitService.verificationDroitUtilisateurService(idUtilisateurAssignateur,Constantes.DROIT_ASSIGNER_TACHE,idProjet);
+                estDroitPrendreTacheValide = tokenVerificationDroitService.verificationDroitUtilisateurService(idUtilisateurAssigne,Constantes.DROIT_PRENDRE_TACHE,idProjet);
+            } else {estDroitPrendreTacheValide = tokenVerificationDroitService.verificationDroitUtilisateurService(idUtilisateurAssignateur,Constantes.DROIT_PRENDRE_TACHE,idProjet);}
 
             // on verifie si toutes les conditions sont remplies
             if (estDroitAssignationValide && estDroitPrendreTacheValide && estDroitRemplacerUtilisateurValide)
@@ -103,7 +105,7 @@ public class AssignerTacheService {
                 // Verifier si il s'agit d'une tache enfant et si oui chercher l idProjet de la tache parente
                 Long idProjet = tacheParente.isPresent() ? projetRepository.getIdProjetEntityByTacheEnfant(idTache) : projetRepository.getIdProjetEntityByTacheParent(idTache) ;
 
-                boolean estDroitCongedierValide = verificationDroitUtilisateurService(idUtilisateur,Constantes.DROIT_SUPPRIMER_COLLABORATEUR_TACHE,idProjet);
+                boolean estDroitCongedierValide = tokenVerificationDroitService.verificationDroitUtilisateurService(idUtilisateur,Constantes.DROIT_SUPPRIMER_COLLABORATEUR_TACHE,idProjet);
 
                 if (estDroitCongedierValide)
                 {
@@ -124,29 +126,4 @@ public class AssignerTacheService {
         } throw  new ErrorServiceException("Congédier un utilisateur d'une tache","La tache n'existe pas");
     }
 
-    //TODO TOKEN : service a généraliser avec le check du token
-    //TODO DAMIEN : a modifier avec le isActif de thomas à partir de participation et pas du user alors
-    private boolean verificationDroitUtilisateurService (long idUtilisateur, String droit, long idProjet)
-    {
-        Optional<UtilisateurEntity> optionalUtilisateurEntity = utilisateurRepository.findById(idUtilisateur);
-        Optional<ProjetEntity> optionalProjetEntity = projetRepository.findByIdProjet(idProjet);
-        DroitProjetEntity droitProjet = droitProjetRepository.findDroitProjetByNomDroit(droit);
-
-        // check si l utilisateur existe et si le projet existe
-        if (optionalUtilisateurEntity.isPresent() && optionalProjetEntity.isPresent())
-        {
-            UtilisateurEntity utilisateurEntity = optionalUtilisateurEntity.get();
-            ProjetEntity projetEntity = optionalProjetEntity.get();
-
-            Optional<RoleProjetEntity> optionalRoleUtilisateur = projetEntity.getMembresDuProjet().stream()
-                    .filter(m -> m.getUtilisateurParticipant().equals(utilisateurEntity))
-                    .map(ParticipationEntity::getRoleDuParticipant).findFirst();
-
-            // check si l'utilisateur participe bien au projet
-            // utilisateur ne participe pas au projet
-            return optionalRoleUtilisateur.map(roleProjetEntity -> roleProjetEntity.getDroitProjets().contains(droitProjet)).orElse(false);
-
-        } return false ; //utilisateur ou projet n existe pas
-
-    }
 }
