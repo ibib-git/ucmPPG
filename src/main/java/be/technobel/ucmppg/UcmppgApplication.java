@@ -1,9 +1,7 @@
 package be.technobel.ucmppg;
 
-import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
-import be.technobel.ucmppg.bl.dto.projet.collaborateur.SupprimerCollaborateurDTO;
-import be.technobel.ucmppg.bl.dto.projet.workflow.EtapeWorkflowDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
+import be.technobel.ucmppg.bl.service.tache.TacheAjouterService;
 import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
 import be.technobel.ucmppg.bl.service.projet.SupprimerCollaborateurDuProjetService;
@@ -17,10 +15,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
-import javax.servlet.http.Part;
 import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -52,6 +47,10 @@ public class UcmppgApplication {
     private AjouterCollaborateurAuProjetService aCAPS;
     @Autowired
     private SupprimerCollaborateurDuProjetService scdps;
+    @Autowired
+    private TacheAjouterService tacheAjouterService;
+
+
     @EventListener(ApplicationReadyEvent.class)
     public void generateData(){
 
@@ -247,6 +246,8 @@ public class UcmppgApplication {
         tache1.setUtilisateur_Tache(utilisateur3);
         tache1.setTachesPrecedentes(new HashSet<TacheEntity>());
         tache1.setTachesEnfants(new HashSet<TacheEntity>());
+        tache1.setPriorite(Priorite.MOYENNE);
+        tache1.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tacheRepository.save(tache1);
 
 
@@ -259,6 +260,8 @@ public class UcmppgApplication {
         tache2.setTachesPrecedentes(new HashSet<TacheEntity>());
         tache2.setTachesEnfants(new HashSet<TacheEntity>());
         tache2.getTachesPrecedentes().add(tache1);
+        tache2.setPriorite(Priorite.HAUTE);
+        tache2.setUniteDeTemps_tache(UniteDeTempsEnum.HEURE);
         tacheRepository.save(tache2);
 
 
@@ -271,6 +274,8 @@ public class UcmppgApplication {
         tache3.setUtilisateur_Tache(utilisateur);
         tache3.setTachesPrecedentes(new HashSet<TacheEntity>());
         tache3.setTachesEnfants(new HashSet<TacheEntity>());
+        tache3.setPriorite(Priorite.FAIBLE);
+        tache3.setUniteDeTemps_tache(UniteDeTempsEnum.HEURE);
         tacheRepository.save(tache3);
 
 
@@ -282,6 +287,8 @@ public class UcmppgApplication {
         tache4.setUtilisateur_Tache(utilisateur);
         tache4.setTachesPrecedentes(new HashSet<TacheEntity>());
         tache4.setTachesEnfants(new HashSet<TacheEntity>());
+        tache4.setPriorite(Priorite.URGENT);
+        tache4.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tacheRepository.save(tache4);
 
         TacheEntity tache5=new TacheEntity();
@@ -292,9 +299,21 @@ public class UcmppgApplication {
         tache5.setUtilisateur_Tache(utilisateur);
         tache5.setTachesPrecedentes(new HashSet<TacheEntity>());
         tache5.setTachesEnfants(new HashSet<TacheEntity>());
-
-        tacheRepository.save(tache4);
+        tache5.setPriorite(Priorite.MINORITAIRE);
+        tache5.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tacheRepository.save(tache5);
+
+        TacheEntity tache6=new TacheEntity();
+        tache6.setNomTache("test de maleur");
+        tache6.setDescriptionTache(null);
+        tache6.setEstimationDeTemps_Tache(0);
+        tache6.setUniteDeTemps_tache(null);
+        tache6.setUtilisateur_Tache(null);
+        tache6.setTachesPrecedentes(null);
+        tache6.setTachesEnfants(null);
+        tache6.setPriorite(null);
+        tache6.setUniteDeTemps_tache(null);
+        tacheRepository.save(tache6);
 
         tache3.getTachesEnfants().add(tache4);
         tache3.getTachesEnfants().add(tache5);
@@ -313,9 +332,6 @@ public class UcmppgApplication {
         projet1.getRolesProjet().add(moderateur);
 
         projetRepository.save(projet1);
-        ProjetDTO test = service.execute("divan","sieste",utilisateur.getIdUtilisateur());
-
-        aCAPS.execute(projet1.getIdProjet(),utilisateur2.getEmailUtilisateur());
 
         HistoriqueTacheEntity historique = new HistoriqueTacheEntity(null,tache5,todo,utilisateur);
         HistoriqueTacheEntity historique2 = new HistoriqueTacheEntity(null,tache1,todo,utilisateur);
@@ -335,11 +351,5 @@ public class UcmppgApplication {
         historiqueTacheRepository.save(historique7);
         historiqueTacheRepository.save(historique8);
 
-
-        ProjetDTO test2 = service.execute("divan","sieste",utilisateur.getIdUtilisateur());
-
-        aCAPS.execute(test.getId(),utilisateur2.getEmailUtilisateur());
     }
-
-
 }

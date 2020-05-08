@@ -13,8 +13,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
+//*@ToString
 public class EtapeWorkflowEntity implements Serializable {
 
     @Id
@@ -34,13 +33,13 @@ public class EtapeWorkflowEntity implements Serializable {
     @Column(name = "numero_Ordre",nullable = false)
     private Integer numOrdreEtapeWorkflow;
 
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="autorisation_colonne",joinColumns=@JoinColumn(name="colonne_id"),inverseJoinColumns=@JoinColumn(name="role_id"))
     private Set<RoleProjetEntity> rolesAutorisation = new HashSet<>();
 
     @Column(name="Constrainte")
     private ConstrainteAffectationEnum constrainteAffectation;
 
-    @OneToMany
+    @OneToMany(fetch=FetchType.EAGER)
     private Set<TacheEntity> taches=new HashSet<>();
 }

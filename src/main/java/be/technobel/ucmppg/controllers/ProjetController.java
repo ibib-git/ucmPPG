@@ -61,17 +61,12 @@ public class ProjetController {
     @GetMapping("")
     public List<ProjetDTO> getTousLesProjets(){
         List<ProjetDTO> projetDTOS=new ArrayList<>();
-        projetRepository.findAll().forEach(
-                projetEntity -> {
-                    projetDTOS.add(new ProjetDTO(projetEntity));
-                }
-        );
+        projetRepository.findAll().forEach(projetEntity -> { projetDTOS.add(new ProjetDTO(projetEntity)); });
         return projetDTOS;
     }
     @ApiOperation(value = "Appelé pour récupérer un projet bien précis")
     @GetMapping("/{id}")
     public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") Long id){
-
         ProjetDTO projetDTO = recuperationProjetService.getProjetById(id);
 //TODO DAMIEN : a modifier pour map le dto en bl et gestion erreur
         return (projetDTO != null ? ResponseEntity.ok(projetDTO) : new ResponseEntity("Pas de projet existant", HttpStatus.NOT_FOUND) );

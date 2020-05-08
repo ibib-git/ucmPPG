@@ -5,6 +5,7 @@ import be.technobel.ucmppg.bl.dto.projet.taches.TacheDTO;
 import be.technobel.ucmppg.dal.entities.ConstrainteAffectationEnum;
 import be.technobel.ucmppg.dal.entities.EtapeWorkflowEntity;
 import be.technobel.ucmppg.dal.entities.RoleProjetEntity;
+import be.technobel.ucmppg.dal.entities.TacheEntity;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -20,23 +21,18 @@ public class EtapeWorkflowDTO {
     private String description;
     private boolean estPrenable;
     private Integer numOrdre;
-    private List<RoleDTO> roleAffectables =new ArrayList<>();
+    private List<RoleDTO> roleAffectables = new ArrayList<>();
     private ConstrainteAffectationEnum contrainte;
-    private List<TacheDTO> taches =new ArrayList<>();
+    private List<TacheDTO> taches = new ArrayList<>();
 
     public EtapeWorkflowDTO(EtapeWorkflowEntity etapeWorkflowEntity) {
         this.id = etapeWorkflowEntity.getIdEtapeWorkflow();
-        this.nom =etapeWorkflowEntity.getNomEtapeWorkflow();
-        this.description =etapeWorkflowEntity.getNomEtapeWorkflow();
+        this.nom = etapeWorkflowEntity.getNomEtapeWorkflow();
+        this.description = etapeWorkflowEntity.getDescriptionEtapeWorkflow();
         this.numOrdre = etapeWorkflowEntity.getNumOrdreEtapeWorkflow();
-        this.estPrenable=etapeWorkflowEntity.isEstPrenableEtapeWorkflow();
-        for (RoleProjetEntity roleProjetEntity : etapeWorkflowEntity.getRolesAutorisation()) {
-            this.roleAffectables.add(new RoleDTO(roleProjetEntity));
-        }
-
-        this.contrainte=etapeWorkflowEntity.getConstrainteAffectation();
-        etapeWorkflowEntity.getTaches().forEach(
-                tacheEntity -> this.taches.add(new TacheDTO(tacheEntity))
-        );
+        this.estPrenable = etapeWorkflowEntity.isEstPrenableEtapeWorkflow();
+        this.contrainte = etapeWorkflowEntity.getConstrainteAffectation();
+        etapeWorkflowEntity.getRolesAutorisation().forEach(roleProjetEntity -> this.roleAffectables.add(new RoleDTO(roleProjetEntity)));
+        etapeWorkflowEntity.getTaches().forEach(tacheEntity -> this.taches.add(new TacheDTO(tacheEntity)));
     }
 }

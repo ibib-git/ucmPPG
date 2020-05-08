@@ -12,8 +12,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
+//@ToString
 public class HistoriqueTacheEntity implements Serializable {
 
     @Id

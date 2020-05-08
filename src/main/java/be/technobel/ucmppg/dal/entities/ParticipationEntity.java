@@ -28,8 +28,6 @@ public class ParticipationEntity implements Serializable{
     @OneToOne
     private ProjetEntity projetParticipation;
 
-
-
     @Override
     public int hashCode() {
         return super.hashCode();

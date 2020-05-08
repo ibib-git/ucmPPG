@@ -1,9 +1,9 @@
 package be.technobel.ucmppg.dal.entities;
 
 public enum Priorite {
-    INUTILE,
-    INFERIEUR,
+    MINORITAIRE,
+    FAIBLE,
     MOYENNE,
     HAUTE,
-    PRIORITE;
+    URGENT;
 }
