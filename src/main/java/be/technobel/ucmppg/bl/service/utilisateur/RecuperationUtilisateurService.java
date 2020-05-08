@@ -1,5 +1,6 @@
 package be.technobel.ucmppg.bl.service.utilisateur;
 
+import be.technobel.ucmppg.Exception.ErrorServiceException;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
@@ -21,11 +22,15 @@ public class RecuperationUtilisateurService {
         return utilisateurEntity.map(UtilisateurDetailsDTO::new).orElse(null);
     }
 
-    public UtilisateurDTO recupererUtilisateur(long id){
+    public UtilisateurDTO recupererUtilisateur(long id) throws ErrorServiceException {
 
-        Optional<UtilisateurEntity> utilisateurEntity = utilisateurRepository.findById(id);
-      //utilisateurEntity.get().getProjetsParticiperUtilisateur().forEach(System.out::println);
+        Optional<UtilisateurEntity> optionalUtilisateurEntity = utilisateurRepository.findById(id);
 
-        return utilisateurEntity.map(UtilisateurDTO::new).orElse(null);
+        if (optionalUtilisateurEntity.isPresent())
+        {
+
+            return new UtilisateurDTO(optionalUtilisateurEntity.get());
+        } else throw new ErrorServiceException("Utilisateur","Erreur de chargement de l utilisateur");
+
     }
 }

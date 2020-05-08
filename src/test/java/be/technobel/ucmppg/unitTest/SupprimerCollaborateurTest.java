@@ -1,4 +1,4 @@
-package be.technobel.ucmppg;
+package be.technobel.ucmppg.unitTest;
 
 
 import be.technobel.ucmppg.bl.dto.projet.collaborateur.SupprimerCollaborateurDTO;

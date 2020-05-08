@@ -43,7 +43,7 @@ public class TacheEntity implements Serializable {
     private UniteDeTempsEnum uniteDeTemps_tache;
 
     @OneToMany
-    private Set<HistoriqueTacheEntity> historiqueTaches;
+    private Set<HistoriqueTacheEntity> historiqueTaches=new HashSet<>();
 
     @OneToOne
     private UtilisateurEntity utilisateur_Tache;
