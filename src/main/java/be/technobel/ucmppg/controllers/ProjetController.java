@@ -70,7 +70,7 @@ public class ProjetController {
     }
     @ApiOperation(value = "Appelé pour récupérer un projet bien précis")
     @GetMapping("/{id}")
-    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id){
+    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") Long id){
 
         ProjetDTO projetDTO = recuperationProjetService.getProjetById(id);
 //TODO DAMIEN : a modifier pour map le dto en bl et gestion erreur
