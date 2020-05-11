@@ -1,5 +1,6 @@
 package be.technobel.ucmppg.controllers;
 
+import be.technobel.ucmppg.Exception.ErrorServiceException;
 import be.technobel.ucmppg.bl.dto.ErrorDTO;
 import be.technobel.ucmppg.bl.dto.ParticipationDetailDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurConnexionDTO;
@@ -80,6 +81,23 @@ public class UtilisateurController {
        return (Objects.requireNonNull(ex.getRootCause()).getMessage().contains("SQLCODE=-803") ? new ErrorDTO("Email/Pseudo","L'email et/ou le pseudo existe deja") : new ErrorDTO("Serveur","Erreur serveur"));
     }
 
+    /**
+     * @author Damien Fricot
+     *
+     * Description : Methode qui permet de catcher une exception, de créer un ErrorDTO avec les paramètre de cette dernière.
+     * On va renvoyer ce ErrorDTO avec une requete HTTP code=406. Va nous permettre de gérer les cas d'erreurs de manière plus spécifiques.
+     *
+     * @exception ErrorServiceException Cette exception est levée dans le cas d'une erreur prévue dans le service appelé.
+     * @param ex : ErrorServiceException
+     * @return new ErrorDTO(String: nomDuChamps,String: messageErreur) && Code HTTP de la requete = 406
+     */
+    @ExceptionHandler(ErrorServiceException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ErrorDTO serviceException (ErrorServiceException ex)
+    {
+        return new ErrorDTO(ex.getProperties(),ex.getErrorMessage());
+    }
+
     @ApiOperation(value = "Appelé pour la connexion d'un utilisateur")
     @PostMapping("/connexion")
     public ResponseEntity<UtilisateurDetailsDTO> connexionUtilisateur(@RequestBody UtilisateurConnexionDTO utilisateurConnexionDTO)
@@ -91,12 +109,12 @@ public class UtilisateurController {
 
     @ApiOperation(value = "pour récupérer un utilisateur")
     @GetMapping("/{id}")
-    public ResponseEntity<UtilisateurDTO> getUtilisateurParId(@PathVariable("id") long id){
+    public ResponseEntity<UtilisateurDTO> getUtilisateurParId(@PathVariable("id") long id) throws ErrorServiceException {
 
         UtilisateurDTO utilisateurDTO = recuperationUtilisateurService.recupererUtilisateur(id);
-        System.out.println(utilisateurDTO.getParticipations());
+        System.out.println("Taille de la participation : "+ utilisateurDTO.getParticipations().size());
 
-        return (utilisateurDTO != null ? ResponseEntity.ok(utilisateurDTO) : new ResponseEntity("l'utilisateur n'existe pas",HttpStatus.NOT_FOUND));
+        return (ResponseEntity.ok(utilisateurDTO));
     }
 
 }

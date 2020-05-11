@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AjoutCollaborateurDTO {
+public class ProjetAjoutCollaborateurDTO {
     private String emailUtilisateur;
     private long idProjet;
 }

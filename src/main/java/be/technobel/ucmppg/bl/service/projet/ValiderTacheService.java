@@ -2,34 +2,33 @@ package be.technobel.ucmppg.bl.service.projet;
 
 import be.technobel.ucmppg.Exception.ErrorServiceException;
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.bl.service.droits.TokenVerificationDroitService;
 import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ValiderTacheService {
 
-    @Autowired
-    private TacheRepository tacheRepository;
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
-    @Autowired
-    private DroitProjetRepository droitProjetRepository;
-    @Autowired
-    private ProjetRepository projetRepository;
-    @Autowired
-    private HistoriqueTacheRepository historiqueTacheRepository;
-    @Autowired
-    private EtapeWorkflowRepository etapeWorkflowRepository;
-    @Autowired
-    private ParticipationRepository participationRepository;
+    private final TacheRepository tacheRepository;
+    private final UtilisateurRepository utilisateurRepository;
+    private final ProjetRepository projetRepository;
+    private final HistoriqueTacheRepository historiqueTacheRepository;
+    private final EtapeWorkflowRepository etapeWorkflowRepository;
+    private final TokenVerificationDroitService tokenVerificationDroitService;
+
+    public ValiderTacheService(TacheRepository tacheRepository, UtilisateurRepository utilisateurRepository, ProjetRepository projetRepository, HistoriqueTacheRepository historiqueTacheRepository, EtapeWorkflowRepository etapeWorkflowRepository, TokenVerificationDroitService tokenVerificationDroitService) {
+        this.tacheRepository = tacheRepository;
+        this.utilisateurRepository = utilisateurRepository;
+        this.projetRepository = projetRepository;
+        this.historiqueTacheRepository = historiqueTacheRepository;
+        this.etapeWorkflowRepository = etapeWorkflowRepository;
+        this.tokenVerificationDroitService = tokenVerificationDroitService;
+    }
 
     // Beaucoup plus opti en chargeant une fois le projet en entier mais but du jour = exo revision de sql
     public ProjetDTO validerTache (long idUtilisateur, long idTache) throws ErrorServiceException {
@@ -42,7 +41,7 @@ public class ValiderTacheService {
         EtapeWorkflowEntity etapeCourante = tacheParente.isPresent()? etapeWorkflowRepository.getEtapeByIdTacheEnfant(idTache) : etapeWorkflowRepository.getEtapeByIdTache(idTache);
 
         //Verifier que l'utilisateur existe et a le droit
-        if (verificationDroitUtilisateurService(idUtilisateur, Constantes.DROIT_VALIDER_TACHE,idProjet))
+        if (tokenVerificationDroitService.verificationDroitUtilisateurService(idUtilisateur, Constantes.DROIT_VALIDER_TACHE,idProjet))
         {
             Optional<EtapeWorkflowEntity> optionaleEtapeWorkflowSuivanteEntity = etapeWorkflowRepository.getNextEtapeByIdProjetAndEtape(idProjet,etapeCourante.getNumOrdreEtapeWorkflow());
             // check si l'étape courante est la dernière étape
@@ -124,31 +123,6 @@ public class ValiderTacheService {
 
     }
 
-    //TODO TOKEN : service a généraliser avec le check du token
-    //TODO DAMIEN : a modifier avec le isActif de thomas à partir de participation et pas du user alors
-    private boolean verificationDroitUtilisateurService (long idUtilisateur, String droit, long idProjet)
-    {
-        Optional<UtilisateurEntity> optionalUtilisateurEntity = utilisateurRepository.findById(idUtilisateur);
-        Optional<ProjetEntity> optionalProjetEntity = projetRepository.findByIdProjet(idProjet);
-        DroitProjetEntity droitProjet = droitProjetRepository.findDroitProjetByNomDroit(droit);
-
-        // check si l utilisateur existe et si le projet existe
-        if (optionalUtilisateurEntity.isPresent() && optionalProjetEntity.isPresent())
-        {
-            UtilisateurEntity utilisateurEntity = optionalUtilisateurEntity.get();
-            ProjetEntity projetEntity = optionalProjetEntity.get();
-
-            Optional<RoleProjetEntity> optionalRoleUtilisateur = projetEntity.getMembresDuProjet().stream()
-                    .filter(m -> m.getUtilisateurParticipant().equals(utilisateurEntity))
-                    .map(ParticipationEntity::getRoleDuParticipant).findFirst();
-
-            // check si l'utilisateur participe bien au projet
-            // utilisateur ne participe pas au projet
-            return optionalRoleUtilisateur.map(roleProjetEntity -> roleProjetEntity.getDroitProjets().contains(droitProjet)).orElse(false);
-
-        } return false ; //utilisateur ou projet n existe pas
-
-    }
 
     private boolean verificationValidationTacheSpecialHistorique (List<HistoriqueTacheEntity> historiqueTache, List<TacheEntity> tacheSpecialEntityList,Long idEtape)
     {

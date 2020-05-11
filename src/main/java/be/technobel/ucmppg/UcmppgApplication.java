@@ -188,6 +188,7 @@ public class UcmppgApplication {
 
         projet1.getMembresDuProjet().add(participation);
         utilisateur.getProjetsParticiperUtilisateur().add(participation);
+        utilisateurRepository.save(utilisateur);
 
         ParticipationEntity participation2=new ParticipationEntity();
         participation2.setUtilisateurParticipant(utilisateur2);
@@ -197,6 +198,8 @@ public class UcmppgApplication {
         participationRepository.save(participation2);
 
         projet1.getMembresDuProjet().add(participation2);
+        utilisateur2.getProjetsParticiperUtilisateur().add(participation2);
+        utilisateurRepository.save(utilisateur2);
 
         ParticipationEntity participation3=new ParticipationEntity();
         participation3.setUtilisateurParticipant(utilisateur3);
@@ -206,6 +209,8 @@ public class UcmppgApplication {
         participationRepository.save(participation3);
 
         projet1.getMembresDuProjet().add(participation3);
+        utilisateur3.getProjetsParticiperUtilisateur().add(participation3);
+        utilisateurRepository.save(utilisateur3);
 
         ParticipationEntity participation4 = new ParticipationEntity();
         participation4.setUtilisateurParticipant(testUtilisateur);
@@ -215,6 +220,8 @@ public class UcmppgApplication {
         participationRepository.save(participation4);
 
         projet1.getMembresDuProjet().add(participation4);
+        testUtilisateur.getProjetsParticiperUtilisateur().add(participation4);
+        utilisateurRepository.save(testUtilisateur);
 
         EtapeWorkflowEntity todo=new EtapeWorkflowEntity();
         todo.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);
