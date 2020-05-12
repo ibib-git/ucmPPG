@@ -25,16 +25,7 @@ import java.util.List;
 @CrossOrigin
 public class ProjetController {
 
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
-    @Autowired
-    private DroitProjetRepository droitProjetRepository;
-    @Autowired
-    private RoleProjetRepository roleProjetRepository;
-    @Autowired
-    private ParticipationRepository participationRepository;
-    @Autowired
-    private EtapeWorkflowRepository etapeWorkflowRepository;
+
     @Autowired
     private ProjetRepository projetRepository;
     @Autowired
