@@ -68,7 +68,7 @@ public class AssignerTacheTest {
         when(mockVerificationDroitService.verificationDroitUtilisateurService(1L, Constantes.DROIT_PRENDRE_TACHE,1L)).thenReturn(true);
 
 
-        UtilisateurEntity utilisateur1 = new UtilisateurEntity(1L,"momo@gmail","Test=1234","Momo",null,null,null,null,null,null);
+        UtilisateurEntity utilisateur1 = new UtilisateurEntity(1L,"momo@gmail","Test=1234","Momo",null,null,null,null,null,null,null);
         TacheEntity tacheEntity = new TacheEntity(1L,"tache1","tache sans parent, enfant ou precedent",null,null,1, UniteDeTempsEnum.HEURE,new HashSet<>(),utilisateur1);
         when(mockTacheRepo.findById(1L)).thenReturn(Optional.of(tacheEntity));
 

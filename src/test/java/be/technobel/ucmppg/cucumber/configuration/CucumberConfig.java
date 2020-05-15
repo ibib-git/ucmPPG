@@ -20,7 +20,7 @@ public class CucumberConfig {
         {
             utilisateurEntity.setEmailUtilisateur(matcher.group("mail"));
             utilisateurEntity.setPseudoUtilisateur(matcher.group("pseudo"));
-            utilisateurEntity.setMotDePasseUtilisateur(matcher.group("motDePasse"));
+            utilisateurEntity.setPassword(matcher.group("motDePasse"));
 
         } else utilisateurEntity = null ;
 

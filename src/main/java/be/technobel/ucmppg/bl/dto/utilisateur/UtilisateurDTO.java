@@ -29,7 +29,7 @@ public class UtilisateurDTO {
 
     public UtilisateurDTO(UtilisateurEntity utilisateurEntity) {
         this.id = utilisateurEntity.getIdUtilisateur();
-        this.motDePasse = utilisateurEntity.getMotDePasseUtilisateur();
+        this.motDePasse = utilisateurEntity.getPassword();
         this.mail =utilisateurEntity.getEmailUtilisateur();
         this.nom=utilisateurEntity.getNomUtilisateur();
         this.prenom=utilisateurEntity.getPrenomUtilisateur();

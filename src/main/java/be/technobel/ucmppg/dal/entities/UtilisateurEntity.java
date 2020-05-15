@@ -3,12 +3,16 @@ package be.technobel.ucmppg.dal.entities;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -19,7 +23,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @ToString
-public class UtilisateurEntity implements Serializable {
+public class UtilisateurEntity implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +38,9 @@ public class UtilisateurEntity implements Serializable {
     @Column(name ="Mot_De_Passe_Utilisateur", nullable = false)
     @Size(min = 8,message = "Un mot de passe doit être de minimum 8 caractères")
     @NotNull(message = "un utilisateur doit posséder un mot de passe valide")
-    @Pattern(regexp = "^(?=.*[\\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\\w!@#$%^&*]{8,}$",
-            message ="Format non conforme, un mot de passe valide doit contenir au min 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère special (!@#$%^&*)" )
-    private String motDePasseUtilisateur;
+    @Pattern(regexp = "^(?=.*[\\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*.\\/])[\\w!@#$%^&*.\\/]{8,}$",
+            message ="Format non conforme, un mot de passe valide doit contenir au min 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère special (!@#$%^&*./)" )
+    private String password;
 
     @Column(name ="Pseudo_Utilisateur",unique = true, nullable = false)
     @NotNull(message = "un utilisateur doit posséder un pseudo")
@@ -62,6 +66,9 @@ public class UtilisateurEntity implements Serializable {
     @OneToMany(fetch = FetchType.EAGER)
     private Set<ParticipationEntity> projetsParticiperUtilisateur;
 
+    @ManyToMany()
+    private Set<RoleGestionEntity> roles = new HashSet<>();
+
     public UtilisateurEntity() {
         this.projetsParticiperUtilisateur=new HashSet<>();
     }
@@ -79,7 +86,7 @@ public class UtilisateurEntity implements Serializable {
   
     public UtilisateurEntity(UtilisateurEnregistrementDTO utilisateur) {
         this.emailUtilisateur = utilisateur.getMail();
-        this.motDePasseUtilisateur = utilisateur.getMotDePasse();
+        this.password = utilisateur.getMotDePasse();
         this.pseudoUtilisateur = utilisateur.getPseudo();
         this.nomUtilisateur = utilisateur.getNom();
         this.prenomUtilisateur = utilisateur.getPrenom();
@@ -96,7 +103,7 @@ public class UtilisateurEntity implements Serializable {
         UtilisateurEntity that = (UtilisateurEntity) o;
         return Objects.equals(getIdUtilisateur(), that.getIdUtilisateur()) &&
                 Objects.equals(getEmailUtilisateur(), that.getEmailUtilisateur()) &&
-                Objects.equals(getMotDePasseUtilisateur(), that.getMotDePasseUtilisateur()) &&
+                Objects.equals(getPassword(), that.getPassword()) &&
                 Objects.equals(getPseudoUtilisateur(), that.getPseudoUtilisateur()) &&
                 Objects.equals(getNomUtilisateur(), that.getNomUtilisateur()) &&
                 Objects.equals(getPrenomUtilisateur(), that.getPrenomUtilisateur()) &&
@@ -104,6 +111,36 @@ public class UtilisateurEntity implements Serializable {
                 Objects.equals(getUrlPhotoUtilisateur(), that.getUrlPhotoUtilisateur()) &&
                 Objects.equals(getInformationSupplementaireUtilisateur(), that.getInformationSupplementaireUtilisateur()) &&
                 Objects.equals(getProjetsParticiperUtilisateur(), that.getProjetsParticiperUtilisateur());
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
+    @Override
+    public String getUsername() {
+        return emailUtilisateur;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 
