@@ -379,9 +379,6 @@ public class UcmppgApplication {
         historiqueTacheRepository.save(historique6);
         historiqueTacheRepository.save(historique7);
         historiqueTacheRepository.save(historique8);
-
-        TacheSupprimerDTO tacheSupprimerDTO = new TacheSupprimerDTO(false);
-
-        tacheSupprimerService.execute(tache1.getIdTache(),tacheSupprimerDTO.isChoixDeSuppression());
+        
     }
 }
