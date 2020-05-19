@@ -28,5 +28,6 @@ public class HistoriqueDTO {
         }
         this.etapeWorflow = new EtapeWorkflowDTO(historiqueTacheEntity.getEtapeWorkflowTacheHistorique());
         this.tache = new TacheDTO(historiqueTacheEntity.getTacheHistorique());
+
     }
 }

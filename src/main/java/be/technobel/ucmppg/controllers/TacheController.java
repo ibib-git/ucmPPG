@@ -6,10 +6,12 @@ import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.taches.TacheCreationDTO;
 import be.technobel.ucmppg.bl.dto.projet.taches.TacheDTO;
 import be.technobel.ucmppg.bl.dto.projet.taches.TacheSupprimerDTO;
+import be.technobel.ucmppg.bl.service.projet.AssignerTacheService;
 import be.technobel.ucmppg.bl.service.projet.ValiderTacheService;
 import be.technobel.ucmppg.bl.service.tache.TacheAjouterService;
 import be.technobel.ucmppg.bl.service.tache.TacheRecuperationService;
 import be.technobel.ucmppg.bl.service.tache.TacheSupprimerService;
+import be.technobel.ucmppg.configuration.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
+@Api(value = "API pour les opérations sur une tache ")
 @RestController
 @RequestMapping("/tache")
 @CrossOrigin
-@Api(value = "Pour les Controllers avec les Taches")
 public class TacheController {
 
     @Autowired
@@ -31,6 +36,10 @@ public class TacheController {
     private TacheSupprimerService tacheSupprimerService;
     @Autowired
     private TacheRecuperationService tacheRecuperationService;
+    @Autowired
+    AssignerTacheService assignerTacheService;
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/{idProjet}/{idWorkflow}/ajouterTacheParent")
     public ResponseEntity<Boolean> postTacheParent(@PathVariable("idWorkflow")Long idWorkflow,@PathVariable("idProjet")Long idProjet,@RequestBody TacheCreationDTO tacheCreationDTO){
@@ -54,10 +63,22 @@ public class TacheController {
     }
 
     @ApiOperation(value = "Appelé pour valider une tache")
-    @PostMapping (value = "{idTache}/valider")
-    public ResponseEntity<ProjetDTO> validerTache (@PathVariable long idTache, @RequestBody Long idUtilisateur) throws ErrorServiceException {
-        //TODO TOKEN : remplacer le paramètre utilisateur avec l'identification par token
-            return ResponseEntity.ok(this.validerTacheService.validerTache(idUtilisateur,idTache));
+    @GetMapping (value = "{idTache}/valider")
+    public ResponseEntity<ProjetDTO> validerTache (@PathVariable long idTache, @RequestHeader ("Authorization") String token) throws ErrorServiceException {
+            return ResponseEntity.ok(this.validerTacheService.validerTache(jwtTokenProvider.getIdUtilisateur(token),idTache));
+    }
+
+    @ApiOperation(value = "Appelé pour assigner une tache à un utilisateur")
+    @PostMapping (value = "{idTache}/assigner")
+    public ResponseEntity<ProjetDTO> assignerTache (@PathVariable("idTache") long idTache,@RequestHeader ("Authorization") String token, @RequestBody Long idUtilisateurAssigne) throws ErrorServiceException {
+        return ResponseEntity.ok(this.assignerTacheService.assignation(idUtilisateurAssigne,jwtTokenProvider.getIdUtilisateur(token),idTache));
+    }
+
+    @ApiOperation(value = "Appelé pour retirer une assignation d'utilisateur à une tache")
+    @GetMapping (value = "{idTache}/congedier")
+    public ResponseEntity<ProjetDTO> congedierUtilisateurTache (@PathVariable("idTache") long idTache, @RequestHeader ("Authorization") String token) throws ErrorServiceException {
+        return ResponseEntity.ok(this.assignerTacheService.congedierUtilisateur(idTache,jwtTokenProvider.getIdUtilisateur(token)));
+
     }
 
     /**

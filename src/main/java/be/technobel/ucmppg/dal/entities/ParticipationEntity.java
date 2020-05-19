@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Table(name = "Participation_Projet")
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParticipationEntity implements Serializable{
@@ -18,6 +17,10 @@ public class ParticipationEntity implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idParticipation;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @Column(name ="Actif_Sur_Le_Projet", nullable = false)
+    private boolean isActif;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private RoleProjetEntity roleDuParticipant;
@@ -33,6 +36,5 @@ public class ParticipationEntity implements Serializable{
         return super.hashCode();
     }
   
-    @Column(name ="Actif_Sur_Le_Projet")
-    private boolean isActif;
+
 }

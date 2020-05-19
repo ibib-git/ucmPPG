@@ -107,6 +107,7 @@ public class CreationDeProjetService implements CreationDeProjetInterface {
             participationEntity.setUtilisateurParticipant(utilisateurEntity);
             participationEntity.setRoleDuParticipant(roleAdmininistrateurEntity);
             participationEntity.setProjetParticipation(projetEntity);
+            participationEntity.setActif(true);
             roleProjetRepository.save(roleAdmininistrateurEntity);
             roleProjetRepository.save(roleModerateurEntity);
             roleProjetRepository.save(roleMembreEntity);

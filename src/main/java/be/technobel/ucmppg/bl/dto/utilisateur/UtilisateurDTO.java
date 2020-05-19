@@ -25,11 +25,11 @@ public class UtilisateurDTO {
     private String telephone;
     private String infoSuppl;
     private String urlPhoto;
-    private List<ParticipationDetailDTO> participations = new ArrayList<>();
+    private List<ParticipationDTO> participations = new ArrayList<>();
 
     public UtilisateurDTO(UtilisateurEntity utilisateurEntity) {
         this.id = utilisateurEntity.getIdUtilisateur();
-        this.motDePasse = utilisateurEntity.getMotDePasseUtilisateur();
+        this.motDePasse = utilisateurEntity.getPassword();
         this.mail =utilisateurEntity.getEmailUtilisateur();
         this.nom=utilisateurEntity.getNomUtilisateur();
         this.prenom=utilisateurEntity.getPrenomUtilisateur();
@@ -38,7 +38,7 @@ public class UtilisateurDTO {
         this.infoSuppl=utilisateurEntity.getInformationSupplementaireUtilisateur();
         this.urlPhoto=utilisateurEntity.getUrlPhotoUtilisateur();
         this.participations = utilisateurEntity.getProjetsParticiperUtilisateur().stream().map(
-                ParticipationDetailDTO::new
+                ParticipationDTO::new
         ).collect(Collectors.toList());
     }
 }

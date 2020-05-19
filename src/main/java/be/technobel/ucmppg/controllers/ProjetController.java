@@ -1,10 +1,10 @@
 package be.technobel.ucmppg.controllers;
 
-import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.Exception.ErrorServiceException;
 import be.technobel.ucmppg.bl.dto.projet.ProjetCreationDTO;
-import be.technobel.ucmppg.bl.dto.projet.collaborateur.AjoutCollaborateurDTO;
+import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
+import be.technobel.ucmppg.bl.dto.projet.collaborateur.ProjetAjoutCollaborateurDTO;
 import be.technobel.ucmppg.bl.dto.projet.collaborateur.SupprimerCollaborateurDTO;
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.bl.service.projet.RecuperationProjetService;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
@@ -16,7 +16,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,16 +27,7 @@ import java.util.List;
 @CrossOrigin
 public class ProjetController {
 
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
-    @Autowired
-    private DroitProjetRepository droitProjetRepository;
-    @Autowired
-    private RoleProjetRepository roleProjetRepository;
-    @Autowired
-    private ParticipationRepository participationRepository;
-    @Autowired
-    private EtapeWorkflowRepository etapeWorkflowRepository;
+
     @Autowired
     private ProjetRepository projetRepository;
     @Autowired
@@ -50,25 +40,12 @@ public class ProjetController {
     private AjouterCollaborateurAuProjetService ajouterCollaborateurAuProjetService;
     @Autowired
     private SupprimerCollaborateurDuProjetService supprimerCollaborateurDuProjetService;
-//    @Autowired
-//    private CreationParDefautService creationParDefautService;
 
-
-    //todo : supprimer lorsque cette méthode n'est plus nécessaire
-    /**
-     * GET ALL - a supprimer, pour le test uniquement
-     */
-    @GetMapping("")
-    public List<ProjetDTO> getTousLesProjets(){
-        List<ProjetDTO> projetDTOS=new ArrayList<>();
-        projetRepository.findAll().forEach(projetEntity -> { projetDTOS.add(new ProjetDTO(projetEntity)); });
-        return projetDTOS;
-    }
     @ApiOperation(value = "Appelé pour récupérer un projet bien précis")
     @GetMapping("/{id}")
-    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") Long id){
-        ProjetDTO projetDTO = recuperationProjetService.getProjetById(id);
-//TODO DAMIEN : a modifier pour map le dto en bl et gestion erreur
+    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {
+        ProjetEntity projetEntity = projetRepository.findByIdProjet(id).get();
+         ProjetDTO projetDTO = new ProjetDTO(projetEntity);
         return (projetDTO != null ? ResponseEntity.ok(projetDTO) : new ResponseEntity("Pas de projet existant", HttpStatus.NOT_FOUND) );
     }
 
@@ -80,18 +57,18 @@ public class ProjetController {
         projet= ResponseEntity.ok(creationDeProjetService.execute(projetCreationDTO.getNom(),
                 projetCreationDTO.getDescription(),
                 projetCreationDTO.getIdUtilisateur()));
-
+        //TODO BASTIEN : wtf is that
         return projet;
     }
 
     @PostMapping("/ajoutCollaborateur")
-    public ResponseEntity<Boolean> ajouterCollaborateurProjet(@RequestBody AjoutCollaborateurDTO ajoutCollaborateurDTO){
+    public ResponseEntity<Boolean> ajouterCollaborateurProjet(@RequestBody ProjetAjoutCollaborateurDTO projetAjoutCollaborateurDTO){
 
 
         return ResponseEntity.ok(
                 ajouterCollaborateurAuProjetService.execute(
-                        ajoutCollaborateurDTO.getIdProjet(),
-                        ajoutCollaborateurDTO.getEmailUtilisateur()
+                        projetAjoutCollaborateurDTO.getIdProjet(),
+                        projetAjoutCollaborateurDTO.getEmailUtilisateur()
                 )
         );
     }

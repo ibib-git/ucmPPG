@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Pattern;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +23,7 @@ public class UtilisateurEnregistrementDTO {
 
     public UtilisateurEnregistrementDTO(UtilisateurEntity utilisateurEntity) {
         this.mail=utilisateurEntity.getEmailUtilisateur();
-        this.motDePasse=utilisateurEntity.getMotDePasseUtilisateur();
+        this.motDePasse=utilisateurEntity.getPassword();
         this.nom=utilisateurEntity.getNomUtilisateur();
         this.prenom=utilisateurEntity.getPrenomUtilisateur();
         this.pseudo=utilisateurEntity.getPseudoUtilisateur();

@@ -1,19 +1,19 @@
 package be.technobel.ucmppg.controllers;
 
+import be.technobel.ucmppg.Exception.ErrorServiceException;
 import be.technobel.ucmppg.bl.dto.ErrorDTO;
-import be.technobel.ucmppg.bl.dto.ParticipationDetailDTO;
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurConnexionDTO;
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.*;
 import be.technobel.ucmppg.bl.service.utilisateur.CreationUtilisateurService;
 import be.technobel.ucmppg.bl.service.utilisateur.RecuperationUtilisateurService;
+import be.technobel.ucmppg.configuration.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.*;
 import java.util.List;
@@ -31,14 +31,17 @@ public class UtilisateurController {
     @Autowired
     private CreationUtilisateurService creationUtilisateurService;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
 
     @ApiOperation(value = "Appelé pour l'enregistrement d'un nouvel utilisateur" )
     @PostMapping("/enregistrement")
-    public ResponseEntity<UtilisateurDetailsDTO> enregistrementUtilisateur(@RequestBody UtilisateurEnregistrementDTO utilisateurEnregistrementDTO)
-
-    {
-        UtilisateurDetailsDTO utilisateurDetailsDTO = creationUtilisateurService.enregistrementUtilisateur(utilisateurEnregistrementDTO);
-        return ResponseEntity.ok(utilisateurDetailsDTO);
+    public ResponseEntity<HttpStatus> enregistrementUtilisateur(@RequestBody UtilisateurEnregistrementDTO utilisateurEnregistrementDTO) throws ErrorServiceException {
+        return creationUtilisateurService.enregistrementUtilisateur(utilisateurEnregistrementDTO) ? ResponseEntity.ok(HttpStatus.ACCEPTED) :  new ResponseEntity("Impossible d enregistrer le nouvel utilisateur", HttpStatus.NOT_MODIFIED);
     }
 
     /**
@@ -80,22 +83,38 @@ public class UtilisateurController {
        return (Objects.requireNonNull(ex.getRootCause()).getMessage().contains("SQLCODE=-803") ? new ErrorDTO("Email/Pseudo","L'email et/ou le pseudo existe deja") : new ErrorDTO("Serveur","Erreur serveur"));
     }
 
+    /**
+     * @author Damien Fricot
+     *
+     * Description : Methode qui permet de catcher une exception, de créer un ErrorDTO avec les paramètre de cette dernière.
+     * On va renvoyer ce ErrorDTO avec une requete HTTP code=406. Va nous permettre de gérer les cas d'erreurs de manière plus spécifiques.
+     *
+     * @exception ErrorServiceException Cette exception est levée dans le cas d'une erreur prévue dans le service appelé.
+     * @param ex : ErrorServiceException
+     * @return new ErrorDTO(String: nomDuChamps,String: messageErreur) && Code HTTP de la requete = 406
+     */
+    @ExceptionHandler(ErrorServiceException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ErrorDTO serviceException (ErrorServiceException ex)
+    {
+        return new ErrorDTO(ex.getProperties(),ex.getErrorMessage());
+    }
+
     @ApiOperation(value = "Appelé pour la connexion d'un utilisateur")
     @PostMapping("/connexion")
-    public ResponseEntity<UtilisateurDetailsDTO> connexionUtilisateur(@RequestBody UtilisateurConnexionDTO utilisateurConnexionDTO)
-    {
-        UtilisateurDetailsDTO utilisateurDetailsDTO = recuperationUtilisateurService.connexionUtilisateur(utilisateurConnexionDTO.getMail(),utilisateurConnexionDTO.getMotDePasse());
-        return (utilisateurDetailsDTO != null ? ResponseEntity.ok(utilisateurDetailsDTO) : new ResponseEntity("mail ou mot de passe incorrect", HttpStatus.NOT_FOUND));
+    public ResponseEntity<UtilisateurAuthentificationDTO> connexionUtilisateur(@RequestBody UtilisateurConnexionDTO utilisateurConnexionDTO) throws ErrorServiceException, AuthenticationException {
+
+        return ResponseEntity.ok(recuperationUtilisateurService.authentificationUtilisateur(utilisateurConnexionDTO));
     }
 
 
     @ApiOperation(value = "pour récupérer un utilisateur")
     @GetMapping("/{id}")
-    public ResponseEntity<UtilisateurDTO> getUtilisateurParId(@PathVariable("id") long id){
+    public ResponseEntity<UtilisateurDTO> getUtilisateurParId(@PathVariable("id") long id) throws ErrorServiceException {
 
         UtilisateurDTO utilisateurDTO = recuperationUtilisateurService.recupererUtilisateur(id);
 
-        return (utilisateurDTO != null ? ResponseEntity.ok(utilisateurDTO) : new ResponseEntity("l'utilisateur n'existe pas",HttpStatus.NOT_FOUND));
+        return (ResponseEntity.ok(utilisateurDTO));
     }
 
 }

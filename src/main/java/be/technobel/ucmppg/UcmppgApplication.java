@@ -8,6 +8,7 @@ import be.technobel.ucmppg.bl.service.tache.TacheSupprimerService;
 import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
 import be.technobel.ucmppg.bl.service.projet.SupprimerCollaborateurDuProjetService;
+import be.technobel.ucmppg.configuration.HashConfig;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,8 @@ public class UcmppgApplication {
     @Autowired
     private HistoriqueTacheRepository historiqueTacheRepository;
     @Autowired
+    HashConfig hashConfig;
+    @Autowired
     private CreationDeProjetService service;
     @Autowired
     private AjouterCollaborateurAuProjetService aCAPS;
@@ -66,7 +69,7 @@ public class UcmppgApplication {
         utilisateur.setPseudoUtilisateur("baba");
         utilisateur.setEmailUtilisateur("bastien@ppg.com");
         utilisateur.setInformationSupplementaireUtilisateur("c'est un sacré filou");
-        utilisateur.setMotDePasseUtilisateur("Test1234!");
+        utilisateur.setPassword(hashConfig.getPasswordEncoder().encode("Test1234!"));
         utilisateur.setNomUtilisateur("Housiaux");
         utilisateur.setPrenomUtilisateur("Bastien");
         utilisateur.setProjetsParticiperUtilisateur(new HashSet<ParticipationEntity>());
@@ -77,7 +80,7 @@ public class UcmppgApplication {
         utilisateur2.setPseudoUtilisateur("toto");
         utilisateur2.setEmailUtilisateur("thomas@ppg.com");
         utilisateur2.setInformationSupplementaireUtilisateur("il aime pas les champignons");
-        utilisateur2.setMotDePasseUtilisateur("Test1234!");
+        utilisateur2.setPassword(hashConfig.getPasswordEncoder().encode("Test1234!"));
         utilisateur2.setNomUtilisateur("Wattecamps");
         utilisateur2.setPrenomUtilisateur("Thomas");
         utilisateur2.setProjetsParticiperUtilisateur(new HashSet<ParticipationEntity>());
@@ -88,7 +91,7 @@ public class UcmppgApplication {
         utilisateur3.setPseudoUtilisateur("dada");
         utilisateur3.setEmailUtilisateur("damien@ppg.com");
         utilisateur3.setInformationSupplementaireUtilisateur("il a 32 ans et deux enfants");
-        utilisateur3.setMotDePasseUtilisateur("Test1234!");
+        utilisateur3.setPassword(hashConfig.getPasswordEncoder().encode("Test1234!"));
         utilisateur3.setNomUtilisateur("Fricot");
         utilisateur3.setPrenomUtilisateur("Damien");
         utilisateur3.setProjetsParticiperUtilisateur(new HashSet<ParticipationEntity>());
@@ -97,7 +100,7 @@ public class UcmppgApplication {
 
         UtilisateurEntity testUtilisateur = new UtilisateurEntity();
         testUtilisateur.setEmailUtilisateur("Gros@gmail.com");
-        testUtilisateur.setMotDePasseUtilisateur("Test1234&");
+        testUtilisateur.setPassword(hashConfig.getPasswordEncoder().encode("Test1234!&"));
         testUtilisateur.setPseudoUtilisateur("Hamburger");
         testUtilisateur.setNomUtilisateur("Mac");
         testUtilisateur.setPrenomUtilisateur("Donald");
@@ -139,6 +142,15 @@ public class UcmppgApplication {
         validerTache.setNomDroit(Constantes.DROIT_VALIDER_TACHE);
         droitProjetRepository.save(validerTache);
 
+        DroitProjetEntity assignerTache = new DroitProjetEntity();
+        assignerTache.setNomDroit(Constantes.DROIT_ASSIGNER_TACHE);
+        droitProjetRepository.save(assignerTache);
+
+        DroitProjetEntity supprimeCollaboTache = new DroitProjetEntity();
+        supprimeCollaboTache.setNomDroit(Constantes.DROIT_SUPPRIMER_COLLABORATEUR_TACHE);
+        droitProjetRepository.save(supprimeCollaboTache);
+
+
         RoleProjetEntity admin=new RoleProjetEntity();
         admin.setNomDeRole(Constantes.ROLE_ADMINISTRATEUR);
         admin.getDroitProjets().add(gererTache);
@@ -146,6 +158,8 @@ public class UcmppgApplication {
         admin.getDroitProjets().add(prendreTache);
         admin.getDroitProjets().add(changerEtapeOrdre);
         admin.getDroitProjets().add(validerTache);
+        admin.getDroitProjets().add(assignerTache);
+        admin.getDroitProjets().add(supprimeCollaboTache);
         roleProjetRepository.save(admin);
 
         RoleProjetEntity moderateur=new RoleProjetEntity();
@@ -153,6 +167,8 @@ public class UcmppgApplication {
         moderateur.getDroitProjets().add(gererTache);
         moderateur.getDroitProjets().add(prendreTache);
         moderateur.getDroitProjets().add(validerTache);
+        moderateur.getDroitProjets().add(assignerTache);
+        moderateur.getDroitProjets().add(supprimeCollaboTache);
         roleProjetRepository.save(moderateur);
 
         RoleProjetEntity membre=new RoleProjetEntity();
@@ -176,6 +192,7 @@ public class UcmppgApplication {
 
         projet1.getMembresDuProjet().add(participation);
         utilisateur.getProjetsParticiperUtilisateur().add(participation);
+        utilisateurRepository.save(utilisateur);
 
         ParticipationEntity participation2=new ParticipationEntity();
         participation2.setUtilisateurParticipant(utilisateur2);
@@ -185,6 +202,8 @@ public class UcmppgApplication {
         participationRepository.save(participation2);
 
         projet1.getMembresDuProjet().add(participation2);
+        utilisateur2.getProjetsParticiperUtilisateur().add(participation2);
+        utilisateurRepository.save(utilisateur2);
 
         ParticipationEntity participation3=new ParticipationEntity();
         participation3.setUtilisateurParticipant(utilisateur3);
@@ -194,6 +213,8 @@ public class UcmppgApplication {
         participationRepository.save(participation3);
 
         projet1.getMembresDuProjet().add(participation3);
+        utilisateur3.getProjetsParticiperUtilisateur().add(participation3);
+        utilisateurRepository.save(utilisateur3);
 
         ParticipationEntity participation4 = new ParticipationEntity();
         participation4.setUtilisateurParticipant(testUtilisateur);
@@ -203,6 +224,8 @@ public class UcmppgApplication {
         participationRepository.save(participation4);
 
         projet1.getMembresDuProjet().add(participation4);
+        testUtilisateur.getProjetsParticiperUtilisateur().add(participation4);
+        utilisateurRepository.save(testUtilisateur);
 
         EtapeWorkflowEntity todo=new EtapeWorkflowEntity();
         todo.setConstrainteAffectation(ConstrainteAffectationEnum.AUCUN);

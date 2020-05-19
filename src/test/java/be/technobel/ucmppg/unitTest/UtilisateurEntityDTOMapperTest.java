@@ -23,7 +23,7 @@ public class UtilisateurEntityDTOMapperTest {
     @Before
     public void init ()
     {
-        utilisateurEntityWithAllParamNoProjets = new UtilisateurEntity((long) 5, "sith@empireGalactique.st","Order#66","DarkVador","Skylwalker","Anakin","+66456123789","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr","Que la force soit avec vous",new HashSet<>());
+        utilisateurEntityWithAllParamNoProjets = new UtilisateurEntity((long) 5, "sith@empireGalactique.st","Order#66","DarkVador","Skylwalker","Anakin","+66456123789","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr","Que la force soit avec vous",new HashSet<>(),null);
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
@@ -32,7 +32,7 @@ public class UtilisateurEntityDTOMapperTest {
     @Test
     public void utilisateurDetailsDTO_UtilisateurEntityAvecTousParamMaisAucunProjets_EqualsTrue()
     {
-        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO( "sith@empireGalactique.st","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
+        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO((long) 5, "sith@empireGalactique.st","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
 
         UtilisateurDetailsDTO utilisateurDetailsDTOFromEntity = new UtilisateurDetailsDTO(utilisateurEntityWithAllParamNoProjets);
 
@@ -42,7 +42,7 @@ public class UtilisateurEntityDTOMapperTest {
     @Test
     public void utilisateurDetailsDTO_UtilisateurEntityAvecChampsRequiredEtResteANull_EqualsTrue()
     {
-        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO( "sith@empireGalactique.st",null,null,"DarkVador",null,null,null);
+        UtilisateurDetailsDTO userDTOExpected = new UtilisateurDetailsDTO(null, "sith@empireGalactique.st",null,null,"DarkVador",null,null,null);
         UtilisateurEntity utilisateurEntityWithOnlyRequiredParam = new UtilisateurEntity();
         utilisateurEntityWithOnlyRequiredParam.setEmailUtilisateur("sith@empireGalactique.st");
         utilisateurEntityWithOnlyRequiredParam.setPseudoUtilisateur("DarkVador");
@@ -69,7 +69,7 @@ public class UtilisateurEntityDTOMapperTest {
     public void utilisateurEntity_UtilisateurEnregistrementDTOComplet_EqualsTrue()
     {
         UtilisateurEnregistrementDTO utilisateurEnregistrementDTO = new UtilisateurEnregistrementDTO( "sith@empireGalactique.st","Order#66","Skylwalker","Anakin","DarkVador","+66456123789","Que la force soit avec vous","https://vignette.wikia.nocookie.net/lemondededisney/images/3/3d/Dark-vador-1024x768.jpeg/revision/latest?cb=20171030110748&path-prefix=fr");
-
+        //TODO DAMIEN : Test a réparer depuis cryptage password et déplacement de la contrainte de regex de entity a dto
         UtilisateurEntity utilisateurEntityFromDTORegister = new UtilisateurEntity(utilisateurEnregistrementDTO);
 
         //Simule l'auto génération de l'ID en DB

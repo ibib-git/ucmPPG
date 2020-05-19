@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Setter
 public class TacheDTO {
 
-    private long id;
+    private Long id;
     private String nom;
     private String description;
     private List<TacheDTO> tacheEnfants=new ArrayList<>();
@@ -46,5 +46,10 @@ public class TacheDTO {
         }
         this.historique = tacheEntity.getHistoriqueTaches().stream().map(HistoriqueDTO::new).collect(Collectors.toList());
         this.priorite = tacheEntity.getPriorite();
+        this.utilisateurAffecte= tacheEntity.getUtilisateur_Tache() == null ? null : new UtilisateurDetailsDTO(tacheEntity.getUtilisateur_Tache());
+        this.historique = tacheEntity.getHistoriqueTaches().stream()
+                .map(
+                        HistoriqueDTO::new
+                ).collect(Collectors.toList());
     }
 }
