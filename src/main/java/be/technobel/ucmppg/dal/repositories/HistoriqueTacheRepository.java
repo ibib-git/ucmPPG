@@ -16,10 +16,6 @@ import java.util.Optional;
 @Repository
 public interface HistoriqueTacheRepository extends CrudRepository<HistoriqueTacheEntity,Long> {
 
-    //@Query(value =  "drop * form HISTORIQUE_DE_TACHE h" +
-    //               " where h.TACHE_HISTORIQUE_ID_TACHE = :idTache")
-    //void supprimerTache(@Param("idTache")Long idTacheSupprimer);
-
     @Query(value = "select * from HISTORIQUE_DE_TACHE h" +
             "        where h.TACHE_HISTORIQUE_ID_TACHE in" +
             "                (select t.ID_TACHE from TABLEAU_DE_TACHE t" +
