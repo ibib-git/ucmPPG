@@ -1,7 +1,10 @@
 package be.technobel.ucmppg;
 
+import be.technobel.ucmppg.bl.dto.projet.collaborateur.SupprimerCollaborateurDTO;
+import be.technobel.ucmppg.bl.dto.projet.taches.TacheSupprimerDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.bl.service.tache.TacheAjouterService;
+import be.technobel.ucmppg.bl.service.tache.TacheSupprimerService;
 import be.technobel.ucmppg.configuration.Constantes;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
 import be.technobel.ucmppg.bl.service.projet.SupprimerCollaborateurDuProjetService;
@@ -16,6 +19,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -49,6 +53,8 @@ public class UcmppgApplication {
     private SupprimerCollaborateurDuProjetService scdps;
     @Autowired
     private TacheAjouterService tacheAjouterService;
+    @Autowired
+    private TacheSupprimerService tacheSupprimerService;
 
 
     @EventListener(ApplicationReadyEvent.class)
@@ -241,7 +247,7 @@ public class UcmppgApplication {
         TacheEntity tache1=new TacheEntity();
         tache1.setNomTache("réaliser le schéma db");
         tache1.setDescriptionTache("blablabla vive l'analyse");
-        tache1.setEstimationDeTemps_Tache(12);
+        tache1.setEstimationDeTemps_Tache(11);
         tache1.setUniteDeTemps_tache(UniteDeTempsEnum.STORYPOINT);
         tache1.setUtilisateur_Tache(utilisateur3);
         tache1.setTachesPrecedentes(new HashSet<TacheEntity>());
@@ -351,5 +357,8 @@ public class UcmppgApplication {
         historiqueTacheRepository.save(historique7);
         historiqueTacheRepository.save(historique8);
 
+        TacheSupprimerDTO tacheSupprimerDTO = new TacheSupprimerDTO(false);
+
+        tacheSupprimerService.execute(tache1.getIdTache(),tacheSupprimerDTO.isChoixDeSuppression());
     }
 }

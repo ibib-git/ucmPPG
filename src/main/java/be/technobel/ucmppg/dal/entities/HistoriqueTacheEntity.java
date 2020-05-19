@@ -19,13 +19,13 @@ public class HistoriqueTacheEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idHistorique;
 
-    @OneToOne
+    @ManyToOne
     private TacheEntity tacheHistorique;
 
-    @OneToOne
+    @ManyToOne
     private EtapeWorkflowEntity etapeWorkflowTacheHistorique;
 
-    @OneToOne
+    @ManyToOne
     private UtilisateurEntity utilisateur_Tache_historique;
 
     public HistoriqueTacheEntity(TacheEntity tacheEntity, EtapeWorkflowEntity etapeWorkflowEntity, UtilisateurEntity utilisateurEntity){

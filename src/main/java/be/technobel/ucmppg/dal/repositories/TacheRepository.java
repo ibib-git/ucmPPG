@@ -1,18 +1,24 @@
 package be.technobel.ucmppg.dal.repositories;
 
 import be.technobel.ucmppg.dal.entities.TacheEntity;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Repository
 public interface TacheRepository extends CrudRepository<TacheEntity,Long> {
+
+    //@Query(value =  "drop * form TABLEAU_DE_TACHE t" +
+    //                " where t.ID_TACHE = :idTache")
+    //void supprimerTache(@Param("idTache")Long idTacheSupprimer);
 
     @Query(value = "select ID_TACHE from TABLEAU_DE_TACHE t" +
                     " join TABLEAU_DE_TACHE_TACHES_ENFANTS te" +
@@ -53,5 +59,16 @@ public interface TacheRepository extends CrudRepository<TacheEntity,Long> {
 
     Optional<TacheEntity> findByNomTache(String nomTache);
 
+    @Modifying
+    @Transactional
+    @Query(value = "delete from TACHES_PRECEDENTES " +
+            " where TACHE_SUIVANTE = :idTache", nativeQuery = true)
+    void suppressionLienAvecTacheSuivante(@Param("idTache")Long idTache);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from TACHES_PRECEDENTES " +
+            " where TACHE_PRECEDENTE = :idTache", nativeQuery = true)
+    void suppressionLienAvecTachePrecedente(@Param("idTache")Long idTache);
 
 }

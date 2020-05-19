@@ -2,17 +2,23 @@ package be.technobel.ucmppg.dal.repositories;
 
 import be.technobel.ucmppg.dal.entities.HistoriqueTacheEntity;
 import be.technobel.ucmppg.dal.entities.TacheEntity;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface HistoriqueTacheRepository extends CrudRepository<HistoriqueTacheEntity,Long> {
+
+    //@Query(value =  "drop * form HISTORIQUE_DE_TACHE h" +
+    //               " where h.TACHE_HISTORIQUE_ID_TACHE = :idTache")
+    //void supprimerTache(@Param("idTache")Long idTacheSupprimer);
 
     @Query(value = "select * from HISTORIQUE_DE_TACHE h" +
             "        where h.TACHE_HISTORIQUE_ID_TACHE in" +
@@ -37,4 +43,9 @@ public interface HistoriqueTacheRepository extends CrudRepository<HistoriqueTach
             +" and utilisateur_tache_historique_id_utilisateur = :idUtilisateur ",nativeQuery = true)
     Optional<HistoriqueTacheEntity> findByIdTacheAndIdUtilisateur(@Param("idTache")Long idTache, @Param("idUtilisateur") Long idUtilisateur);
 
+    @Modifying
+    @Transactional
+    @Query(value = "delete from HISTORIQUE_DE_TACHE " +
+            " where TACHE_HISTORIQUE_ID_TACHE = :idTache", nativeQuery = true)
+    void suppressionDesHistoriquesDeLaTache(@Param("idTache")Long idTache);
 }

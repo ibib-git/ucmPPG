@@ -50,14 +50,7 @@ public class TacheController {
 
     @PostMapping("/{idTache}/supprimerTache")
     public ResponseEntity<Boolean> postSupprimerTache(@PathVariable("idTache")Long idTache, @RequestBody TacheSupprimerDTO tacheSupprimerDTO){
-        System.out.println(1);
-        System.out.println(1);
-        System.out.println(1);
-        System.out.println(1);
-        System.out.println(1);
-        System.out.println(tacheSupprimerDTO);
-        return ResponseEntity.ok(true);
-        //return ResponseEntity.ok(tacheSupprimerService.execute(idTache,choix,idWorkflow,idProjet));
+        return ResponseEntity.ok(tacheSupprimerService.execute(idTache,tacheSupprimerDTO.isChoixDeSuppression()));
     }
 
     @ApiOperation(value = "Appelé pour valider une tache")

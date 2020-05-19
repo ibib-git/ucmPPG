@@ -38,10 +38,10 @@ public class TacheEntity implements Serializable {
     @Column(name = "Unite_de_temps")
     private UniteDeTempsEnum uniteDeTemps_tache;
 
-    @OneToMany(fetch=FetchType.EAGER)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<HistoriqueTacheEntity> historiqueTaches= new HashSet<>();
 
-    @OneToOne
+    @ManyToOne
     private UtilisateurEntity utilisateur_Tache;
 
     @Column(name = "Priorite_tache")

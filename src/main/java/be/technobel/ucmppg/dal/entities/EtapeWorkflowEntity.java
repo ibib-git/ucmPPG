@@ -40,6 +40,7 @@ public class EtapeWorkflowEntity implements Serializable {
     @Column(name="Constrainte")
     private ConstrainteAffectationEnum constrainteAffectation;
 
-    @OneToMany(fetch=FetchType.EAGER)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Set<TacheEntity> taches=new HashSet<>();
+
 }
