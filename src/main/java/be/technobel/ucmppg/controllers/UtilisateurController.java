@@ -9,6 +9,7 @@ import be.technobel.ucmppg.configuration.HashConfig;
 import be.technobel.ucmppg.configuration.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -44,11 +45,8 @@ public class UtilisateurController {
 
     @ApiOperation(value = "Appelé pour l'enregistrement d'un nouvel utilisateur" )
     @PostMapping("/enregistrement")
-    public ResponseEntity<UtilisateurDetailsDTO> enregistrementUtilisateur(@RequestBody UtilisateurEnregistrementDTO utilisateurEnregistrementDTO)
-
-    {
-        UtilisateurDetailsDTO utilisateurDetailsDTO = creationUtilisateurService.enregistrementUtilisateur(utilisateurEnregistrementDTO);
-        return ResponseEntity.ok(utilisateurDetailsDTO); //TODO TOKEN: a modifier
+    public ResponseEntity<HttpStatus> enregistrementUtilisateur(@RequestBody UtilisateurEnregistrementDTO utilisateurEnregistrementDTO) throws ErrorServiceException {
+        return creationUtilisateurService.enregistrementUtilisateur(utilisateurEnregistrementDTO) ? ResponseEntity.ok(HttpStatus.ACCEPTED) :  new ResponseEntity("Impossible d enregistrer le nouvel utilisateur", HttpStatus.NOT_MODIFIED);
     }
 
     /**

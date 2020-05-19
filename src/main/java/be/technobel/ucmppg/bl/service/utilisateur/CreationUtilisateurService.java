@@ -18,11 +18,11 @@ public class CreationUtilisateurService {
     @Autowired
     HashConfig hashConfig;
 
-    public UtilisateurDetailsDTO enregistrementUtilisateur (UtilisateurEnregistrementDTO utilisateurEnregistrementDTO)
+    public Boolean enregistrementUtilisateur (UtilisateurEnregistrementDTO utilisateurEnregistrementDTO)
     {
         utilisateurEnregistrementDTO.setMotDePasse (hashConfig.getPasswordEncoder().encode(utilisateurEnregistrementDTO.getMotDePasse()));
-        UtilisateurEntity utilisateurEntity = utilisateurRepository.save(new UtilisateurEntity(utilisateurEnregistrementDTO));
-        return new UtilisateurDetailsDTO(utilisateurEntity);
+        utilisateurRepository.save(new UtilisateurEntity(utilisateurEnregistrementDTO));
+        return true;
     }
 
 }

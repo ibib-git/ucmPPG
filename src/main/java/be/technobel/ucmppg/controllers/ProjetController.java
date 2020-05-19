@@ -1,5 +1,6 @@
 package be.technobel.ucmppg.controllers;
 
+import be.technobel.ucmppg.Exception.ErrorServiceException;
 import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.ProjetCreationDTO;
 import be.technobel.ucmppg.bl.dto.projet.collaborateur.ProjetAjoutCollaborateurDTO;
@@ -38,31 +39,12 @@ public class ProjetController {
     private AjouterCollaborateurAuProjetService ajouterCollaborateurAuProjetService;
     @Autowired
     private SupprimerCollaborateurDuProjetService supprimerCollaborateurDuProjetService;
-//    @Autowired
-//    private CreationParDefautService creationParDefautService;
 
 
-    //todo : supprimer lorsque cette méthode n'est plus nécessaire
-    /**
-     * GET ALL - a supprimer, pour le test uniquement
-     */
-    @GetMapping("")
-    public List<ProjetDTO> getTousLesProjets(){
-        List<ProjetDTO> projetDTOS=new ArrayList<>();
-        projetRepository.findAll().forEach(
-                projetEntity -> {
-                    projetDTOS.add(new ProjetDTO(projetEntity));
-                }
-        );
-        return projetDTOS;
-    }
     @ApiOperation(value = "Appelé pour récupérer un projet bien précis")
     @GetMapping("/{id}")
-    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id){
-
-        ProjetDTO projetDTO = recuperationProjetService.getProjetById(id);
-//TODO DAMIEN : a modifier pour map le dto en bl et gestion erreur
-        return (projetDTO != null ? ResponseEntity.ok(projetDTO) : new ResponseEntity("Pas de projet existant", HttpStatus.NOT_FOUND) );
+    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {
+        return ( ResponseEntity.ok(recuperationProjetService.getProjetById(id)) );
     }
 
     @PostMapping()
@@ -73,7 +55,7 @@ public class ProjetController {
         projet= ResponseEntity.ok(creationDeProjetService.execute(projetCreationDTO.getNom(),
                 projetCreationDTO.getDescription(),
                 projetCreationDTO.getIdUtilisateur()));
-
+        //TODO BASTIEN : wtf is that
         return projet;
     }
 

@@ -3,6 +3,7 @@ package be.technobel.ucmppg.configuration;
 import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
 import be.technobel.ucmppg.bl.service.utilisateur.RecuperationUtilisateurService;
 import be.technobel.ucmppg.bl.service.utilisateur.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,6 +59,13 @@ public class JwtTokenProvider {
 
     public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public Long getIdUtilisateur(String token) {
+        // Besoin d utliser un mapper d object car le retour du Claims est une linkedHashMap (qui est trop complex pour un mapping simple)
+        ObjectMapper mapper = new ObjectMapper();
+        UtilisateurDetailsDTO utilisateurDetailsDTO = mapper.convertValue(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("user"),UtilisateurDetailsDTO.class);
+        return  utilisateurDetailsDTO.getId();
     }
 
     public String resolveToken(HttpServletRequest req) {
