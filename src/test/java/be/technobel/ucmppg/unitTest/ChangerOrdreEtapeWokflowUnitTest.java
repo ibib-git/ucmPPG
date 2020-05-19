@@ -32,9 +32,9 @@ public class ChangerOrdreEtapeWokflowUnitTest {
     @Before
     public void init ()
     {
-        UtilisateurEntity utilisateurCreateurEntity = new UtilisateurEntity(1L,"empereur@empire.un","Ordre66!","empereur",null,null,null,null,null,null);
-        UtilisateurEntity utilisateurMembreDroitEntity = new UtilisateurEntity(2L,"sith@empire.un","Ordre66!","DarkVador",null,null,null,null,null,null);
-        UtilisateurEntity utilisateurMembreSansDroitEntity = new UtilisateurEntity(3L,"CT-7567@empire.un","Clone7567!!","Rex",null,null,null,null,null,null);
+        UtilisateurEntity utilisateurCreateurEntity = new UtilisateurEntity(1L,"empereur@empire.un","Ordre66!","empereur",null,null,null,null,null,null,null);
+        UtilisateurEntity utilisateurMembreDroitEntity = new UtilisateurEntity(2L,"sith@empire.un","Ordre66!","DarkVador",null,null,null,null,null,null,null);
+        UtilisateurEntity utilisateurMembreSansDroitEntity = new UtilisateurEntity(3L,"CT-7567@empire.un","Clone7567!!","Rex",null,null,null,null,null,null,null);
 
        // etapes workflow
         Set<EtapeWorkflowEntity> etapeWorkflowEntitySet = new HashSet<>();

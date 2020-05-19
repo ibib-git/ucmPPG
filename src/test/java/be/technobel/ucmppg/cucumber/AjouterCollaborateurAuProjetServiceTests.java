@@ -37,7 +37,7 @@ public class AjouterCollaborateurAuProjetServiceTests {
         this.utilisateurEntity=new UtilisateurEntity();
         this.utilisateurEntity.setEmailUtilisateur("pierre.dupont@exemple.com");
         this.utilisateurEntity.setPseudoUtilisateur("pierre_dupont");
-        this.utilisateurEntity.setMotDePasseUtilisateur("Test1234!");
+        this.utilisateurEntity.setPassword("Test1234!");
         this.utilisateurRepository.save(this.utilisateurEntity);
     }
 

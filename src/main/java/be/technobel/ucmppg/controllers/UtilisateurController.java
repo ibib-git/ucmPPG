@@ -2,22 +2,26 @@ package be.technobel.ucmppg.controllers;
 
 import be.technobel.ucmppg.Exception.ErrorServiceException;
 import be.technobel.ucmppg.bl.dto.ErrorDTO;
-import be.technobel.ucmppg.bl.dto.ParticipationDetailDTO;
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurConnexionDTO;
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDTO;
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurDetailsDTO;
-import be.technobel.ucmppg.bl.dto.utilisateur.UtilisateurEnregistrementDTO;
+import be.technobel.ucmppg.bl.dto.utilisateur.*;
 import be.technobel.ucmppg.bl.service.utilisateur.CreationUtilisateurService;
 import be.technobel.ucmppg.bl.service.utilisateur.RecuperationUtilisateurService;
+import be.technobel.ucmppg.configuration.HashConfig;
+import be.technobel.ucmppg.configuration.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -32,14 +36,17 @@ public class UtilisateurController {
     @Autowired
     private CreationUtilisateurService creationUtilisateurService;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
 
     @ApiOperation(value = "Appelé pour l'enregistrement d'un nouvel utilisateur" )
     @PostMapping("/enregistrement")
-    public ResponseEntity<UtilisateurDetailsDTO> enregistrementUtilisateur(@RequestBody UtilisateurEnregistrementDTO utilisateurEnregistrementDTO)
-
-    {
-        UtilisateurDetailsDTO utilisateurDetailsDTO = creationUtilisateurService.enregistrementUtilisateur(utilisateurEnregistrementDTO);
-        return ResponseEntity.ok(utilisateurDetailsDTO);
+    public ResponseEntity<HttpStatus> enregistrementUtilisateur(@RequestBody UtilisateurEnregistrementDTO utilisateurEnregistrementDTO) throws ErrorServiceException {
+        return creationUtilisateurService.enregistrementUtilisateur(utilisateurEnregistrementDTO) ? ResponseEntity.ok(HttpStatus.ACCEPTED) :  new ResponseEntity("Impossible d enregistrer le nouvel utilisateur", HttpStatus.NOT_MODIFIED);
     }
 
     /**
@@ -100,10 +107,9 @@ public class UtilisateurController {
 
     @ApiOperation(value = "Appelé pour la connexion d'un utilisateur")
     @PostMapping("/connexion")
-    public ResponseEntity<UtilisateurDetailsDTO> connexionUtilisateur(@RequestBody UtilisateurConnexionDTO utilisateurConnexionDTO)
-    {
-        UtilisateurDetailsDTO utilisateurDetailsDTO = recuperationUtilisateurService.connexionUtilisateur(utilisateurConnexionDTO.getMail(),utilisateurConnexionDTO.getMotDePasse());
-        return (utilisateurDetailsDTO != null ? ResponseEntity.ok(utilisateurDetailsDTO) : new ResponseEntity("mail ou mot de passe incorrect", HttpStatus.NOT_FOUND));
+    public ResponseEntity<UtilisateurAuthentificationDTO> connexionUtilisateur(@RequestBody UtilisateurConnexionDTO utilisateurConnexionDTO) throws ErrorServiceException, AuthenticationException {
+
+        return ResponseEntity.ok(recuperationUtilisateurService.authentificationUtilisateur(utilisateurConnexionDTO));
     }
 
 
@@ -112,7 +118,6 @@ public class UtilisateurController {
     public ResponseEntity<UtilisateurDTO> getUtilisateurParId(@PathVariable("id") long id) throws ErrorServiceException {
 
         UtilisateurDTO utilisateurDTO = recuperationUtilisateurService.recupererUtilisateur(id);
-        System.out.println("Taille de la participation : "+ utilisateurDTO.getParticipations().size());
 
         return (ResponseEntity.ok(utilisateurDTO));
     }
