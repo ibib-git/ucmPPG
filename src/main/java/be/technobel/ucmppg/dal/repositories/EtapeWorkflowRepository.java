@@ -1,11 +1,13 @@
 package be.technobel.ucmppg.dal.repositories;
 
 import be.technobel.ucmppg.dal.entities.EtapeWorkflowEntity;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 import java.util.Optional;
@@ -60,5 +62,9 @@ public interface EtapeWorkflowRepository extends CrudRepository<EtapeWorkflowEnt
             +" where tableau_de_tache.id_tache = :idTache ",nativeQuery = true)
     Optional<EtapeWorkflowEntity> findByTacheEntity(@Param("idTache") Long idTache);
 
-
+    @Transactional
+    @Modifying
+    @Query(value = "delete from COLONNE_DU_WORKFLOW_TACHES " +
+            " where TACHES_ID_TACHE = :idTache", nativeQuery = true)
+    void suppressionDeTacheDansLienEtapeWorkflow(@Param("idTache")Long idTache);
 }

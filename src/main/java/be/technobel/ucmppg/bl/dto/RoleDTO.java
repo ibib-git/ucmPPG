@@ -22,9 +22,6 @@ public class RoleDTO {
 
     public RoleDTO(RoleProjetEntity roleProjetEntity) {
         this.nom=roleProjetEntity.getNomDeRole();
-        this.droits = roleProjetEntity.getDroitProjets().stream()
-                .map(
-                        DroitDTO::new
-                ).collect(Collectors.toList());
+        this.droits = roleProjetEntity.getDroitProjets().stream().map(DroitDTO::new).collect(Collectors.toList());
     }
 }

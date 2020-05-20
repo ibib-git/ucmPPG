@@ -30,7 +30,7 @@ public class ProjetEntity implements Serializable {
     @Column(name = "Description_du_Projet")
     private String descriptionDeProjet;
 
-    @OneToOne
+    @ManyToOne
     private UtilisateurEntity utilisateurCreateur;
 
     @OneToMany(fetch = FetchType.EAGER)

@@ -1,14 +1,15 @@
 package be.technobel.ucmppg.controllers;
 
 import be.technobel.ucmppg.Exception.ErrorServiceException;
-import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.ProjetCreationDTO;
+import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.collaborateur.ProjetAjoutCollaborateurDTO;
 import be.technobel.ucmppg.bl.dto.projet.collaborateur.SupprimerCollaborateurDTO;
 import be.technobel.ucmppg.bl.service.creation.CreationDeProjetService;
 import be.technobel.ucmppg.bl.service.projet.RecuperationProjetService;
 import be.technobel.ucmppg.bl.service.projet.AjouterCollaborateurAuProjetService;
 import be.technobel.ucmppg.bl.service.projet.SupprimerCollaborateurDuProjetService;
+import be.technobel.ucmppg.dal.entities.ProjetEntity;
 import be.technobel.ucmppg.dal.repositories.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,13 +41,11 @@ public class ProjetController {
     @Autowired
     private SupprimerCollaborateurDuProjetService supprimerCollaborateurDuProjetService;
 
-
     @ApiOperation(value = "Appelé pour récupérer un projet bien précis")
     @GetMapping("/{id}")
-    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {
+    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {	    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {
         return ( ResponseEntity.ok(recuperationProjetService.getProjetById(id)) );
-    }
-
+        
     @PostMapping()
     public ResponseEntity<ProjetDTO> creerProjet(@RequestBody ProjetCreationDTO projetCreationDTO){
 

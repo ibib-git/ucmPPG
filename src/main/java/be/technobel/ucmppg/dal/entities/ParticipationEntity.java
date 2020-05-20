@@ -18,16 +18,17 @@ public class ParticipationEntity implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idParticipation;
 
+    @ManyToOne(fetch = FetchType.EAGER)
     @Column(name ="Actif_Sur_Le_Projet", nullable = false)
     private boolean isActif;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private RoleProjetEntity roleDuParticipant;
 
-    @OneToOne
+    @ManyToOne
     private UtilisateurEntity utilisateurParticipant;
 
-    @OneToOne
+    @ManyToOne
     private ProjetEntity projetParticipation;
 
     @Override

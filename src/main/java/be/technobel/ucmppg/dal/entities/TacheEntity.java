@@ -1,9 +1,6 @@
 package be.technobel.ucmppg.dal.entities;
 
-import be.technobel.ucmppg.bl.dto.HistoriqueDTO;
-import be.technobel.ucmppg.bl.dto.projet.taches.TacheDTO;
 import lombok.*;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -15,8 +12,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
+//@ToString
 public class TacheEntity implements Serializable {
 
     @Id
@@ -42,10 +38,13 @@ public class TacheEntity implements Serializable {
     @Column(name = "Unite_de_temps")
     private UniteDeTempsEnum uniteDeTemps_tache;
 
-    @OneToMany
-    private Set<HistoriqueTacheEntity> historiqueTaches=new HashSet<>();
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<HistoriqueTacheEntity> historiqueTaches= new HashSet<>();
 
-    @OneToOne
+    @ManyToOne
     private UtilisateurEntity utilisateur_Tache;
+
+    @Column(name = "Priorite_tache")
+    private Priorite priorite;
 
 }
