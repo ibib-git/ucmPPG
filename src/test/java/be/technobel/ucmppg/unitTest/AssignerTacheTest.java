@@ -5,10 +5,7 @@ import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.service.droits.TokenVerificationDroitService;
 import be.technobel.ucmppg.bl.service.projet.AssignerTacheService;
 import be.technobel.ucmppg.configuration.Constantes;
-import be.technobel.ucmppg.dal.entities.ProjetEntity;
-import be.technobel.ucmppg.dal.entities.TacheEntity;
-import be.technobel.ucmppg.dal.entities.UniteDeTempsEnum;
-import be.technobel.ucmppg.dal.entities.UtilisateurEntity;
+import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -69,7 +66,7 @@ public class AssignerTacheTest {
 
 
         UtilisateurEntity utilisateur1 = new UtilisateurEntity(1L,"momo@gmail","Test=1234","Momo",null,null,null,null,null,null,null);
-        TacheEntity tacheEntity = new TacheEntity(1L,"tache1","tache sans parent, enfant ou precedent",null,null,1, UniteDeTempsEnum.HEURE,new HashSet<>(),utilisateur1);
+        TacheEntity tacheEntity = new TacheEntity(1L,"tache1","tache sans parent, enfant ou precedent",null,null,1, UniteDeTempsEnum.HEURE,new HashSet<>(),utilisateur1, Priorite.HAUTE);
         when(mockTacheRepo.findById(1L)).thenReturn(Optional.of(tacheEntity));
 
         when(mockProjetRepo.findById(1L)).thenReturn(Optional.of(new ProjetEntity()));

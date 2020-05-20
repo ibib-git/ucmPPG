@@ -27,7 +27,6 @@ import java.util.List;
 @CrossOrigin
 public class ProjetController {
 
-
     @Autowired
     private ProjetRepository projetRepository;
     @Autowired
@@ -43,8 +42,9 @@ public class ProjetController {
 
     @ApiOperation(value = "Appelé pour récupérer un projet bien précis")
     @GetMapping("/{id}")
-    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {	    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {
-        return ( ResponseEntity.ok(recuperationProjetService.getProjetById(id)) );
+    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {
+        return (ResponseEntity.ok(recuperationProjetService.getProjetById(id)));
+    }
         
     @PostMapping()
     public ResponseEntity<ProjetDTO> creerProjet(@RequestBody ProjetCreationDTO projetCreationDTO){
@@ -54,14 +54,12 @@ public class ProjetController {
         projet= ResponseEntity.ok(creationDeProjetService.execute(projetCreationDTO.getNom(),
                 projetCreationDTO.getDescription(),
                 projetCreationDTO.getIdUtilisateur()));
-        //TODO BASTIEN : wtf is that
+
         return projet;
     }
 
     @PostMapping("/ajoutCollaborateur")
     public ResponseEntity<Boolean> ajouterCollaborateurProjet(@RequestBody ProjetAjoutCollaborateurDTO projetAjoutCollaborateurDTO){
-
-
         return ResponseEntity.ok(
                 ajouterCollaborateurAuProjetService.execute(
                         projetAjoutCollaborateurDTO.getIdProjet(),
