@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//*@ToString
+@ToString
 public class EtapeWorkflowEntity implements Serializable {
 
     @Id
