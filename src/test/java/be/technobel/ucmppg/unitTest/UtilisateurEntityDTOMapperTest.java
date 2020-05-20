@@ -93,7 +93,7 @@ public class UtilisateurEntityDTOMapperTest {
 
         Assert.assertTrue(isPresent);
     }
-
+/*
     @Test ()
     public void utilisateurEntity_UtilisateurEnregistrementDTOAvecEmailNeCorrespondPasRegex_ConstraintViolationEmailUtilisateurTrue()
     {
@@ -109,7 +109,7 @@ public class UtilisateurEntityDTOMapperTest {
 
         Assert.assertTrue(isPresent);
     }
-
+*/
     @Test ()
     public void utilisateurEntity_UtilisateurEnregistrementDTOAvecNomEnDessousLongueurMin_ConstraintViolationNomUtilisateurTrue()
     {
