@@ -43,12 +43,9 @@ public class ProjetController {
 
     @ApiOperation(value = "Appelé pour récupérer un projet bien précis")
     @GetMapping("/{id}")
-    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {
-        ProjetEntity projetEntity = projetRepository.findByIdProjet(id).get();
-         ProjetDTO projetDTO = new ProjetDTO(projetEntity);
-        return (projetDTO != null ? ResponseEntity.ok(projetDTO) : new ResponseEntity("Pas de projet existant", HttpStatus.NOT_FOUND) );
-    }
-
+    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {	    public ResponseEntity<ProjetDTO> getProjetParId(@PathVariable("id") long id) throws ErrorServiceException {
+        return ( ResponseEntity.ok(recuperationProjetService.getProjetById(id)) );
+        
     @PostMapping()
     public ResponseEntity<ProjetDTO> creerProjet(@RequestBody ProjetCreationDTO projetCreationDTO){
 
