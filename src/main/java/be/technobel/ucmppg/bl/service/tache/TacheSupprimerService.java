@@ -27,7 +27,7 @@ public class TacheSupprimerService {
     private List<TacheEntity> tacheEntitiesEnfant = new ArrayList<>();
 
 
-    public boolean execute(Long idtache, boolean choix) {
+    public boolean execute(Long idtache, boolean EnCascade) {
         Optional<TacheEntity> optionalTacheEntity = tacheRepository.findById(idtache);
         if (optionalTacheEntity.isPresent()) {
             TacheEntity tacheEntity = optionalTacheEntity.get();
@@ -37,7 +37,7 @@ public class TacheSupprimerService {
                 etapeWorkflowEntity.getTaches().remove(tacheEntity);
                 etapeWorkflowRepository.suppressionDeTacheDansLienEtapeWorkflow(tacheEntity.getIdTache());
                 etapeWorkflowRepository.save(etapeWorkflowEntity);
-                if (!choix) {
+                if (!EnCascade) {
                     Optional<List<TacheEntity>> optionalTacheEntities = tacheRepository.getAllTacheEnfant(idtache);
                     if (optionalTacheEntities.isPresent()) {
                         tacheEntitiesEnfant = optionalTacheEntities.get();
