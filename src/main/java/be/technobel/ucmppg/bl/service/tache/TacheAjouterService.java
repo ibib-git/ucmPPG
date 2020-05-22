@@ -1,5 +1,7 @@
 package be.technobel.ucmppg.bl.service.tache;
 
+import be.technobel.ucmppg.Exception.ErrorServiceException;
+import be.technobel.ucmppg.bl.dto.projet.ProjetDTO;
 import be.technobel.ucmppg.bl.dto.projet.taches.TacheCreationDTO;
 import be.technobel.ucmppg.dal.entities.*;
 import be.technobel.ucmppg.dal.repositories.*;
@@ -21,7 +23,7 @@ public class TacheAjouterService {
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
-    public boolean creationTache(Long idWorkflow, Long idProjet, Long idTache, TacheCreationDTO tacheCreationDTO) {
+    public Boolean creationTache(Long idWorkflow, Long idProjet, Long idTache, TacheCreationDTO tacheCreationDTO) throws ErrorServiceException {
         // Recuperation des Etape 1 et projet
         Optional<ProjetEntity> optionalProjetEntity = projetRepository.findByIdProjet(idProjet);
         Optional<EtapeWorkflowEntity> optionalEtapeWorkflowEntity = etapeWorkflowRepository.findById(idWorkflow);
@@ -53,7 +55,7 @@ public class TacheAjouterService {
                     tacheEntityParent.getTachesEnfants().add(tacheEntity);
                     tacheRepository.save(tacheEntityParent);
                 }else{
-                    return false;
+                    throw  new ErrorServiceException("Ajouter Tache","La tache parent n'existe pas");
                 }
             }else{
                 // Sans tacheParent et etape recupere la tache
@@ -62,10 +64,10 @@ public class TacheAjouterService {
             }
             // sauvegarde Final
             tacheRepository.save(tacheEntity);
-            projetRepository.save(projetEntity);
+
             return true;
         }
-            return false;
+        throw  new ErrorServiceException("Ajouter Tache","Erreur de chargement du projet");
     }
 
     public TacheEntity remplissageDesDonneesEntrees (String nom, String priorite, String description, String unite, int estimation){

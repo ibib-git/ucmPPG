@@ -42,12 +42,12 @@ public class TacheController {
     JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/{idProjet}/{idWorkflow}/ajouterTacheParent")
-    public ResponseEntity<Boolean> postTacheParent(@PathVariable("idWorkflow")Long idWorkflow,@PathVariable("idProjet")Long idProjet,@RequestBody TacheCreationDTO tacheCreationDTO){
+    public ResponseEntity<Boolean> postTacheParent(@PathVariable("idWorkflow")Long idWorkflow,@PathVariable("idProjet")Long idProjet,@RequestBody TacheCreationDTO tacheCreationDTO) throws ErrorServiceException {
         return ResponseEntity.ok(tacheAjouterService.creationTache(idProjet,idWorkflow,null, tacheCreationDTO));
     }
 
     @PostMapping("/{idProjet}/{idWorkflow}/{idTache}/ajouterTacheEnfant")
-    public ResponseEntity<Boolean> postTacheEnfant(@PathVariable("idWorkflow")Long idWorkflow, @PathVariable("idProjet") Long idProjet,@PathVariable("idTache")Long idTache,@RequestBody TacheCreationDTO tacheCreationDTO) {
+    public ResponseEntity<Boolean> postTacheEnfant(@PathVariable("idWorkflow")Long idWorkflow, @PathVariable("idProjet") Long idProjet,@PathVariable("idTache")Long idTache,@RequestBody TacheCreationDTO tacheCreationDTO) throws ErrorServiceException {
         return ResponseEntity.ok(tacheAjouterService.creationTache(idProjet, idWorkflow,idTache, tacheCreationDTO));
     }
 

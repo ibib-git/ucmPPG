@@ -18,6 +18,7 @@ public class UtilisateurAuthentificationDTO {
     private String telephone;
     private String infoSuppl;
     private String token;
+    private String urlPhoto;
 
     public UtilisateurAuthentificationDTO(UtilisateurEntity utilisateurEntity) {
         this.id = utilisateurEntity.getIdUtilisateur();
@@ -28,6 +29,7 @@ public class UtilisateurAuthentificationDTO {
         this.telephone = utilisateurEntity.getTelephoneUtilisateur();
         this.infoSuppl = utilisateurEntity.getInformationSupplementaireUtilisateur();
         this.token = null;
+        this.urlPhoto = utilisateurEntity.getUrlPhotoUtilisateur();
     }
 
     public UtilisateurAuthentificationDTO(UtilisateurDetailsDTO utilisateurDetailDTO) {
@@ -39,5 +41,6 @@ public class UtilisateurAuthentificationDTO {
         this.telephone = utilisateurDetailDTO.getTelephone();
         this.infoSuppl = utilisateurDetailDTO.getInfoSuppl();
         this.token = null;
+        this.urlPhoto = utilisateurDetailDTO.getUrlPhoto();
     }
 }

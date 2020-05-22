@@ -83,6 +83,7 @@ public class UcmppgApplication {
         utilisateur2.setPassword(hashConfig.getPasswordEncoder().encode("Test1234!"));
         utilisateur2.setNomUtilisateur("Wattecamps");
         utilisateur2.setPrenomUtilisateur("Thomas");
+        utilisateur2.setUrlPhotoUtilisateur("https://upload.wikimedia.org/wikipedia/fr/thumb/d/d4/Burger_King.svg/1200px-Burger_King.svg.png");
         utilisateur2.setProjetsParticiperUtilisateur(new HashSet<ParticipationEntity>());
 
         utilisateurRepository.save(utilisateur2);
@@ -94,6 +95,7 @@ public class UcmppgApplication {
         utilisateur3.setPassword(hashConfig.getPasswordEncoder().encode("Test1234!"));
         utilisateur3.setNomUtilisateur("Fricot");
         utilisateur3.setPrenomUtilisateur("Damien");
+        utilisateur3.setUrlPhotoUtilisateur("https://vignette.wikia.nocookie.net/starwars/images/0/02/Jar_Jar_SWSB.png");
         utilisateur3.setProjetsParticiperUtilisateur(new HashSet<ParticipationEntity>());
 
         utilisateurRepository.save(utilisateur3);
